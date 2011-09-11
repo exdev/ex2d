@@ -16,3 +16,8 @@ To build the source code, just run:
     
 in your MacOSX terminal. You can modify the Makefile to help you compile source in Windows Machine.
 
+= License =
+
+The source code in this repository can only be used for the purpose of understanding and learning how ex2D runtime classes work. You are only allowed to include these source code in your commercial and non-commercial projects if you have got the ex2D standard/evaluation license.
+
+You are not allowed to sell these code in any form.
