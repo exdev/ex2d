@@ -29,16 +29,16 @@ using System.Collections.Generic;
 [System.Serializable]
 public class exSpriteAnimState {
 
+    [System.NonSerialized] public exSpriteAnimClip clip; ///< the referenced sprite animation clip
     [System.NonSerialized] public string name; ///< the name of the sprite animation state
     [System.NonSerialized] public WrapMode wrapMode; ///< the wrap mode
     [System.NonSerialized] public exSpriteAnimClip.StopAction stopAction; ///< the stop action
-    [System.NonSerialized] public exSpriteAnimClip clip; ///< the referenced sprite animation clip
-    [System.NonSerialized] public float length; ///< the length of the sprite animation in seconds
+    [System.NonSerialized] public float length; ///< the length of the sprite animation in seconds with speed = 1.0f
 
-    [System.NonSerialized] public List<float> frameTimes; ///< the list of the start time in seconds of each frame in the exSpriteAnimClip
+    [System.NonSerialized] public float speed = 1.0f; ///< the speed to play the sprite animation clip
     [System.NonSerialized] public float time = 0.0f; ///< the current time in seoncds
     // [System.NonSerialized] public float normalizedTime = 0.0f;
-    [System.NonSerialized] public float speed = 1.0f; ///< the speed to play the sprite animation clip
+    [System.NonSerialized] public List<float> frameTimes; ///< the list of the start time in seconds of each frame in the exSpriteAnimClip
 
     // ------------------------------------------------------------------ 
     /// \param _animClip the referenced animation clip
@@ -46,11 +46,12 @@ public class exSpriteAnimState {
     // ------------------------------------------------------------------ 
 
     public exSpriteAnimState ( exSpriteAnimClip _animClip ) {
+        clip = _animClip;
         name = _animClip.name;
         wrapMode = _animClip.wrapMode;
         stopAction = _animClip.stopAction;
-        clip = _animClip;
         length = _animClip.length;
+        speed = _animClip.speed;
 
         frameTimes = new List<float>(_animClip.frameInfos.Count);
         float tmp = 0.0f;
@@ -162,8 +163,12 @@ public class exSpriteAnimation : MonoBehaviour {
         if ( !paused && playing && (curAnimation != null) ) {
             // advance the time and check if we trigger any animation events
             float delta = Time.deltaTime * curAnimation.speed;
+            float curTime = curAnimation.time;
+
+            // advance the time
+            curAnimation.time += delta;
             curAnimation.clip.TriggerEvents( gameObject, 
-                                             curAnimation.time,
+                                             curTime,
                                              delta,
                                              curAnimation.wrapMode );
 
@@ -171,9 +176,6 @@ public class exSpriteAnimation : MonoBehaviour {
             exSpriteAnimClip.FrameInfo fi = GetCurFrameInfo();
             if ( fi != null )
                 sprite.SetSprite ( fi.atlas, fi.index );
-
-            // advance the time
-            curAnimation.time += delta;
 
             // check if stop
             if ( ( curAnimation.wrapMode == WrapMode.Once ||

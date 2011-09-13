@@ -53,6 +53,19 @@ public class exScreenPosition : MonoBehaviour {
         }
     }
 
+    // ------------------------------------------------------------------ 
+    [SerializeField] protected exPlane.Anchor anchor_ = exPlane.Anchor.BotLeft;
+    /// the anchor (start from point) for the screen position
+    // ------------------------------------------------------------------ 
+
+    public exPlane.Anchor anchor {
+        get { return anchor_; }
+        set {
+            if ( value != anchor_ )
+                anchor_ = value;
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
     //
     ///////////////////////////////////////////////////////////////////////////////
@@ -117,7 +130,7 @@ public class exScreenPosition : MonoBehaviour {
 
         //
         if ( plane ) {
-            newPos = plane.ScreenToWorldPoint ( plane.renderCamera, x_, y_ );
+            newPos = plane.ScreenToWorldPoint ( plane.renderCamera, anchor_, x_, y_ );
         }
         else {
             newPos = Camera.main.ScreenToWorldPoint( new Vector3(x_, y_, transform.position.z) );

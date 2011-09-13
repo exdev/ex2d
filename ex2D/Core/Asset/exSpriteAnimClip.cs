@@ -131,6 +131,7 @@ public class exSpriteAnimClip : ScriptableObject {
 
     public List<FrameInfo> frameInfos = new List<FrameInfo>(); ///< the list of frame info 
     public List<EventInfo> eventInfos = new List<EventInfo>(); ///< the list of event info
+    public float speed = 1.0f; ///< the default speed of the animation clip
 
     // editor only
     public float editorScale = 1.0f; ///< the scale used in editor timeline view
@@ -256,7 +257,7 @@ public class exSpriteAnimClip : ScriptableObject {
                     // } FIXME end 
                 }
                 else {
-                    ForwardTriggerEvents ( _gameObject, index, t, length, false );
+                    ForwardTriggerEvents ( _gameObject, index, t, t + _delta, false );
                 }
             }
             else {
@@ -286,7 +287,7 @@ public class exSpriteAnimClip : ScriptableObject {
                     // } FIXME end 
                 }
                 else {
-                    BackwardTriggerEvents ( _gameObject, index, t, 0.0f, false );
+                    BackwardTriggerEvents ( _gameObject, index, t, t + _delta, false );
                 }
             }
             else {

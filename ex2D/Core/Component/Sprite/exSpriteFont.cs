@@ -619,10 +619,10 @@ public class exSpriteFont : exSpriteBase {
                     curX = 0.0f;
                     break;
                 case TextAlign.Center:
-                    curX = halfWidth - lineWidths[curLine] * 0.5f;
+                    curX = halfWidth - lineWidths[curLine] * 0.5f * scale_.x;
                     break;
                 case TextAlign.Right:
-                    curX = halfWidth * 2.0f - lineWidths[curLine];
+                    curX = halfWidth * 2.0f - lineWidths[curLine] * scale_.x;
                     break;
                 }
             }
@@ -639,10 +639,10 @@ public class exSpriteFont : exSpriteBase {
                             curX = 0.0f;
                             break;
                         case TextAlign.Center:
-                            curX = halfWidth - lineWidths[curLine] * 0.5f;
+                            curX = halfWidth - lineWidths[curLine] * 0.5f * scale_.x;
                             break;
                         case TextAlign.Right:
-                            curX = halfWidth * 2.0f - lineWidths[curLine];
+                            curX = halfWidth * 2.0f - lineWidths[curLine] * scale_.x;
                             break;
                         }
                         curY = curY + fontInfo_.lineHeight * scale_.y + lineSpacing_;
@@ -835,10 +835,10 @@ public class exSpriteFont : exSpriteBase {
                     curX = 0.0f;
                     break;
                 case TextAlign.Center:
-                    curX = halfWidth - lineWidths[curLine] * 0.5f;
+                    curX = halfWidth - lineWidths[curLine] * 0.5f * scale_.x;
                     break;
                 case TextAlign.Right:
-                    curX = halfWidth * 2.0f - lineWidths[curLine];
+                    curX = halfWidth * 2.0f - lineWidths[curLine] * scale_.x;
                     break;
                 }
             }
@@ -855,10 +855,10 @@ public class exSpriteFont : exSpriteBase {
                             curX = 0.0f;
                             break;
                         case TextAlign.Center:
-                            curX = halfWidth - lineWidths[curLine] * 0.5f;
+                            curX = halfWidth - lineWidths[curLine] * 0.5f * scale_.x;
                             break;
                         case TextAlign.Right:
-                            curX = halfWidth * 2.0f - lineWidths[curLine];
+                            curX = halfWidth * 2.0f - lineWidths[curLine] * scale_.x;
                             break;
                         }
                         curY = curY + fontInfo_.lineHeight * scale_.y + lineSpacing_;
