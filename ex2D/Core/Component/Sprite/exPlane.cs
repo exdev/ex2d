@@ -120,8 +120,8 @@ public class exPlane : MonoBehaviour {
                 newCamera = Camera.main;
             if ( newCamera != camera_ ) {
                 camera_ = newCamera;
-                if ( layer2d != null )
-                    layer2d.UpdateDepth();
+                if ( layer2d )
+                    layer2d_.UpdateDepth();
             }
         }
     }
@@ -141,16 +141,16 @@ public class exPlane : MonoBehaviour {
                 float bias = 0.0f;
 
                 if ( layer2d ) {
-                    layer = layer2d.layer; 
-                    bias = layer2d.bias; 
-                    Object.DestroyImmediate(layer2d,true);
+                    layer = layer2d_.layer; 
+                    bias = layer2d_.bias; 
+                    Object.DestroyImmediate(layer2d_,true);
 
                     switch ( plane_ ) {
-                    case exPlane.Plane.XY: layer2d = gameObject.AddComponent<exLayerXY>(); break;
-                    case exPlane.Plane.XZ: layer2d = gameObject.AddComponent<exLayerXZ>(); break;
-                    case exPlane.Plane.ZY: layer2d = gameObject.AddComponent<exLayerZY>(); break;
+                    case exPlane.Plane.XY: layer2d_ = gameObject.AddComponent<exLayerXY>(); break;
+                    case exPlane.Plane.XZ: layer2d_ = gameObject.AddComponent<exLayerXZ>(); break;
+                    case exPlane.Plane.ZY: layer2d_ = gameObject.AddComponent<exLayerZY>(); break;
                     }
-                    layer2d.SetLayer( layer, bias );
+                    layer2d_.SetLayer( layer, bias );
                 }
 
                 //
@@ -197,13 +197,27 @@ public class exPlane : MonoBehaviour {
     /// The cached exLayer2D component
     // ------------------------------------------------------------------ 
 
-    [System.NonSerialized] public exLayer2D layer2d;
+    protected exLayer2D layer2d_ = null;
+    public exLayer2D layer2d {
+        get {
+            if ( layer2d_ == null )
+                layer2d_ = GetComponent<exLayer2D>();
+            return layer2d_;
+        }
+    }
 
     // ------------------------------------------------------------------ 
     /// The cached MeshFilter component
     // ------------------------------------------------------------------ 
 
-    [System.NonSerialized] public MeshFilter meshFilter;
+    protected MeshFilter meshFilter_ = null;
+    public MeshFilter meshFilter {
+        get {
+            if ( meshFilter_ == null )
+                meshFilter_ = GetComponent<MeshFilter>();
+            return meshFilter_;
+        }
+    }
 
     // ------------------------------------------------------------------ 
     /// The current updateFlags, this value will reset after every LateUpdate()
@@ -257,14 +271,14 @@ public class exPlane : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     void Reset() {
-        if ( GetComponent<exLayer2D>() == null ) {
+        if ( layer2d == null ) {
             switch ( plane ) {
-            case exPlane.Plane.XY: layer2d = gameObject.AddComponent<exLayerXY>(); break;
-            case exPlane.Plane.XZ: layer2d = gameObject.AddComponent<exLayerXZ>(); break;
-            case exPlane.Plane.ZY: layer2d = gameObject.AddComponent<exLayerZY>(); break;
+            case exPlane.Plane.XY: layer2d_ = gameObject.AddComponent<exLayerXY>(); break;
+            case exPlane.Plane.XZ: layer2d_ = gameObject.AddComponent<exLayerXZ>(); break;
+            case exPlane.Plane.ZY: layer2d_ = gameObject.AddComponent<exLayerZY>(); break;
             }
-            layer2d.plane = this;
-            layer2d.UpdateDepth();
+            layer2d_.plane = this;
+            layer2d_.UpdateDepth();
         }
     }
 
@@ -278,8 +292,19 @@ public class exPlane : MonoBehaviour {
     virtual protected void Awake () {
         if ( camera_ == null )
             camera_ = Camera.main;
-        meshFilter = GetComponent<MeshFilter>();
-        layer2d = GetComponent<exLayer2D>();
+        meshFilter_ = GetComponent<MeshFilter>();
+        layer2d_ = GetComponent<exLayer2D>();
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    void OnDestroy () {
+        // NOTE: though we have ExecuteInEditMode, user can Add/Remove layer2d in Editor
+        if ( meshFilter ) {
+            DestroyImmediate( meshFilter.sharedMesh, true );
+        }
     }
 
     // ------------------------------------------------------------------ 
@@ -296,11 +321,8 @@ public class exPlane : MonoBehaviour {
             renderer.enabled = true;
 
         // NOTE: though we have ExecuteInEditMode, user can Add/Remove layer2d in Editor
-        if ( layer2d == null ) {
-            layer2d = GetComponent<exLayer2D>();
-        }
         if ( layer2d ) {
-            layer2d.enabled = true;
+            layer2d_.enabled = true;
         }
     }
 
@@ -318,11 +340,8 @@ public class exPlane : MonoBehaviour {
             renderer.enabled = false;
 
         // NOTE: though we have ExecuteInEditMode, user can Add/Remove layer2d in Editor
-        if ( layer2d == null ) {
-            layer2d = GetComponent<exLayer2D>();
-        }
         if ( layer2d ) {
-            layer2d.enabled = false;
+            layer2d_.enabled = false;
         }
     }
 

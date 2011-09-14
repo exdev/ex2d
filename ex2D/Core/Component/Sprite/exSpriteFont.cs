@@ -796,7 +796,7 @@ public class exSpriteFont : exSpriteBase {
             _mesh.bounds = GetBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
 
             // update box-collider if we have
-            UpdateBoxCollider ( _mesh );
+            UpdateCollider ( _mesh );
             UpdateBoundRect ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
 
 // #if UNITY_EDITOR
@@ -937,7 +937,7 @@ public class exSpriteFont : exSpriteBase {
             _mesh.bounds = GetBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
 
             // update collider if we have
-            UpdateBoxCollider ( _mesh );
+            UpdateCollider ( _mesh );
             UpdateBoundRect ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
 
 // #if UNITY_EDITOR
@@ -1013,10 +1013,10 @@ public class exSpriteFont : exSpriteBase {
     // ------------------------------------------------------------------ 
 
     override protected void InternalUpdate () {
-        if ( meshFilter != null && 
-             meshFilter.sharedMesh != null ) 
-        {
-            UpdateMesh (meshFilter.sharedMesh);
+        if ( meshFilter ) {
+            if ( meshFilter_.sharedMesh != null ) {
+                UpdateMesh (meshFilter_.sharedMesh);
+            }
         }
     }
 
@@ -1034,8 +1034,10 @@ public class exSpriteFont : exSpriteBase {
         if ( fontInfo_ != null && fontInfo_.pageInfos.Count == 1 ) {
             renderer.sharedMaterial = fontInfo_.pageInfos[0].material;
 
-            meshFilter.sharedMesh = new Mesh();
-            ForceUpdateMesh (meshFilter.sharedMesh);
+            if ( meshFilter ) {
+                meshFilter_.mesh = new Mesh();
+                ForceUpdateMesh (meshFilter_.sharedMesh);
+            }
         }
     }
 
@@ -1050,9 +1052,9 @@ public class exSpriteFont : exSpriteBase {
         if ( renderer != null )
             renderer.sharedMaterial = null;
 
-        if ( meshFilter == null )
-            meshFilter = GetComponent<MeshFilter>();
-        if ( meshFilter != null )
-            meshFilter.sharedMesh = null;
+        if ( meshFilter ) {
+            DestroyImmediate( meshFilter_.sharedMesh, true );
+            meshFilter_.sharedMesh = null;
+        }
     }
 }

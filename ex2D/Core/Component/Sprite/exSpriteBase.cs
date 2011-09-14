@@ -71,8 +71,8 @@ public class exSpriteBase : exPlane {
         set {
             if ( autoResizeCollision_ != value ) {
                 autoResizeCollision_ = value;
-                if ( meshFilter != null )
-                    UpdateBoxCollider ( meshFilter.sharedMesh );
+                if ( meshFilter )
+                    UpdateCollider ( meshFilter_.sharedMesh );
             }
         }
     }
@@ -112,8 +112,8 @@ public class exSpriteBase : exPlane {
     public void AddMeshCollider () {
         if ( collider == null ) {
             gameObject.AddComponent<MeshCollider>();
-            if ( meshFilter != null )
-                UpdateBoxCollider ( meshFilter.sharedMesh );
+            if ( meshFilter )
+                UpdateCollider ( meshFilter_.sharedMesh );
         }
     }
 
@@ -126,8 +126,8 @@ public class exSpriteBase : exPlane {
     public void AddBoxCollider () {
         if ( collider == null ) {
             gameObject.AddComponent<BoxCollider>();
-            if ( meshFilter != null )
-                UpdateBoxCollider ( meshFilter.sharedMesh );
+            if ( meshFilter )
+                UpdateCollider ( meshFilter_.sharedMesh );
         }
     }
 
@@ -138,7 +138,7 @@ public class exSpriteBase : exPlane {
     /// when autoResizeCollision is true
     // ------------------------------------------------------------------ 
 
-    public void UpdateBoxCollider ( Mesh _mesh ) {
+    public void UpdateCollider ( Mesh _mesh ) {
         if ( _mesh == null || 
              collider == null || 
              autoResizeCollision == false )
