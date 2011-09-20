@@ -435,11 +435,12 @@ public class exSprite : exSpriteBase {
             }
             _mesh.vertices = vertices;
             _mesh.normals = normals; // TEMP
-            _mesh.bounds = GetBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
+            _mesh.bounds = GetMeshBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
 
             // update collider if we have
-            UpdateCollider (_mesh);
             UpdateBoundRect ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
+            if ( collisionHelper ) 
+                collisionHelper.UpdateCollider();
 
 // #if UNITY_EDITOR
 //             _mesh.RecalculateBounds();
@@ -684,7 +685,7 @@ public class exSprite : exSpriteBase {
     // ------------------------------------------------------------------ 
 
     public void SetSprite ( exAtlas _atlas, int _index ) {
-        bool checkSize = false;
+        bool checkVertex = false;
 
         // pre-check
         if ( _atlas == null || 
@@ -701,35 +702,43 @@ public class exSprite : exSpriteBase {
             atlas_ = _atlas;
             renderer.sharedMaterial = _atlas.material;
             updateFlags |= UpdateFlags.UV;
-            checkSize = true;
+            checkVertex = true;
         }
 
         //
         if ( index_ != _index ) {
             index_ = _index;
             updateFlags |= UpdateFlags.UV;
-            checkSize = true;
+            checkVertex = true;
         }
 
         //
-        if ( checkSize && !customSize_ ) {
-            exAtlas.Element el = atlas_.elements[index_];
+        if ( checkVertex  ) {
 
-            float newWidth = el.trimRect.width;
-            float newHeight = el.trimRect.height;
-            // float newWidth = el.coords.width * atlas_.texture.width;
-            // float newHeight = el.coords.height * atlas_.texture.height;
-
-            if ( el.rotated ) {
-                float tmp = newWidth;
-                newWidth = newHeight;
-                newHeight = tmp;
-            } 
-
-            if ( newWidth != width_ || newHeight != height_ ) {
-                width_ = newWidth;
-                height_ = newHeight;
+            // NOTE: if we use texture offset, it always need to update vertex
+            if ( useTextureOffset_ ) {
                 updateFlags |= UpdateFlags.Vertex;
+            }
+
+            if ( !customSize_ ) {
+                exAtlas.Element el = atlas_.elements[index_];
+
+                float newWidth = el.trimRect.width;
+                float newHeight = el.trimRect.height;
+                // float newWidth = el.coords.width * atlas_.texture.width;
+                // float newHeight = el.coords.height * atlas_.texture.height;
+
+                if ( el.rotated ) {
+                    float tmp = newWidth;
+                    newWidth = newHeight;
+                    newHeight = tmp;
+                } 
+
+                if ( newWidth != width_ || newHeight != height_ ) {
+                    width_ = newWidth;
+                    height_ = newHeight;
+                    updateFlags |= UpdateFlags.Vertex;
+                }
             }
         }
     }

@@ -59,24 +59,6 @@ public class exSpriteBase : exPlane {
         }
     }
 
-    // ------------------------------------------------------------------ 
-    [SerializeField] protected bool autoResizeCollision_ = true;
-    /// if the value is true and we use BoxCollider in the sprite, the 
-    /// width and height of the BoxCollider will be the same as the boundingRect 
-    /// of the sprite, and the thick of it will fix to 0.2f.
-    // ------------------------------------------------------------------ 
-
-    public bool autoResizeCollision {
-        get { return autoResizeCollision_; }
-        set {
-            if ( autoResizeCollision_ != value ) {
-                autoResizeCollision_ = value;
-                if ( meshFilter )
-                    UpdateCollider ( meshFilter_.sharedMesh );
-            }
-        }
-    }
-
     ///////////////////////////////////////////////////////////////////////////////
     // functions
     ///////////////////////////////////////////////////////////////////////////////
@@ -106,58 +88,48 @@ public class exSpriteBase : exPlane {
     }
 
     // ------------------------------------------------------------------ 
-    /// add a MeshCollider component on the sprite if no collider exists 
+    /// \param _offsetX the offset x pos of the plane (normally it is equals to offset.x + anchor_pos.x )  
+    /// \param _offsetY the offset y pos of the plane (normally it is equals to offset.y + anchor_pos.y )  
+    /// \param _width the width of the plane
+    /// \param _height the height of the plane
+    /// 
+    /// Update the boundingRect of the plane.
     // ------------------------------------------------------------------ 
 
-    public void AddMeshCollider () {
-        if ( collider == null ) {
-            gameObject.AddComponent<MeshCollider>();
-            if ( meshFilter )
-                UpdateCollider ( meshFilter_.sharedMesh );
-        }
+    protected void UpdateBoundRect ( float _offsetX, float _offsetY, float _width, float _height ) {
+        float sign_w = Mathf.Sign(_width);
+        float sign_h = Mathf.Sign(_height);
+        boundingRect = new Rect( -_offsetX - sign_w * _width * 0.5f, 
+                                  _offsetY - sign_h * _height * 0.5f, 
+                                  sign_w * _width, 
+                                  sign_h * _height );
     }
 
     // ------------------------------------------------------------------ 
-    /// add a BoxCollider component on the sprite if no collider exists 
-    /// if the autoResizeCollision is true, it will also update the size 
-    /// BoxCollider to fit the size of sprite
+    /// \param _offsetX the offset x pos of the plane (normally it is equals to offset.x + anchor_pos.x )  
+    /// \param _offsetY the offset y pos of the plane (normally it is equals to offset.y + anchor_pos.y )  
+    /// \param _width the width of the plane
+    /// \param _height the height of the plane
+    /// \return the bounds result
+    /// 
+    /// Get the Bounds of the plane, used for Mesh Renderer and BoxCollider 
     // ------------------------------------------------------------------ 
 
-    public void AddBoxCollider () {
-        if ( collider == null ) {
-            gameObject.AddComponent<BoxCollider>();
-            if ( meshFilter )
-                UpdateCollider ( meshFilter_.sharedMesh );
+    protected Bounds GetMeshBounds ( float _offsetX, float _offsetY, float _width, float _height ) {
+        switch ( plane ) {
+        case exSprite.Plane.XY:
+            return new Bounds (  new Vector3( -_offsetX, _offsetY, 0.0f ), 
+                                 new Vector3( _width, _height, 0.2f ) );
+        case exSprite.Plane.XZ:
+            return new Bounds (  new Vector3( -_offsetX, 0.0f, _offsetY ), 
+                                 new Vector3( _width, 0.2f, _height ) );
+        case exSprite.Plane.ZY:
+            return new Bounds (  new Vector3( 0.0f, _offsetY, -_offsetX ), 
+                                 new Vector3( 0.2f, _height, _width ) );
+        default:
+            return new Bounds (  new Vector3( -_offsetX, _offsetY, 0.0f ), 
+                                 new Vector3( _width, _height, 0.2f ) );
         }
-    }
-
-    // ------------------------------------------------------------------ 
-    /// \param _mesh the mesh of the sprite  
-    ///
-    /// Update the size BoxCollider to fit the size of sprite, only affect 
-    /// when autoResizeCollision is true
-    // ------------------------------------------------------------------ 
-
-    public void UpdateCollider ( Mesh _mesh ) {
-        if ( _mesh == null || 
-             collider == null || 
-             autoResizeCollision == false )
-            return;
-
-        if ( collider is BoxCollider ) {
-            BoxCollider boxCollider = collider as BoxCollider;
-            boxCollider.center = _mesh.bounds.center;
-            boxCollider.size = _mesh.bounds.size;
-            return;
-        }
-
-        if ( collider is MeshCollider ) {
-            MeshCollider meshCollider = collider as MeshCollider;
-            // NOTE: only in this way, mesh collider changes
-            meshCollider.sharedMesh = null;
-            meshCollider.sharedMesh = _mesh;
-            return;
-        }
-    }
+    } 
 }
 

@@ -349,7 +349,7 @@ public class exSpriteAnimation : MonoBehaviour {
                 return curAnimation.clip.frameInfos[index];
         }
         return null;
-    } 
+    }
 
     // ------------------------------------------------------------------ 
     /// \param _animClip the sprite animation clip wants to add

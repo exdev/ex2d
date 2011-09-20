@@ -793,11 +793,12 @@ public class exSpriteFont : exSpriteBase {
             // _mesh.normals = normals;
             _mesh.uv = uvs;
             _mesh.triangles = indices; 
-            _mesh.bounds = GetBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
+            _mesh.bounds = GetMeshBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
 
             // update box-collider if we have
-            UpdateCollider ( _mesh );
             UpdateBoundRect ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
+            if ( collisionHelper ) 
+                collisionHelper.UpdateCollider();
 
 // #if UNITY_EDITOR
 //             _mesh.RecalculateBounds();
@@ -934,11 +935,12 @@ public class exSpriteFont : exSpriteBase {
             }
 
             _mesh.vertices = vertices;
-            _mesh.bounds = GetBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
+            _mesh.bounds = GetMeshBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
 
             // update collider if we have
-            UpdateCollider ( _mesh );
             UpdateBoundRect ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
+            if ( collisionHelper ) 
+                collisionHelper.UpdateCollider();
 
 // #if UNITY_EDITOR
 //             _mesh.RecalculateBounds();

@@ -134,6 +134,7 @@ public class exSpriteAnimClip : ScriptableObject {
     public float speed = 1.0f; ///< the default speed of the animation clip
 
     // editor only
+    public float editorPreviewSize = 256.0f; ///< the preview size used in editor
     public float editorScale = 1.0f; ///< the scale used in editor timeline view
     public float editorOffset = 0.0f; ///< the offset used in editor timeline view
     public float editorSpeed = 1.0f; ///< the preview speed in sprite animation editor 
