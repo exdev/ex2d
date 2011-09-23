@@ -46,6 +46,7 @@ public static class ex2DExtension {
     // ------------------------------------------------------------------ 
     /// \param _plane the in plane
     /// \param _camera the in camera
+    /// \param _anchor the anchor of the plane
     /// \param _screen_x the screen x position
     /// \param _screen_y the screen y position
     /// \return the world position
@@ -174,5 +175,31 @@ public static class ex2DExtension {
         }
 
         return result; 
+    }
+
+    // ------------------------------------------------------------------ 
+    /// \param _plane the in plane
+    /// \param _dx the delta x
+    /// \param _dy the delta y
+    /// translate the 2D pos by plane
+    // ------------------------------------------------------------------ 
+
+    public static void Translate ( this exPlane _plane, 
+                                   float _dx, 
+                                   float _dy )
+    {
+        switch ( _plane.plane ) {
+        case exPlane.Plane.XY:
+            _plane.transform.Translate ( _dx, _dy, 0.0f );
+            break;
+
+        case exPlane.Plane.XZ:
+            _plane.transform.Translate ( _dx, 0.0f, _dy );
+            break;
+
+        case exPlane.Plane.ZY:
+            _plane.transform.Translate ( 0.0f, _dy, _dx );
+            break;
+        }
     }
 }

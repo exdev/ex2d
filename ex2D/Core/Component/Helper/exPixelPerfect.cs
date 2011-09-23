@@ -59,6 +59,7 @@ public class exPixelPerfect : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     void Update () {
+        // NOTE: it is possible the prefab do not erase the renderCamera
         if ( sprite ) {
             sprite.MakePixelPerfect ( sprite.renderCamera, Screen.width, Screen.height );
         }

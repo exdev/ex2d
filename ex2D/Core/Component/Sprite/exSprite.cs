@@ -207,6 +207,54 @@ public class exSprite : exSpriteBase {
     ///////////////////////////////////////////////////////////////////////////////
 
     // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    void CalculateVertex ( out float _x, out float _y, 
+                           float _widthScaled,
+                           float _heightScaled,
+                           float _col,
+                           float _row,
+                           float _xMinClip, 
+                           float _xMaxClip,
+                           float _yMinClip, 
+                           float _yMaxClip, 
+                           float _offsetX, 
+                           float _offsetY ) 
+    {
+
+        // calculate the base pos
+        _x = _widthScaled * (_col - 0.5f);
+        _y =  _heightScaled * (0.5f - _row);
+
+        // do clip
+        if ( clipInfo_.clipped ) {
+            if ( _x <= _xMinClip ) {
+                _x = _xMinClip;
+            }
+            else if ( _x >= _xMaxClip ) {
+                _x = _xMaxClip;
+            }
+
+            if ( _y <= _yMinClip ) {
+                _y = _yMinClip;
+            }
+            else if ( _y >= _yMaxClip ) {
+                _y = _yMaxClip;
+            }
+        }
+
+        // calculate the pos affect by anchor
+        _x -= _offsetX;
+        _y += _offsetY;
+
+        // calculate the shear
+        float old_x = _x;
+        _x += _y * shear_.x;
+        _y += old_x * shear_.y;
+    }
+
+    // ------------------------------------------------------------------ 
     /// \param _mesh the mesh to update
     /// 
     /// Update the _mesh depends on the exPlane.updateFlags
@@ -254,8 +302,8 @@ public class exSprite : exSpriteBase {
         if ( (updateFlags & UpdateFlags.Vertex) != 0 ) {
 
             // init
-            float halfWidth = width_ * scale_.x * 0.5f;
-            float halfHeight = height_ * scale_.y * 0.5f;
+            float halfWidthScaled = width_ * scale_.x * 0.5f;
+            float halfHeightScaled = height_ * scale_.y * 0.5f;
             float offsetX = 0.0f;
             float offsetY = 0.0f;
 
@@ -292,23 +340,23 @@ public class exSprite : exSpriteBase {
                 switch ( anchor_ ) {
                     //
                 case Anchor.TopLeft:
-                    offsetX = -halfWidth - trimRect.x;
-                    offsetY = -halfHeight - trimRect.y;
+                    offsetX = -halfWidthScaled - trimRect.x;
+                    offsetY = -halfHeightScaled - trimRect.y;
                     break;
 
                 case Anchor.TopCenter:
                     offsetX = (originalWidth - trimRect.width) * 0.5f - trimRect.x;
-                    offsetY = -halfHeight - trimRect.y;
+                    offsetY = -halfHeightScaled - trimRect.y;
                     break;
 
                 case Anchor.TopRight:    
-                    offsetX = halfWidth + originalWidth - trimRect.xMax;
-                    offsetY = -halfHeight - trimRect.y;
+                    offsetX = halfWidthScaled + originalWidth - trimRect.xMax;
+                    offsetY = -halfHeightScaled - trimRect.y;
                     break;
                     
                     //
                 case Anchor.MidLeft:
-                    offsetX = -halfWidth - trimRect.x;
+                    offsetX = -halfWidthScaled - trimRect.x;
                     offsetY = (originalHeight - trimRect.height) * 0.5f - trimRect.y;
                     break;
 
@@ -318,24 +366,24 @@ public class exSprite : exSpriteBase {
                     break;
 
                 case Anchor.MidRight:
-                    offsetX = halfWidth + originalWidth - trimRect.xMax;
+                    offsetX = halfWidthScaled + originalWidth - trimRect.xMax;
                     offsetY = (originalHeight - trimRect.height) * 0.5f - trimRect.y;
                     break;
 
                     //
                 case Anchor.BotLeft:
-                    offsetX = -halfWidth - trimRect.x;
-                    offsetY = halfHeight + originalHeight - trimRect.yMax;
+                    offsetX = -halfWidthScaled - trimRect.x;
+                    offsetY = halfHeightScaled + originalHeight - trimRect.yMax;
                     break;
 
                 case Anchor.BotCenter: 
                     offsetX = (originalWidth - trimRect.width) * 0.5f - trimRect.x;
-                    offsetY = halfHeight + originalHeight - trimRect.yMax;
+                    offsetY = halfHeightScaled + originalHeight - trimRect.yMax;
                     break;
 
                 case Anchor.BotRight:
-                    offsetX = halfWidth + originalWidth - trimRect.xMax;
-                    offsetY = halfHeight + originalHeight - trimRect.yMax;
+                    offsetX = halfWidthScaled + originalWidth - trimRect.xMax;
+                    offsetY = halfHeightScaled + originalHeight - trimRect.yMax;
                     break;
 
                 default:
@@ -346,99 +394,84 @@ public class exSprite : exSpriteBase {
             }
             else {
                 switch ( anchor_ ) {
-                case Anchor.TopLeft     : offsetX = -halfWidth;   offsetY = -halfHeight;  break;
-                case Anchor.TopCenter   : offsetX = 0.0f;         offsetY = -halfHeight;  break;
-                case Anchor.TopRight    : offsetX = halfWidth;    offsetY = -halfHeight;  break;
+                case Anchor.TopLeft     : offsetX = -halfWidthScaled;   offsetY = -halfHeightScaled;  break;
+                case Anchor.TopCenter   : offsetX = 0.0f;               offsetY = -halfHeightScaled;  break;
+                case Anchor.TopRight    : offsetX = halfWidthScaled;    offsetY = -halfHeightScaled;  break;
 
-                case Anchor.MidLeft     : offsetX = -halfWidth;   offsetY = 0.0f;         break;
-                case Anchor.MidCenter   : offsetX = 0.0f;         offsetY = 0.0f;         break;
-                case Anchor.MidRight    : offsetX = halfWidth;    offsetY = 0.0f;         break;
+                case Anchor.MidLeft     : offsetX = -halfWidthScaled;   offsetY = 0.0f;               break;
+                case Anchor.MidCenter   : offsetX = 0.0f;               offsetY = 0.0f;               break;
+                case Anchor.MidRight    : offsetX = halfWidthScaled;    offsetY = 0.0f;               break;
 
-                case Anchor.BotLeft     : offsetX = -halfWidth;   offsetY = halfHeight;   break;
-                case Anchor.BotCenter   : offsetX = 0.0f;         offsetY = halfHeight;   break;
-                case Anchor.BotRight    : offsetX = halfWidth;    offsetY = halfHeight;   break;
+                case Anchor.BotLeft     : offsetX = -halfWidthScaled;   offsetY = halfHeightScaled;   break;
+                case Anchor.BotCenter   : offsetX = 0.0f;               offsetY = halfHeightScaled;   break;
+                case Anchor.BotRight    : offsetX = halfWidthScaled;    offsetY = halfHeightScaled;   break;
 
-                default                 : offsetX = 0.0f;         offsetY = 0.0f;         break;
+                default                 : offsetX = 0.0f;               offsetY = 0.0f;               break;
                 }
             }
             offsetX -= offset_.x;
             offsetY += offset_.y;
 
             //
-            float xMinClip = scale_.x * width  * ( -0.5f + clipLeft   );
-            float xMaxClip = scale_.x * width  * (  0.5f - clipRight  );
-            float yMinClip = scale_.y * height * ( -0.5f + clipTop    );
-            float yMaxClip = scale_.y * height * (  0.5f - clipBottom );
+            float xMinClip = scale_.x * width_  * ( -0.5f + clipLeft   );
+            float xMaxClip = scale_.x * width_  * (  0.5f - clipRight  );
+            float yMinClip = scale_.y * height_ * ( -0.5f + clipTop    );
+            float yMaxClip = scale_.y * height_ * (  0.5f - clipBottom );
 
             // build vertices & normals
-            for ( int r = 0; r < 2; ++r ) {
-                for ( int c = 0; c < 2; ++c ) {
-                    int i = r * 2 + c;
-
-                    // calculate the base pos
-                    float x = -halfWidth  + c * width_  * scale_.x;
-                    float y =  halfHeight - r * height_ * scale_.y;
-
-                    // do clip
-                    if ( clipInfo_.clipped ) {
-                        if ( x <= xMinClip ) {
-                            x = xMinClip;
-                        }
-                        else if ( x >= xMaxClip ) {
-                            x = xMaxClip;
-                        }
-
-                        if ( y <= yMinClip ) {
-                            y = yMinClip;
-                        }
-                        else if ( y >= yMaxClip ) {
-                            y = yMaxClip;
-                        }
-                    }
-
-                    // calculate the pos affect by anchor
-                    x -= offsetX;
-                    y += offsetY;
-
-                    // calculate the shear
-                    x += y * shear_.x;
-                    y += x * shear_.y;
-
-                    // DISABLE: we use min,max clip above { 
-                    // // do clip
-                    // if ( clipInfo_.clipped ) {
-                    //     switch (i) {
-                    //     case 0: x += scale_.x * width_ * clipLeft;  y -= scale_.y * height_ * clipBottom; break; // bl
-                    //     case 1: x -= scale_.x * width_ * clipRight; y -= scale_.y * height_ * clipBottom; break; // br
-                    //     case 2: x += scale_.x * width_ * clipLeft;  y += scale_.y * height_ * clipTop; break; // tl
-                    //     case 3: x -= scale_.x * width_ * clipRight; y += scale_.y * height_ * clipTop; break; // tr
-                    //     }
-                    // }
-                    // } DISABLE end 
-
-                    // build vertices, normals and uvs
-                    switch ( plane ) {
-                    case Plane.XY:
+            switch ( plane ) {
+            case Plane.XY:
+                for ( int r = 0; r < 2; ++r ) {
+                    for ( int c = 0; c < 2; ++c ) {
+                        int i = r * 2 + c;
+                        float x, y;
+                        CalculateVertex( out x, out y,
+                                         width_ * scale_.x, height_ * scale_.y,
+                                         c, r, 
+                                         xMinClip, xMaxClip, yMinClip, yMaxClip, 
+                                         offsetX, offsetY );
                         vertices[i] = new Vector3( x, y, 0.0f );
                         normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
-                        break;
-                    case Plane.XZ:
-                        vertices[i] = new Vector3( x, 0.0f, y );
-                        normals[i] = new Vector3( 0.0f, 1.0f, 0.0f ); // TEMP
-                        break;
-                    case Plane.ZY:
-                        vertices[i] = new Vector3( 0.0f, y, x );
-                        normals[i] = new Vector3( 1.0f, 0.0f, 0.0f ); // TEMP
-                        break;
                     }
                 }
+                break;
+            case Plane.XZ:
+                for ( int r = 0; r < 2; ++r ) {
+                    for ( int c = 0; c < 2; ++c ) {
+                        int i = r * 2 + c;
+                        float x, y;
+                        CalculateVertex( out x, out y,
+                                         width_ * scale_.x, height_ * scale_.y,
+                                         c, r, 
+                                         xMinClip, xMaxClip, yMinClip, yMaxClip, 
+                                         offsetX, offsetY );
+                        vertices[i] = new Vector3( x, 0.0f, y );
+                        normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
+                    }
+                }
+                break;
+            case Plane.ZY:
+                for ( int r = 0; r < 2; ++r ) {
+                    for ( int c = 0; c < 2; ++c ) {
+                        int i = r * 2 + c;
+                        float x, y;
+                        CalculateVertex( out x, out y,
+                                         width_ * scale_.x, height_ * scale_.y,
+                                         c, r, 
+                                         xMinClip, xMaxClip, yMinClip, yMaxClip, 
+                                         offsetX, offsetY );
+                        vertices[i] = new Vector3( 0.0f, y, x );
+                        normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
+                    }
+                }
+                break;
             }
             _mesh.vertices = vertices;
             _mesh.normals = normals; // TEMP
-            _mesh.bounds = GetMeshBounds ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
+            _mesh.bounds = GetMeshBounds ( offsetX, offsetY, halfWidthScaled * 2.0f, halfHeightScaled * 2.0f );
 
             // update collider if we have
-            UpdateBoundRect ( offsetX, offsetY, halfWidth * 2.0f, halfHeight * 2.0f );
+            UpdateBoundRect ( offsetX, offsetY, halfWidthScaled * 2.0f, halfHeightScaled * 2.0f );
             if ( collisionHelper ) 
                 collisionHelper.UpdateCollider();
 
@@ -742,4 +775,16 @@ public class exSprite : exSpriteBase {
             }
         }
     }
+
+    // ------------------------------------------------------------------ 
+    /// horizontal flip the sprite
+    // ------------------------------------------------------------------ 
+
+    public void HFlip () { scale_.x = -scale_.x; }
+
+    // ------------------------------------------------------------------ 
+    /// vertical flip the sprite
+    // ------------------------------------------------------------------ 
+
+    public void VFlip () { scale_.y = -scale_.y; }
 }

@@ -113,11 +113,16 @@ public class exPlane : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     public Camera renderCamera {
-        get { return camera_; }
+        get { 
+            // NOTE: this is because prefab may missing link of main camera ( but will not missing second one )
+            if ( camera_ != null )
+                return camera_; 
+            return Camera.main; 
+        }
         set {
             Camera newCamera = value;
-            if ( newCamera == null )
-                newCamera = Camera.main;
+            // if ( newCamera == null )
+            //     newCamera = Camera.main;
             if ( newCamera != camera_ ) {
                 camera_ = newCamera;
                 if ( layer2d )
@@ -251,27 +256,30 @@ public class exPlane : MonoBehaviour {
     public ClipInfo clipInfo { 
         get { return clipInfo_; }
         set {
-            if ( clipInfo_ != value ) {
-                clipInfo_ = value;
-
-                if ( clipInfo_.clipped ) {
-                    if ( clipInfo_.left >= 1.0f ||
-                         clipInfo_.right >= 1.0f ||
-                         clipInfo_.top >= 1.0f ||
-                         clipInfo_.bottom >= 1.0f )
-                    {
+            if ( value.clipped ) {
+                if ( value.left >= 1.0f ||
+                     value.right >= 1.0f ||
+                     value.top >= 1.0f ||
+                     value.bottom >= 1.0f )
+                {
+                    if ( enabled == true )
                         enabled = false; // just hide it
-                    }
-                    else {
+                }
+                else {
+                    if ( clipInfo_ != value || enabled == false ) {
                         enabled = true;
                         updateFlags |= (UpdateFlags.Vertex|UpdateFlags.UV|UpdateFlags.Text);
                     }
                 }
-                else {
+            }
+            else {
+                if ( clipInfo_ != value || enabled == false ) {
                     enabled = true;
                     updateFlags |= (UpdateFlags.Vertex|UpdateFlags.UV|UpdateFlags.Text);
                 }
             }
+
+            clipInfo_ = value;
         } 
     }
 
@@ -306,8 +314,14 @@ public class exPlane : MonoBehaviour {
         if ( camera_ == null )
             camera_ = Camera.main;
         meshFilter_ = GetComponent<MeshFilter>();
+
         layer2d_ = GetComponent<exLayer2D>();
+        if ( layer2d_ )
+            layer2d_.plane = this;
+
         collisionHelper_ = GetComponent<exCollisionHelper>();
+        if ( collisionHelper_ )
+            collisionHelper_.plane = this;
     }
 
     // ------------------------------------------------------------------ 

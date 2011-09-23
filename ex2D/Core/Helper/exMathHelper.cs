@@ -21,7 +21,7 @@ using System.Collections;
 public static class exMathHelper {
 
     // ------------------------------------------------------------------ 
-    /// \param int list
+    /// \param _list int list
     /// \return the result
     /// get greatest common divisor
     // ------------------------------------------------------------------ 

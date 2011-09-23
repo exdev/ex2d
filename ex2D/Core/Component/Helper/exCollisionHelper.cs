@@ -142,11 +142,15 @@ public class exCollisionHelper : MonoBehaviour {
              collider == null )
             return;
 
+        if ( plane == null )
+            plane = GetComponent<exPlane>();
+
         // update box collider
         if ( collider is BoxCollider ) {
             BoxCollider boxCollider = collider as BoxCollider;
 
             Camera camera = plane.renderCamera;
+
             float myLength = camera.farClipPlane - camera.nearClipPlane;
             float offset = 0.0f;
             float thick = camera.farClipPlane - camera.nearClipPlane;
@@ -181,6 +185,10 @@ public class exCollisionHelper : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     public void UpdateSize () {
+
+        if ( plane == null )
+            plane = GetComponent<exPlane>();
+
         if ( plane.meshFilter == null||
              plane.meshFilter.sharedMesh == null || 
              collider == null || 
