@@ -286,12 +286,12 @@ public class exSpriteFont : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void CalculateSize ( out float[] _lineWidths,
-                         out float[] _kernings, 
-                         out float _halfWidthScaled,
-                         out float _halfHeightScaled,
-                         out float _offsetX,
-                         out float _offsetY )
+    public void CalculateSize ( out float[] _lineWidths,
+                                out float[] _kernings, 
+                                out float _halfWidthScaled,
+                                out float _halfHeightScaled,
+                                out float _offsetX,
+                                out float _offsetY )
     {
         if ( useMultiline_ ) {
             long lines = exStringHelper.CountLinesInString(text_);
@@ -1038,8 +1038,15 @@ public class exSpriteFont : exSpriteBase {
             renderer.sharedMaterial = fontInfo_.pageInfos[0].material;
 
             if ( meshFilter ) {
+                // create mesh ( in editor, this can duplicate mesh to prevent shared mesh for sprite)
                 meshFilter_.mesh = new Mesh();
                 ForceUpdateMesh (meshFilter_.sharedMesh);
+
+                // check if update mesh collider
+                MeshCollider meshCollider = collider as MeshCollider;  
+                if ( meshCollider && meshCollider.sharedMesh == null ) {
+                    this.UpdateColliderSize(0.2f);
+                }
             }
         }
     }

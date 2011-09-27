@@ -140,6 +140,19 @@ public class exLayer2D : MonoBehaviour {
     }
 
     // ------------------------------------------------------------------ 
+    /// \param _layer the expect layer
+    /// \param _bias the expect bias
+    /// force set the layer and bias of the sprite
+    // ------------------------------------------------------------------ 
+
+    public void ForceSetLayer ( int _layer, float _bias ) {
+        layer_ = Mathf.Clamp( _layer, 0, MAX_LAYER-1 );
+        bias_ = _bias;
+        UpdateDepth ();
+        RecursivelyUpdateTransformDepth ();
+    }
+
+    // ------------------------------------------------------------------ 
     /// Calculate and update the depth manually, useful in editor
     // ------------------------------------------------------------------ 
 

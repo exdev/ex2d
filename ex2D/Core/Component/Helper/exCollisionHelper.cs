@@ -195,39 +195,7 @@ public class exCollisionHelper : MonoBehaviour {
              autoResizeCollision == false )
             return;
 
-        Mesh mesh = plane.meshFilter.sharedMesh;
-
-        // update box collider
-        if ( collider is BoxCollider ) {
-            BoxCollider boxCollider = collider as BoxCollider;
-            boxCollider.center = mesh.bounds.center;
-            boxCollider.size = mesh.bounds.size;
-
-            switch ( plane.plane ) {
-            case exSprite.Plane.XY:
-                boxCollider.size = new Vector3( mesh.bounds.size.x, mesh.bounds.size.y, length_ );
-                break;
-
-            case exSprite.Plane.XZ:
-                boxCollider.size = new Vector3( mesh.bounds.size.x, length_, mesh.bounds.size.z );
-                break;
-
-            case exSprite.Plane.ZY:
-                boxCollider.size = new Vector3( length_, mesh.bounds.size.y, mesh.bounds.size.z );
-                break;
-            }
-
-            return;
-        }
-
-        // update mesh collider
-        if ( collider is MeshCollider ) {
-            MeshCollider meshCollider = collider as MeshCollider;
-            // NOTE: only in this way, mesh collider changes
-            meshCollider.sharedMesh = null;
-            meshCollider.sharedMesh = mesh;
-            return;
-        }
+        plane.UpdateColliderSize(length_);
     }
 
 }

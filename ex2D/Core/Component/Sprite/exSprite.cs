@@ -311,7 +311,7 @@ public class exSprite : exSpriteBase {
             Vector3[] normals = new Vector3[4]; // TEMP
 
             // calculate anchor offset
-            if ( useTextureOffset ) {
+            if ( useTextureOffset_ ) {
                 // get original width and height
                 float originalWidth = 0.0f; 
                 float originalHeight = 0.0f; 
@@ -674,11 +674,18 @@ public class exSprite : exSpriteBase {
         spanim = GetComponent<exSpriteAnimation>();
 
         if ( atlas_ != null ||
-             ( renderer.sharedMaterial != null && renderer.sharedMaterial.mainTexture != null ) ) 
+             ( renderer.sharedMaterial && renderer.sharedMaterial.mainTexture != null ) ) 
         {
             if ( meshFilter ) {
+                // create mesh ( in editor, this can duplicate mesh to prevent shared mesh for sprite)
                 meshFilter_.mesh = new Mesh();
                 ForceUpdateMesh( meshFilter_.sharedMesh );
+
+                // check if update mesh collider
+                MeshCollider meshCollider = collider as MeshCollider;  
+                if ( meshCollider && meshCollider.sharedMesh == null ) {
+                    this.UpdateColliderSize(0.2f);
+                }
             }
         }
     }

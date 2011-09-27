@@ -608,8 +608,15 @@ public class exSpriteBorder : exSpriteBase {
                   || ( renderer.sharedMaterial != null && renderer.sharedMaterial.mainTexture != null ) ) ) 
         {
             if ( meshFilter ) {
+                // create mesh ( in editor, this can duplicate mesh to prevent shared mesh for sprite)
                 meshFilter_.mesh = new Mesh();
                 ForceUpdateMesh( meshFilter_.sharedMesh );
+
+                // check if update mesh collider
+                MeshCollider meshCollider = collider as MeshCollider;  
+                if ( meshCollider && meshCollider.sharedMesh == null ) {
+                    this.UpdateColliderSize(0.2f);
+                }
             }
         }
     }

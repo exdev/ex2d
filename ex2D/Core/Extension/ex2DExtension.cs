@@ -202,4 +202,47 @@ public static class ex2DExtension {
             break;
         }
     }
+
+    // ------------------------------------------------------------------ 
+    /// \param _paths the in plane
+    /// \param _length the length of the collider
+    /// sync the collider size
+    // ------------------------------------------------------------------ 
+
+    public static void UpdateColliderSize ( this exPlane _plane, float _length ) {
+        Mesh mesh = _plane.meshFilter.sharedMesh;
+        Collider collider = _plane.collider;
+
+        // update box collider
+        if ( collider is BoxCollider ) {
+            BoxCollider boxCollider = collider as BoxCollider;
+            boxCollider.center = mesh.bounds.center;
+            boxCollider.size = mesh.bounds.size;
+
+            switch ( _plane.plane ) {
+            case exSprite.Plane.XY:
+                boxCollider.size = new Vector3( mesh.bounds.size.x, mesh.bounds.size.y, _length );
+                break;
+
+            case exSprite.Plane.XZ:
+                boxCollider.size = new Vector3( mesh.bounds.size.x, _length, mesh.bounds.size.z );
+                break;
+
+            case exSprite.Plane.ZY:
+                boxCollider.size = new Vector3( _length, mesh.bounds.size.y, mesh.bounds.size.z );
+                break;
+            }
+
+            return;
+        }
+
+        // update mesh collider
+        if ( collider is MeshCollider ) {
+            MeshCollider meshCollider = collider as MeshCollider;
+            // NOTE: only in this way, mesh collider changes
+            meshCollider.sharedMesh = null;
+            meshCollider.sharedMesh = mesh;
+            return;
+        }
+    }
 }

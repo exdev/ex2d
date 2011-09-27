@@ -352,6 +352,20 @@ public class exSpriteAnimation : MonoBehaviour {
     }
 
     // ------------------------------------------------------------------ 
+    /// \return the frame index
+    /// Get the index of current frame in the playing animation.
+    // ------------------------------------------------------------------ 
+
+    public int GetCurFrameIndex () {
+        int index = -1;
+        if ( curAnimation != null ) {
+            float wrappedTime = curAnimation.clip.WrapSeconds(curAnimation.time, curAnimation.wrapMode);
+            index = curAnimation.frameTimes.BinarySearch(wrappedTime);
+        }
+        return index;
+    }
+
+    // ------------------------------------------------------------------ 
     /// \param _animClip the sprite animation clip wants to add
     /// \return the instantiate animation state of the added _animClip 
     /// Add a sprite animation clip, create a new animation state and saves 
