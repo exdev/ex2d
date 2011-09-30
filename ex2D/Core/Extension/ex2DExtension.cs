@@ -204,7 +204,7 @@ public static class ex2DExtension {
     }
 
     // ------------------------------------------------------------------ 
-    /// \param _paths the in plane
+    /// \param _plane the in plane
     /// \param _length the length of the collider
     /// sync the collider size
     // ------------------------------------------------------------------ 

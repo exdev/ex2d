@@ -29,7 +29,7 @@ using System.Collections.Generic;
 public class exSoftClip : exPlane {
 
     // ------------------------------------------------------------------ 
-    [SerializeField] protected float width_ = 1.0f;
+    [SerializeField] protected float width_ = 100.0f;
     /// the width of the soft-clip
     // ------------------------------------------------------------------ 
 
@@ -44,7 +44,7 @@ public class exSoftClip : exPlane {
     }
 
     // ------------------------------------------------------------------ 
-    [SerializeField] protected float height_ = 1.0f;
+    [SerializeField] protected float height_ = 100.0f;
     /// the height of the soft-clip
     // ------------------------------------------------------------------ 
 

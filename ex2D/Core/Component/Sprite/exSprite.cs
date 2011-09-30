@@ -697,6 +697,7 @@ public class exSprite : exSpriteBase {
     public void Clear () {
         atlas_ = null;
         index_ = -1;
+
         if ( renderer != null )
             renderer.sharedMaterial = null;
 

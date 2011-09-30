@@ -172,6 +172,12 @@ public class exSpriteAnimation : MonoBehaviour {
                                              delta,
                                              curAnimation.wrapMode );
 
+            // NOTE: it is possible in the events, user destroy this component. In this case, 
+            //       the curAnimation will be null.
+            if ( curAnimation == null ) {
+                return;
+            }
+
             // set sprite to current time
             exSpriteAnimClip.FrameInfo fi = GetCurFrameInfo();
             if ( fi != null )
@@ -189,6 +195,15 @@ public class exSpriteAnimation : MonoBehaviour {
 
     // NOTE: the reason I design to Play instead of using default parameter is because in 
     // Unity Animation Editor, it can send message to function that only have one parameter.
+
+    // ------------------------------------------------------------------ 
+    /// Play the default animation by _name 
+    // ------------------------------------------------------------------ 
+
+    public void Play () {
+        if ( defaultAnimation )
+            Play( defaultAnimation.name, 0 );
+    }
 
     // ------------------------------------------------------------------ 
     /// \param _name the name of the animation to play
@@ -332,6 +347,13 @@ public class exSpriteAnimation : MonoBehaviour {
         // } DISABLE end 
         return nameToState[_name];
     }
+
+    // ------------------------------------------------------------------ 
+    /// \return the current animation state
+    /// Get the current playing animation state
+    // ------------------------------------------------------------------ 
+
+    public exSpriteAnimState GetCurrentAnimation () { return curAnimation; }
 
     // ------------------------------------------------------------------ 
     /// \return the frame info

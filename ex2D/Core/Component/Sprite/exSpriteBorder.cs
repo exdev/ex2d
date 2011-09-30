@@ -629,6 +629,7 @@ public class exSpriteBorder : exSpriteBase {
         atlas_ = null;
         index_ = -1;
         guiBorder_ = null;
+
         if ( renderer != null )
             renderer.sharedMaterial = null;
 
