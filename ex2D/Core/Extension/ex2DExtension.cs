@@ -20,28 +20,36 @@ using System.Collections;
 
 public static class ex2DExtension {
 
-    // ------------------------------------------------------------------ 
-    /// \param _sp the base sprite
-    /// \param _camera the camera
-    /// \param _screenWidth the screen width
-    /// \param _screenHeight the screen height
-    /// Scale the exSpriteBase.scale to make it have renderer in perfect pixel in _camera
-    // ------------------------------------------------------------------ 
+    // DISABLE { 
+    // // ------------------------------------------------------------------ 
+    // /// \param _sp the base sprite
+    // /// \param _camera the camera
+    // /// \param _screenWidth the screen width
+    // /// \param _screenHeight the screen height
+    // /// Scale the exSpriteBase.scale to make it have renderer in perfect pixel in _camera
+    // // ------------------------------------------------------------------ 
 
-    public static void MakePixelPerfect ( this exSpriteBase _sp, 
-                                          Camera _camera, 
-                                          float _screenWidth, 
-                                          float _screenHeight ) {
-        float s = 1.0f;
-        if ( _camera.orthographic ) {
-            s =  2.0f * _camera.orthographicSize / _screenHeight;
-        }
-        else {
-            float ratio = 2.0f * Mathf.Tan(Mathf.Deg2Rad * _camera.fov * 0.5f) / _screenHeight;
-            s = ratio * ( _sp.transform.position.z - _camera.transform.position.z );
-        }
-		_sp.scale = new Vector2( Mathf.Sign(_sp.scale.x) * s, Mathf.Sign(_sp.scale.y) * s );
-    }
+    // public static void MakePixelPerfect ( this exSpriteBase _sp, 
+    //                                       Camera _camera, 
+    //                                       float _screenWidth, 
+    //                                       float _screenHeight ) {
+    //     float s = 1.0f;
+    //     if ( _camera.orthographic ) {
+    //         s = 2.0f * _camera.orthographicSize / _screenHeight;
+    //     }
+    //     else {
+    //         float ratio = 2.0f * Mathf.Tan(Mathf.Deg2Rad * _camera.fov * 0.5f) / _screenHeight;
+    //         float depth = 0.0f;
+    //         switch ( _sp.plane ) {
+    //         case exPlane.Plane.XY: depth = _sp.transform.position.z - _camera.transform.position.z; break;
+    //         case exPlane.Plane.XZ: depth = _sp.transform.position.y - _camera.transform.position.y; break;
+    //         case exPlane.Plane.ZY: depth = _sp.transform.position.x - _camera.transform.position.x; break;
+    //         }
+    //         s = ratio * depth;
+    //     }
+    //     _sp.scale = new Vector2( Mathf.Sign(_sp.scale.x) * s, Mathf.Sign(_sp.scale.y) * s );
+    // }
+    // } DISABLE end 
 
     // ------------------------------------------------------------------ 
     /// \param _plane the in plane
@@ -123,17 +131,17 @@ public static class ex2DExtension {
 
         switch ( _plane.plane ) {
         case exPlane.Plane.XY:
-            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, 0.0f) );
+            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, _camera.nearClipPlane) );
             result.z = _plane.transform.position.z;
             break;
 
         case exPlane.Plane.XZ:
-            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, 0.0f) );
+            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, _camera.nearClipPlane) );
             result.y = _plane.transform.position.y;
             break;
 
         case exPlane.Plane.ZY:
-            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, 0.0f) );
+            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, _camera.nearClipPlane) );
             result.x = _plane.transform.position.x;
             break;
         }
@@ -159,17 +167,17 @@ public static class ex2DExtension {
 
         switch ( _plane.plane ) {
         case exPlane.Plane.XY:
-            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, 0.0f) );
+            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, _camera.nearClipPlane) );
             result.z = _plane.transform.position.z;
             break;
 
         case exPlane.Plane.XZ:
-            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, 0.0f) );
+            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, _camera.nearClipPlane) );
             result.y = _plane.transform.position.y;
             break;
 
         case exPlane.Plane.ZY:
-            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, 0.0f) );
+            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, _camera.nearClipPlane) );
             result.x = _plane.transform.position.x;
             break;
         }

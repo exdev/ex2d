@@ -116,7 +116,7 @@ public class exSoftClip : exPlane {
         base.Awake();
 
         updateFlags |= UpdateFlags.Vertex;
-        InternalUpdate ();
+        Commit ();
         updateFlags = UpdateFlags.None;
     }
 
@@ -152,7 +152,7 @@ public class exSoftClip : exPlane {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void InternalUpdate () {
+    override public void Commit () {
 
         if ( (updateFlags & UpdateFlags.Vertex) != 0 ) {
             //

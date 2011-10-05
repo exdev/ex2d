@@ -590,7 +590,7 @@ public class exSprite : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void InternalUpdate () {
+    override public void Commit () {
         if ( meshFilter ) {
             if ( meshFilter_.sharedMesh != null ) {
                 UpdateMesh (meshFilter_.sharedMesh);
@@ -734,7 +734,7 @@ public class exSprite : exSpriteBase {
              _index < 0 || 
              _index >= _atlas.elements.Length ) 
         {
-            Debug.LogWarning ( "Invalid input in SetSprite." );
+            Debug.LogWarning ( "Invalid input in SetSprite. atlas = " + (_atlas ? _atlas.name : "null") + ", index = " + _index );
             return;
         }
 

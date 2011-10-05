@@ -379,7 +379,7 @@ public class exPlane : MonoBehaviour {
 
     void LateUpdate () {
         if ( updateFlags != UpdateFlags.None ) {
-            InternalUpdate();
+            Commit();
             updateFlags = UpdateFlags.None;
         }
     }
@@ -389,7 +389,7 @@ public class exPlane : MonoBehaviour {
     /// It will be invoked when updateFlags is not UpdateFlags.None
     // ------------------------------------------------------------------ 
 
-    virtual protected void InternalUpdate () {
+    virtual public void Commit () {
         // Debug.LogWarning ("You should not directly call this function. please override it!");
     }
 

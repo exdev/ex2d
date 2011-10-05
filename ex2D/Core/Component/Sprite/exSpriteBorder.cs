@@ -584,7 +584,7 @@ public class exSpriteBorder : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void InternalUpdate () {
+    override public void Commit () {
         if ( meshFilter ) {
             if ( meshFilter_.sharedMesh != null ) {
                 UpdateMesh (meshFilter_.sharedMesh);
