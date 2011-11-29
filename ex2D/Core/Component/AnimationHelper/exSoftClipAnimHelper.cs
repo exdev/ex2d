@@ -17,6 +17,7 @@ using System.Collections;
 ///////////////////////////////////////////////////////////////////////////////
 
 [ExecuteInEditMode]
+[RequireComponent (typeof(exSoftClip))]
 public class exSoftClipAnimHelper : exSpriteBaseAnimHelper {
 
     exSoftClip softClip;
@@ -47,6 +48,13 @@ public class exSoftClipAnimHelper : exSpriteBaseAnimHelper {
 
     override protected void Update () {
         base.Update();
+        if ( softClip == null ) {
+            softClip = GetComponent<exSoftClip>();
+            if ( softClip == null ) {
+                Debug.LogError("Can't find exSoftClip Component in GameObject " + gameObject.name);
+                return;
+            }
+        }
 
         // if ( lastCenter != softClip.center ) {
         //     lastCenter = softClip.center;

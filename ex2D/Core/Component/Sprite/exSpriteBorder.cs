@@ -143,6 +143,11 @@ public class exSpriteBorder : exSpriteBase {
 
     public void UpdateMesh ( Mesh _mesh ) {
 
+        if ( guiBorder_ == null ) {
+            updateFlags = UpdateFlags.None;
+            return;
+        }
+
         exAtlas.Element el = null;
         if ( useAtlas )
             el = atlas_.elements[index_];
@@ -308,73 +313,97 @@ public class exSpriteBorder : exSpriteBase {
             y0 += offsetY; y1 += offsetY; y2 += offsetY; y3 += offsetY;
 
             // build vertices
-            switch ( plane ) {
-            case Plane.XY:
-                vertices[0]  = new Vector3( x0 + y0 * shear_.x, y0 + x0 * shear_.y, 0.0f );
-                vertices[1]  = new Vector3( x1 + y0 * shear_.x, y0 + x1 * shear_.y, 0.0f );
-                vertices[2]  = new Vector3( x2 + y0 * shear_.x, y0 + x2 * shear_.y, 0.0f );
-                vertices[3]  = new Vector3( x3 + y0 * shear_.x, y0 + x3 * shear_.y, 0.0f );
+            vertices[0]  = new Vector3( x0 + y0 * shear_.x, y0 + x0 * shear_.y, 0.0f );
+            vertices[1]  = new Vector3( x1 + y0 * shear_.x, y0 + x1 * shear_.y, 0.0f );
+            vertices[2]  = new Vector3( x2 + y0 * shear_.x, y0 + x2 * shear_.y, 0.0f );
+            vertices[3]  = new Vector3( x3 + y0 * shear_.x, y0 + x3 * shear_.y, 0.0f );
 
-                vertices[4]  = new Vector3( x0 + y1 * shear_.x, y1 + x0 * shear_.y, 0.0f );
-                vertices[5]  = new Vector3( x1 + y1 * shear_.x, y1 + x1 * shear_.y, 0.0f );
-                vertices[6]  = new Vector3( x2 + y1 * shear_.x, y1 + x2 * shear_.y, 0.0f );
-                vertices[7]  = new Vector3( x3 + y1 * shear_.x, y1 + x3 * shear_.y, 0.0f );
+            vertices[4]  = new Vector3( x0 + y1 * shear_.x, y1 + x0 * shear_.y, 0.0f );
+            vertices[5]  = new Vector3( x1 + y1 * shear_.x, y1 + x1 * shear_.y, 0.0f );
+            vertices[6]  = new Vector3( x2 + y1 * shear_.x, y1 + x2 * shear_.y, 0.0f );
+            vertices[7]  = new Vector3( x3 + y1 * shear_.x, y1 + x3 * shear_.y, 0.0f );
 
-                vertices[8]  = new Vector3( x0 + y2 * shear_.x, y2 + x0 * shear_.y, 0.0f );
-                vertices[9]  = new Vector3( x1 + y2 * shear_.x, y2 + x1 * shear_.y, 0.0f );
-                vertices[10] = new Vector3( x2 + y2 * shear_.x, y2 + x2 * shear_.y, 0.0f );
-                vertices[11] = new Vector3( x3 + y2 * shear_.x, y2 + x3 * shear_.y, 0.0f );
+            vertices[8]  = new Vector3( x0 + y2 * shear_.x, y2 + x0 * shear_.y, 0.0f );
+            vertices[9]  = new Vector3( x1 + y2 * shear_.x, y2 + x1 * shear_.y, 0.0f );
+            vertices[10] = new Vector3( x2 + y2 * shear_.x, y2 + x2 * shear_.y, 0.0f );
+            vertices[11] = new Vector3( x3 + y2 * shear_.x, y2 + x3 * shear_.y, 0.0f );
 
-                vertices[12] = new Vector3( x0 + y3 * shear_.x, y3 + x0 * shear_.y, 0.0f );
-                vertices[13] = new Vector3( x1 + y3 * shear_.x, y3 + x1 * shear_.y, 0.0f );
-                vertices[14] = new Vector3( x2 + y3 * shear_.x, y3 + x2 * shear_.y, 0.0f );
-                vertices[15] = new Vector3( x3 + y3 * shear_.x, y3 + x3 * shear_.y, 0.0f );
-                break;
+            vertices[12] = new Vector3( x0 + y3 * shear_.x, y3 + x0 * shear_.y, 0.0f );
+            vertices[13] = new Vector3( x1 + y3 * shear_.x, y3 + x1 * shear_.y, 0.0f );
+            vertices[14] = new Vector3( x2 + y3 * shear_.x, y3 + x2 * shear_.y, 0.0f );
+            vertices[15] = new Vector3( x3 + y3 * shear_.x, y3 + x3 * shear_.y, 0.0f );
 
-            case Plane.XZ:
-                vertices[0]  = new Vector3( x0 + y0 * shear_.x, 0.0f, y0 + x0 * shear_.y );
-                vertices[1]  = new Vector3( x1 + y0 * shear_.x, 0.0f, y0 + x1 * shear_.y );
-                vertices[2]  = new Vector3( x2 + y0 * shear_.x, 0.0f, y0 + x2 * shear_.y );
-                vertices[3]  = new Vector3( x3 + y0 * shear_.x, 0.0f, y0 + x3 * shear_.y );
+            // DELME { 
+            // // build vertices
+            // switch ( plane ) {
+            // case Plane.XY:
+            //     vertices[0]  = new Vector3( x0 + y0 * shear_.x, y0 + x0 * shear_.y, 0.0f );
+            //     vertices[1]  = new Vector3( x1 + y0 * shear_.x, y0 + x1 * shear_.y, 0.0f );
+            //     vertices[2]  = new Vector3( x2 + y0 * shear_.x, y0 + x2 * shear_.y, 0.0f );
+            //     vertices[3]  = new Vector3( x3 + y0 * shear_.x, y0 + x3 * shear_.y, 0.0f );
 
-                vertices[4]  = new Vector3( x0 + y1 * shear_.x, 0.0f, y1 + x0 * shear_.y );
-                vertices[5]  = new Vector3( x1 + y1 * shear_.x, 0.0f, y1 + x1 * shear_.y );
-                vertices[6]  = new Vector3( x2 + y1 * shear_.x, 0.0f, y1 + x2 * shear_.y );
-                vertices[7]  = new Vector3( x3 + y1 * shear_.x, 0.0f, y1 + x3 * shear_.y );
+            //     vertices[4]  = new Vector3( x0 + y1 * shear_.x, y1 + x0 * shear_.y, 0.0f );
+            //     vertices[5]  = new Vector3( x1 + y1 * shear_.x, y1 + x1 * shear_.y, 0.0f );
+            //     vertices[6]  = new Vector3( x2 + y1 * shear_.x, y1 + x2 * shear_.y, 0.0f );
+            //     vertices[7]  = new Vector3( x3 + y1 * shear_.x, y1 + x3 * shear_.y, 0.0f );
 
-                vertices[8]  = new Vector3( x0 + y2 * shear_.x, 0.0f, y2 + x0 * shear_.y );
-                vertices[9]  = new Vector3( x1 + y2 * shear_.x, 0.0f, y2 + x1 * shear_.y );
-                vertices[10] = new Vector3( x2 + y2 * shear_.x, 0.0f, y2 + x2 * shear_.y );
-                vertices[11] = new Vector3( x3 + y2 * shear_.x, 0.0f, y2 + x3 * shear_.y );
+            //     vertices[8]  = new Vector3( x0 + y2 * shear_.x, y2 + x0 * shear_.y, 0.0f );
+            //     vertices[9]  = new Vector3( x1 + y2 * shear_.x, y2 + x1 * shear_.y, 0.0f );
+            //     vertices[10] = new Vector3( x2 + y2 * shear_.x, y2 + x2 * shear_.y, 0.0f );
+            //     vertices[11] = new Vector3( x3 + y2 * shear_.x, y2 + x3 * shear_.y, 0.0f );
 
-                vertices[12] = new Vector3( x0 + y3 * shear_.x, 0.0f, y3 + x0 * shear_.y );
-                vertices[13] = new Vector3( x1 + y3 * shear_.x, 0.0f, y3 + x1 * shear_.y );
-                vertices[14] = new Vector3( x2 + y3 * shear_.x, 0.0f, y3 + x2 * shear_.y );
-                vertices[15] = new Vector3( x3 + y3 * shear_.x, 0.0f, y3 + x3 * shear_.y );
-                break;
+            //     vertices[12] = new Vector3( x0 + y3 * shear_.x, y3 + x0 * shear_.y, 0.0f );
+            //     vertices[13] = new Vector3( x1 + y3 * shear_.x, y3 + x1 * shear_.y, 0.0f );
+            //     vertices[14] = new Vector3( x2 + y3 * shear_.x, y3 + x2 * shear_.y, 0.0f );
+            //     vertices[15] = new Vector3( x3 + y3 * shear_.x, y3 + x3 * shear_.y, 0.0f );
+            //     break;
 
-            case Plane.ZY:
-                vertices[0]  = new Vector3( 0.0f, y0 + x0 * shear_.y, x0 + y0 * shear_.x );
-                vertices[1]  = new Vector3( 0.0f, y0 + x1 * shear_.y, x1 + y0 * shear_.x );
-                vertices[2]  = new Vector3( 0.0f, y0 + x2 * shear_.y, x2 + y0 * shear_.x );
-                vertices[3]  = new Vector3( 0.0f, y0 + x3 * shear_.y, x3 + y0 * shear_.x );
-                                                                                        
-                vertices[4]  = new Vector3( 0.0f, y1 + x0 * shear_.y, x0 + y1 * shear_.x );
-                vertices[5]  = new Vector3( 0.0f, y1 + x1 * shear_.y, x1 + y1 * shear_.x );
-                vertices[6]  = new Vector3( 0.0f, y1 + x2 * shear_.y, x2 + y1 * shear_.x );
-                vertices[7]  = new Vector3( 0.0f, y1 + x3 * shear_.y, x3 + y1 * shear_.x );
-                                                                                        
-                vertices[8]  = new Vector3( 0.0f, y2 + x0 * shear_.y, x0 + y2 * shear_.x );
-                vertices[9]  = new Vector3( 0.0f, y2 + x1 * shear_.y, x1 + y2 * shear_.x );
-                vertices[10] = new Vector3( 0.0f, y2 + x2 * shear_.y, x2 + y2 * shear_.x );
-                vertices[11] = new Vector3( 0.0f, y2 + x3 * shear_.y, x3 + y2 * shear_.x );
-                                                                                        
-                vertices[12] = new Vector3( 0.0f, y3 + x0 * shear_.y, x0 + y3 * shear_.x );
-                vertices[13] = new Vector3( 0.0f, y3 + x1 * shear_.y, x1 + y3 * shear_.x );
-                vertices[14] = new Vector3( 0.0f, y3 + x2 * shear_.y, x2 + y3 * shear_.x );
-                vertices[15] = new Vector3( 0.0f, y3 + x3 * shear_.y, x3 + y3 * shear_.x );
-                break;
-            }
+            // case Plane.XZ:
+            //     vertices[0]  = new Vector3( x0 + y0 * shear_.x, 0.0f, y0 + x0 * shear_.y );
+            //     vertices[1]  = new Vector3( x1 + y0 * shear_.x, 0.0f, y0 + x1 * shear_.y );
+            //     vertices[2]  = new Vector3( x2 + y0 * shear_.x, 0.0f, y0 + x2 * shear_.y );
+            //     vertices[3]  = new Vector3( x3 + y0 * shear_.x, 0.0f, y0 + x3 * shear_.y );
+
+            //     vertices[4]  = new Vector3( x0 + y1 * shear_.x, 0.0f, y1 + x0 * shear_.y );
+            //     vertices[5]  = new Vector3( x1 + y1 * shear_.x, 0.0f, y1 + x1 * shear_.y );
+            //     vertices[6]  = new Vector3( x2 + y1 * shear_.x, 0.0f, y1 + x2 * shear_.y );
+            //     vertices[7]  = new Vector3( x3 + y1 * shear_.x, 0.0f, y1 + x3 * shear_.y );
+
+            //     vertices[8]  = new Vector3( x0 + y2 * shear_.x, 0.0f, y2 + x0 * shear_.y );
+            //     vertices[9]  = new Vector3( x1 + y2 * shear_.x, 0.0f, y2 + x1 * shear_.y );
+            //     vertices[10] = new Vector3( x2 + y2 * shear_.x, 0.0f, y2 + x2 * shear_.y );
+            //     vertices[11] = new Vector3( x3 + y2 * shear_.x, 0.0f, y2 + x3 * shear_.y );
+
+            //     vertices[12] = new Vector3( x0 + y3 * shear_.x, 0.0f, y3 + x0 * shear_.y );
+            //     vertices[13] = new Vector3( x1 + y3 * shear_.x, 0.0f, y3 + x1 * shear_.y );
+            //     vertices[14] = new Vector3( x2 + y3 * shear_.x, 0.0f, y3 + x2 * shear_.y );
+            //     vertices[15] = new Vector3( x3 + y3 * shear_.x, 0.0f, y3 + x3 * shear_.y );
+            //     break;
+
+            // case Plane.ZY:
+            //     vertices[0]  = new Vector3( 0.0f, y0 + x0 * shear_.y, x0 + y0 * shear_.x );
+            //     vertices[1]  = new Vector3( 0.0f, y0 + x1 * shear_.y, x1 + y0 * shear_.x );
+            //     vertices[2]  = new Vector3( 0.0f, y0 + x2 * shear_.y, x2 + y0 * shear_.x );
+            //     vertices[3]  = new Vector3( 0.0f, y0 + x3 * shear_.y, x3 + y0 * shear_.x );
+            //                                                                             
+            //     vertices[4]  = new Vector3( 0.0f, y1 + x0 * shear_.y, x0 + y1 * shear_.x );
+            //     vertices[5]  = new Vector3( 0.0f, y1 + x1 * shear_.y, x1 + y1 * shear_.x );
+            //     vertices[6]  = new Vector3( 0.0f, y1 + x2 * shear_.y, x2 + y1 * shear_.x );
+            //     vertices[7]  = new Vector3( 0.0f, y1 + x3 * shear_.y, x3 + y1 * shear_.x );
+            //                                                                             
+            //     vertices[8]  = new Vector3( 0.0f, y2 + x0 * shear_.y, x0 + y2 * shear_.x );
+            //     vertices[9]  = new Vector3( 0.0f, y2 + x1 * shear_.y, x1 + y2 * shear_.x );
+            //     vertices[10] = new Vector3( 0.0f, y2 + x2 * shear_.y, x2 + y2 * shear_.x );
+            //     vertices[11] = new Vector3( 0.0f, y2 + x3 * shear_.y, x3 + y2 * shear_.x );
+            //                                                                             
+            //     vertices[12] = new Vector3( 0.0f, y3 + x0 * shear_.y, x0 + y3 * shear_.x );
+            //     vertices[13] = new Vector3( 0.0f, y3 + x1 * shear_.y, x1 + y3 * shear_.x );
+            //     vertices[14] = new Vector3( 0.0f, y3 + x2 * shear_.y, x2 + y3 * shear_.x );
+            //     vertices[15] = new Vector3( 0.0f, y3 + x3 * shear_.y, x3 + y3 * shear_.x );
+            //     break;
+            // }
+            // } DELME end 
+
             _mesh.vertices = vertices;
             _mesh.bounds = GetMeshBounds ( offsetX, offsetY, halfWidthScaled * 2.0f, halfHeightScaled * 2.0f );
 
@@ -622,6 +651,22 @@ public class exSpriteBorder : exSpriteBase {
     }
 
     // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    override protected void OnEnable () {
+        base.OnEnable();
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    override protected void OnDisable () {
+        base.OnDisable();
+    }
+
+    // ------------------------------------------------------------------ 
     /// Clear the altas, material and mesh of the sprite, make it empty
     // ------------------------------------------------------------------ 
 
@@ -672,8 +717,9 @@ public class exSpriteBorder : exSpriteBase {
 
         //
         if ( guiBorder_ != _border ) {
-            if ( guiBorder_ == null || guiBorder_.border != _border.border )
+            if ( guiBorder_ == null || guiBorder_.border != _border.border ) {
                 updateFlags |= UpdateFlags.Vertex;
+            }
             guiBorder_ = _border;
         }
 

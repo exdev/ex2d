@@ -152,28 +152,33 @@ public class exCollisionHelper : MonoBehaviour {
             Camera camera = plane.renderCamera;
 
             float myLength = camera.farClipPlane - camera.nearClipPlane;
-            float offset = 0.0f;
             float thick = camera.farClipPlane - camera.nearClipPlane;
 
-            switch ( plane.plane ) {
-            case exSprite.Plane.XY:
-                offset = myLength * 0.5f + (camera.transform.position.z + camera.nearClipPlane) - transform.position.z;
-                boxCollider.center = new Vector3( boxCollider.center.x, boxCollider.center.y, offset );
-                boxCollider.size = new Vector3( boxCollider.size.x, boxCollider.size.y, thick );
-                break;
+            float offset = myLength * 0.5f + (camera.transform.position.z + camera.nearClipPlane) - transform.position.z;
+            boxCollider.center = new Vector3( boxCollider.center.x, boxCollider.center.y, offset );
+            boxCollider.size = new Vector3( boxCollider.size.x, boxCollider.size.y, thick );
 
-            case exSprite.Plane.XZ:
-                offset = myLength * 0.5f + transform.position.y - (camera.transform.position.y + camera.nearClipPlane);
-                boxCollider.center = new Vector3( boxCollider.center.x, -offset, boxCollider.center.z );
-                boxCollider.size = new Vector3( boxCollider.size.x, thick, boxCollider.size.z );
-                break;
+            // DELME { 
+            // switch ( plane.plane ) {
+            // case exSprite.Plane.XY:
+            //     offset = myLength * 0.5f + (camera.transform.position.z + camera.nearClipPlane) - transform.position.z;
+            //     boxCollider.center = new Vector3( boxCollider.center.x, boxCollider.center.y, offset );
+            //     boxCollider.size = new Vector3( boxCollider.size.x, boxCollider.size.y, thick );
+            //     break;
 
-            case exSprite.Plane.ZY:
-                offset = myLength * 0.5f + transform.position.x - (camera.transform.position.x + camera.nearClipPlane);
-                boxCollider.center = new Vector3( -offset, boxCollider.center.x, boxCollider.center.z );
-                boxCollider.size = new Vector3( thick, boxCollider.size.y, boxCollider.size.z );
-                break;
-            }
+            // case exSprite.Plane.XZ:
+            //     offset = myLength * 0.5f + transform.position.y - (camera.transform.position.y + camera.nearClipPlane);
+            //     boxCollider.center = new Vector3( boxCollider.center.x, -offset, boxCollider.center.z );
+            //     boxCollider.size = new Vector3( boxCollider.size.x, thick, boxCollider.size.z );
+            //     break;
+
+            // case exSprite.Plane.ZY:
+            //     offset = myLength * 0.5f + transform.position.x - (camera.transform.position.x + camera.nearClipPlane);
+            //     boxCollider.center = new Vector3( -offset, boxCollider.center.x, boxCollider.center.z );
+            //     boxCollider.size = new Vector3( thick, boxCollider.size.y, boxCollider.size.z );
+            //     break;
+            // }
+            // } DELME end 
 
             return;
         }
@@ -189,9 +194,7 @@ public class exCollisionHelper : MonoBehaviour {
         if ( plane == null )
             plane = GetComponent<exPlane>();
 
-        if ( plane.meshFilter == null||
-             plane.meshFilter.sharedMesh == null || 
-             collider == null || 
+        if ( collider == null || 
              autoResizeCollision == false )
             return;
 

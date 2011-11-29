@@ -105,6 +105,7 @@ public class exSpriteAnimation : MonoBehaviour {
     private bool paused = false;
     private exAtlas defaultAtlas;
     private int defaultIndex;
+    private int lastEventInfoIndex = -1;
 
     ///////////////////////////////////////////////////////////////////////////////
     // functions
@@ -143,15 +144,13 @@ public class exSpriteAnimation : MonoBehaviour {
         // } DEBUG end 
 
         Init ();
-    }
 
-    // ------------------------------------------------------------------ 
-    // Desc: 
-    // ------------------------------------------------------------------ 
-
-    void Start () {
+        // NOTE: start will only trigger when the Component first run after enabled
         if ( playAutomatically && defaultAnimation != null ) {
             Play (defaultAnimation.name);
+        }
+        else {
+            enabled = false;
         }
     }
 
@@ -167,16 +166,27 @@ public class exSpriteAnimation : MonoBehaviour {
 
             // advance the time
             curAnimation.time += delta;
-            curAnimation.clip.TriggerEvents( gameObject, 
-                                             curTime,
-                                             delta,
-                                             curAnimation.wrapMode );
+
+            // save the last state
+            float lastAnimTime = curAnimation.time;
+            exSpriteAnimState lastAnimation = curAnimation;
+
+            //
+            int newIdx = curAnimation.clip.TriggerEvents( this, 
+                                                          lastAnimation,
+                                                          lastEventInfoIndex,
+                                                          curTime,
+                                                          delta,
+                                                          curAnimation.wrapMode );
 
             // NOTE: it is possible in the events, user destroy this component. In this case, 
             //       the curAnimation will be null.
-            if ( curAnimation == null ) {
+            if ( curAnimation == null || 
+                 curAnimation != lastAnimation || 
+                 lastAnimTime != curAnimation.time /*NOTE: it is possible in the event we reply the same animation*/ ) {
                 return;
             }
+            lastEventInfoIndex = newIdx;
 
             // set sprite to current time
             exSpriteAnimClip.FrameInfo fi = GetCurFrameInfo();
@@ -184,13 +194,24 @@ public class exSpriteAnimation : MonoBehaviour {
                 sprite.SetSprite ( fi.atlas, fi.index );
 
             // check if stop
-            if ( ( curAnimation.wrapMode == WrapMode.Once ||
-                   curAnimation.wrapMode == WrapMode.Default ) && 
-                 curAnimation.time >= curAnimation.length )
+            if ( curAnimation.wrapMode == WrapMode.Once ||
+                 curAnimation.wrapMode == WrapMode.Default )
             {
-                Stop();
+                if ( (curAnimation.speed > 0.0f && curAnimation.time >= curAnimation.length) ||
+                     (curAnimation.speed < 0.0f && curAnimation.time <= 0.0f) )
+                {
+                    Stop();
+                }
             }
         }
+    }
+
+    // ------------------------------------------------------------------ 
+    /// reset to default sprite
+    // ------------------------------------------------------------------ 
+
+    public void SetDefaultSprite () {
+        sprite.SetSprite( defaultAtlas, defaultIndex );
     }
 
     // NOTE: the reason I design to Play instead of using default parameter is because in 
@@ -200,7 +221,7 @@ public class exSpriteAnimation : MonoBehaviour {
     /// Play the default animation by _name 
     // ------------------------------------------------------------------ 
 
-    public void Play () {
+    public void PlayDefault () {
         if ( defaultAnimation )
             Play( defaultAnimation.name, 0 );
     }
@@ -229,6 +250,15 @@ public class exSpriteAnimation : MonoBehaviour {
                 curAnimation.time = curAnimation.frameTimes[_index];
             playing = true;
             paused = false;
+            if ( curAnimation.speed >= 0.0f )
+                lastEventInfoIndex = -1;
+            else
+                lastEventInfoIndex = curAnimation.clip.eventInfos.Count;
+
+            exSpriteAnimClip.FrameInfo fi = curAnimation.clip.frameInfos[_index]; 
+            if ( fi != null )
+                sprite.SetSprite ( fi.atlas, fi.index );
+            enabled = true;
         }
     }
 
@@ -285,6 +315,7 @@ public class exSpriteAnimation : MonoBehaviour {
                 break;
             }
         }
+        enabled = false;
     }
 
     // ------------------------------------------------------------------ 
@@ -293,6 +324,7 @@ public class exSpriteAnimation : MonoBehaviour {
 
     public void Pause () {
         paused = true;
+        enabled = false;
     }
 
     // ------------------------------------------------------------------ 
@@ -301,6 +333,7 @@ public class exSpriteAnimation : MonoBehaviour {
 
     public void Resume () {
         paused = false;
+        enabled = true;
     }
 
     // ------------------------------------------------------------------ 
@@ -354,6 +387,15 @@ public class exSpriteAnimation : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     public exSpriteAnimState GetCurrentAnimation () { return curAnimation; }
+
+    // DISABLE { 
+    // // ------------------------------------------------------------------ 
+    // // \return the last event info index
+    // // Get the last event info index
+    // // ------------------------------------------------------------------ 
+
+    // public int GetLastEventInfoIndex () { return lastEventInfoIndex; }
+    // } DISABLE end 
 
     // ------------------------------------------------------------------ 
     /// \return the frame info

@@ -35,15 +35,17 @@ public class exPlane : MonoBehaviour {
 		Index	    = 16, ///< update the indices
 	};
 
-    // ------------------------------------------------------------------ 
-    /// The 2D plane the exPlane used in 3D space
-    // ------------------------------------------------------------------ 
+    // DELME { 
+    // // ------------------------------------------------------------------ 
+    // /// The 2D plane the exPlane used in 3D space
+    // // ------------------------------------------------------------------ 
 
-    public enum Plane {
-        XY, ///< the plane in XY space
-        XZ, ///< the plane in XZ space
-        ZY  ///< the plane in ZY space
-    }
+    // public enum Plane {
+    //     XY, ///< the plane in XY space
+    //     XZ, ///< the plane in XZ space
+    //     ZY  ///< the plane in ZY space
+    // }
+    // } DELME end 
 
     // ------------------------------------------------------------------ 
     /// The anchor position of the exPlane in 2D space
@@ -121,48 +123,35 @@ public class exPlane : MonoBehaviour {
         }
         set {
             Camera newCamera = value;
-            // if ( newCamera == null )
-            //     newCamera = Camera.main;
             if ( newCamera != camera_ ) {
                 camera_ = newCamera;
-                if ( layer2d )
-                    layer2d_.UpdateDepth();
+
+                // update sprite manager
+                spriteMng_ = camera_.GetComponent<exSpriteMng>();
+                if ( spriteMng_ == null )
+                    spriteMng_ = camera_.gameObject.AddComponent<exSpriteMng>();
             }
         }
     }
 
-    // ------------------------------------------------------------------ 
-    [SerializeField] protected Plane plane_ = Plane.XY;
-    /// the 2D coordination (XY, XZ or ZY) used in this plane 
-    // ------------------------------------------------------------------ 
+    // DELME { 
+    // // ------------------------------------------------------------------ 
+    // [SerializeField] protected Plane plane_ = Plane.XY;
+    // /// the 2D coordination (XY, XZ or ZY) used in this plane 
+    // // ------------------------------------------------------------------ 
 
-    public Plane plane {
-        get { return plane_; }
-        set {
-            if ( plane_ != value ) {
-                plane_ = value;
+    // public Plane plane {
+    //     get { return plane_; }
+    //     set {
+    //         if ( plane_ != value ) {
+    //             plane_ = value;
 
-                int layer = 0;
-                float bias = 0.0f;
-
-                if ( layer2d ) {
-                    layer = layer2d_.layer; 
-                    bias = layer2d_.bias; 
-                    Object.DestroyImmediate(layer2d_,true);
-
-                    switch ( plane_ ) {
-                    case exPlane.Plane.XY: layer2d_ = gameObject.AddComponent<exLayerXY>(); break;
-                    case exPlane.Plane.XZ: layer2d_ = gameObject.AddComponent<exLayerXZ>(); break;
-                    case exPlane.Plane.ZY: layer2d_ = gameObject.AddComponent<exLayerZY>(); break;
-                    }
-                    layer2d_.SetLayer( layer, bias );
-                }
-
-                //
-                updateFlags |= UpdateFlags.Vertex;
-            }
-        }
-    }
+    //             //
+    //             updateFlags |= UpdateFlags.Vertex;
+    //         }
+    //     }
+    // }
+    // } DELME end 
 
     // ------------------------------------------------------------------ 
     [SerializeField] protected Anchor anchor_ = Anchor.MidCenter;
@@ -191,23 +180,6 @@ public class exPlane : MonoBehaviour {
                 offset_ = value;
                 updateFlags |= UpdateFlags.Vertex;
             }
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////
-    // Non Serialized
-    ///////////////////////////////////////////////////////////////////////////////
-
-    // ------------------------------------------------------------------ 
-    /// The cached exLayer2D component
-    // ------------------------------------------------------------------ 
-
-    protected exLayer2D layer2d_ = null;
-    public exLayer2D layer2d {
-        get {
-            if ( layer2d_ == null )
-                layer2d_ = GetComponent<exLayer2D>();
-            return layer2d_;
         }
     }
 
@@ -244,7 +216,18 @@ public class exPlane : MonoBehaviour {
     /// user should only change this in class derived from exPlane.
     // ------------------------------------------------------------------ 
 
-	[System.NonSerialized] public UpdateFlags updateFlags = UpdateFlags.None;
+    protected UpdateFlags updateFlags_ = UpdateFlags.None;
+	public UpdateFlags updateFlags {
+        set {
+            updateFlags_ = value;
+            if ( updateFlags_ != UpdateFlags.None ) {
+                if ( spriteMng != null ) {
+                    spriteMng_.AddToCommitList(this);
+                }
+            }
+        }
+        get { return updateFlags_; }
+    }
 
     // ------------------------------------------------------------------ 
     /// The bounding rect of the plane
@@ -283,25 +266,30 @@ public class exPlane : MonoBehaviour {
         } 
     }
 
-    ///////////////////////////////////////////////////////////////////////////////
-    // functions
-    ///////////////////////////////////////////////////////////////////////////////
-
     // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void Reset() {
-        if ( layer2d == null ) {
-            switch ( plane ) {
-            case exPlane.Plane.XY: layer2d_ = gameObject.AddComponent<exLayerXY>(); break;
-            case exPlane.Plane.XZ: layer2d_ = gameObject.AddComponent<exLayerXZ>(); break;
-            case exPlane.Plane.ZY: layer2d_ = gameObject.AddComponent<exLayerZY>(); break;
+    protected exSpriteMng spriteMng_ = null;
+    protected exSpriteMng spriteMng {
+        get {
+            if ( camera_ == null )
+                return null;
+
+            if ( spriteMng_ == null ) {
+                spriteMng_ = camera_.GetComponent<exSpriteMng>();
+                if ( spriteMng_ == null )
+                    spriteMng_ = camera_.gameObject.AddComponent<exSpriteMng>();
             }
-            layer2d_.plane = this;
-            layer2d_.UpdateDepth();
+            return spriteMng_;
         }
     }
+
+    [System.NonSerialized] public bool inCommitList = false;
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // functions
+    ///////////////////////////////////////////////////////////////////////////////
 
     // ------------------------------------------------------------------ 
     /// Awake functoin inherit from MonoBehaviour.
@@ -311,14 +299,21 @@ public class exPlane : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     virtual protected void Awake () {
+        //
         if ( camera_ == null )
             camera_ = Camera.main;
+
+        //
+        if ( camera_ != null ) {
+            spriteMng_ = camera_.GetComponent<exSpriteMng>();
+            if ( spriteMng_ == null )
+                spriteMng_ = camera_.gameObject.AddComponent<exSpriteMng>();
+        }
+
+        //
         meshFilter_ = GetComponent<MeshFilter>();
 
-        layer2d_ = GetComponent<exLayer2D>();
-        if ( layer2d_ )
-            layer2d_.plane = this;
-
+        //
         collisionHelper_ = GetComponent<exCollisionHelper>();
         if ( collisionHelper_ )
             collisionHelper_.plane = this;
@@ -329,7 +324,6 @@ public class exPlane : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     void OnDestroy () {
-        // NOTE: though we have ExecuteInEditMode, user can Add/Remove layer2d in Editor
         if ( meshFilter ) {
             DestroyImmediate( meshFilter.sharedMesh, true );
         }
@@ -338,7 +332,7 @@ public class exPlane : MonoBehaviour {
     // ------------------------------------------------------------------ 
     /// OnEnable functoin inherit from MonoBehaviour,
     /// When exPlane.enabled set to true, this function will be invoked,
-    /// exPlane will enable the renderer and layer2d if they exist. 
+    /// exPlane will enable the renderer if they exist. 
     /// 
     /// \note if you inherit from exPlane, and implement your own Awake function, 
     /// you need to override this and call base.OnEnable() in your OnEnable block.
@@ -347,17 +341,12 @@ public class exPlane : MonoBehaviour {
     virtual protected void OnEnable () {
         if ( renderer != null )
             renderer.enabled = true;
-
-        // NOTE: though we have ExecuteInEditMode, user can Add/Remove layer2d in Editor
-        if ( layer2d ) {
-            layer2d_.enabled = true;
-        }
     }
 
     // ------------------------------------------------------------------ 
     /// OnDisable functoin inherit from MonoBehaviour,
     /// When exPlane.enabled set to false, this function will be invoked,
-    /// exPlane will disable the renderer and layer2d if they exist. 
+    /// exPlane will disable the renderer if they exist. 
     /// 
     /// \note if you inherit from exPlane, and implement your own Awake function, 
     /// you need to override this and call base.OnDisable() in your OnDisable block.
@@ -366,23 +355,20 @@ public class exPlane : MonoBehaviour {
     virtual protected void OnDisable () {
         if ( renderer != null )
             renderer.enabled = false;
-
-        // NOTE: though we have ExecuteInEditMode, user can Add/Remove layer2d in Editor
-        if ( layer2d ) {
-            layer2d_.enabled = false;
-        }
     }
 
-    // ------------------------------------------------------------------ 
-    // Desc: 
-    // ------------------------------------------------------------------ 
+    // DISABLE { 
+    // // ------------------------------------------------------------------ 
+    // // Desc: 
+    // // ------------------------------------------------------------------ 
 
-    void LateUpdate () {
-        if ( updateFlags != UpdateFlags.None ) {
-            Commit();
-            updateFlags = UpdateFlags.None;
-        }
-    }
+    // void LateUpdate () {
+    //     if ( updateFlags != UpdateFlags.None ) {
+    //         Commit();
+    //         updateFlags = UpdateFlags.None;
+    //     }
+    // }
+    // } DISABLE end 
 
     // ------------------------------------------------------------------ 
     /// A virtual for user to override.

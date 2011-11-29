@@ -17,6 +17,7 @@ using System.Collections;
 ///////////////////////////////////////////////////////////////////////////////
 
 [ExecuteInEditMode]
+[RequireComponent (typeof(exSpriteBorder))]
 public class exSpriteBorderAnimHelper : exSpriteBaseAnimHelper {
 
     exSpriteBorder spriteBorder;
@@ -47,6 +48,13 @@ public class exSpriteBorderAnimHelper : exSpriteBaseAnimHelper {
 
     override protected void Update () {
         base.Update();
+        if ( spriteBorder == null ) {
+            spriteBorder = GetComponent<exSpriteBorder>();
+            if ( spriteBorder == null ) {
+                Debug.LogError("Can't find exSpriteBorder Component in GameObject " + gameObject.name);
+                return;
+            }
+        }
 
         if ( lastColor != spriteBorder.color ) {
             lastColor = spriteBorder.color;

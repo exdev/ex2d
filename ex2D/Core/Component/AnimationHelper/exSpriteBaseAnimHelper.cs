@@ -17,6 +17,7 @@ using System.Collections;
 ///////////////////////////////////////////////////////////////////////////////
 
 [ExecuteInEditMode]
+[RequireComponent (typeof(exSpriteBase))]
 public class exSpriteBaseAnimHelper : exAnimationHelper {
 
     exSpriteBase spriteBase;
@@ -42,6 +43,14 @@ public class exSpriteBaseAnimHelper : exAnimationHelper {
     // ------------------------------------------------------------------ 
 
     override protected void Update () {
+        if ( spriteBase == null ) {
+            spriteBase = GetComponent<exSpriteBase>();
+            if ( spriteBase == null ) {
+                Debug.LogError("Can't find exSpriteBase Component in GameObject " + gameObject.name);
+                return;
+            }
+        }
+
         if ( lastScale != spriteBase.scale ) {
             lastScale = spriteBase.scale;
             spriteBase.updateFlags |= exPlane.UpdateFlags.Vertex;

@@ -48,9 +48,25 @@ public class exSpriteFont : exSpriteBase {
         get { return fontInfo_; }
         set {
             if ( fontInfo_ != value ) {
+                bool createMesh = false;
+                if ( fontInfo_ == null && value != null ) {
+                    createMesh = true;
+                }
                 fontInfo_ = value;
-                if ( fontInfo_ != null && fontInfo_.pageInfos.Count == 1 )
+
+                if ( createMesh ) {
+                    meshFilter_.mesh = new Mesh();
+                    updateFlags |= UpdateFlags.Color;
+                }
+
+                if ( fontInfo_ != null && fontInfo_.pageInfos.Count == 1 ) {
                     renderer.sharedMaterial = fontInfo_.pageInfos[0].material;
+                }
+                else {
+                    GameObject.DestroyImmediate( meshFilter_.sharedMesh, true );
+                    meshFilter_.sharedMesh = null; 
+                    renderer.sharedMaterial = null;
+                }
 
                 updateFlags |= UpdateFlags.Text;
             }
@@ -207,8 +223,9 @@ public class exSpriteFont : exSpriteBase {
         set {
             if ( outlineWidth_ != value ) {
                 outlineWidth_ = value;
-                if ( useOutline_ )
+                if ( useOutline_ ) {
                     updateFlags |= UpdateFlags.Vertex;
+                }
             }
         }
     }
@@ -223,8 +240,9 @@ public class exSpriteFont : exSpriteBase {
         set {
             if ( outlineColor_ != value ) {
                 outlineColor_ = value;
-                if ( useOutline_ )
+                if ( useOutline_ ) {
                     updateFlags |= UpdateFlags.Color;
+                }
             }
         }
     }
@@ -256,8 +274,9 @@ public class exSpriteFont : exSpriteBase {
         set {
             if ( shadowBias_ != value ) {
                 shadowBias_ = value;
-                if ( useShadow_ )
+                if ( useShadow_ ) {
                     updateFlags |= UpdateFlags.Vertex;
+                }
             }
         }
     }
@@ -272,8 +291,9 @@ public class exSpriteFont : exSpriteBase {
         set {
             if ( shadowColor_ != value ) {
                 shadowColor_ = value;
-                if ( useShadow_ )
+                if ( useShadow_ ) {
                     updateFlags |= UpdateFlags.Color;
+                }
             }
         }
     }
@@ -315,7 +335,7 @@ public class exSpriteFont : exSpriteBase {
                     }
                     _lineWidths[curLine] = curWidth;
                     curWidth = 0.0f;
-                    height = height + fontInfo_.lineHeight * scale_.y + lineSpacing_;
+                    height = height + fontInfo_.lineHeight + lineSpacing_;
                     ++curLine;
                 }
                 continue;
@@ -352,19 +372,19 @@ public class exSpriteFont : exSpriteBase {
 
         // calculate anchor offset
         switch ( anchor_ ) {
-        case Anchor.TopLeft     : _offsetX = -_halfWidthScaled;  _offsetY = -_halfHeightScaled;  break;
-        case Anchor.TopCenter   : _offsetX = 0.0f;         _offsetY = -_halfHeightScaled;  break;
-        case Anchor.TopRight    : _offsetX = _halfWidthScaled;   _offsetY = -_halfHeightScaled;  break;
+        case Anchor.TopLeft     : _offsetX = -_halfWidthScaled;  _offsetY = -_halfHeightScaled; break;
+        case Anchor.TopCenter   : _offsetX = 0.0f;               _offsetY = -_halfHeightScaled; break;
+        case Anchor.TopRight    : _offsetX = _halfWidthScaled;   _offsetY = -_halfHeightScaled; break;
 
-        case Anchor.MidLeft     : _offsetX = -_halfWidthScaled;  _offsetY = 0.0f;          break;
-        case Anchor.MidCenter   : _offsetX = 0.0f;         _offsetY = 0.0f;          break;
-        case Anchor.MidRight    : _offsetX = _halfWidthScaled;   _offsetY = 0.0f;          break;
+        case Anchor.MidLeft     : _offsetX = -_halfWidthScaled;  _offsetY = 0.0f;               break;
+        case Anchor.MidCenter   : _offsetX = 0.0f;               _offsetY = 0.0f;               break;
+        case Anchor.MidRight    : _offsetX = _halfWidthScaled;   _offsetY = 0.0f;               break;
 
-        case Anchor.BotLeft     : _offsetX = -_halfWidthScaled;  _offsetY = _halfHeightScaled;   break;
-        case Anchor.BotCenter   : _offsetX = 0.0f;         _offsetY = _halfHeightScaled;   break;
-        case Anchor.BotRight    : _offsetX = _halfWidthScaled;   _offsetY = _halfHeightScaled;   break;
+        case Anchor.BotLeft     : _offsetX = -_halfWidthScaled;  _offsetY = _halfHeightScaled;  break;
+        case Anchor.BotCenter   : _offsetX = 0.0f;               _offsetY = _halfHeightScaled;  break;
+        case Anchor.BotRight    : _offsetX = _halfWidthScaled;   _offsetY = _halfHeightScaled;  break;
 
-        default                 : _offsetX = 0.0f;         _offsetY = 0.0f;          break;
+        default                 : _offsetX = 0.0f;               _offsetY = 0.0f;               break;
         }
         _offsetX -= offset_.x;
         _offsetY += offset_.y;
@@ -645,7 +665,7 @@ public class exSpriteFont : exSpriteBase {
                             curX = halfWidthScaled * 2.0f - lineWidths[curLine] * scale_.x;
                             break;
                         }
-                        curY = curY + fontInfo_.lineHeight * scale_.y + lineSpacing_;
+                        curY = curY + (fontInfo_.lineHeight + lineSpacing_) * scale_.y;
                     }
                     continue;
                 }
@@ -709,20 +729,26 @@ public class exSpriteFont : exSpriteBase {
                             y += old_x * shear_.y;
 
                             // build vertices and normals
-                            switch ( plane ) {
-                            case Plane.XY:
-                                vertices[vert_id+j] = new Vector3( x, y, 0.0f );
-                                // normals[vert_id+j] = new Vector3( 0.0f, 0.0f, -1.0f );
-                                break;
-                            case Plane.XZ:
-                                vertices[vert_id+j] = new Vector3( x, 0.0f, y );
-                                // normals[vert_id+j] = new Vector3( 0.0f, 1.0f, 0.0f );
-                                break;
-                            case Plane.ZY:
-                                vertices[vert_id+j] = new Vector3( 0.0f, y, x );
-                                // normals[vert_id+j] = new Vector3( 1.0f, 0.0f, 0.0f );
-                                break;
-                            }
+                            vertices[vert_id+j] = new Vector3( x, y, 0.0f );
+                            // normals[vert_id+j] = new Vector3( 0.0f, 0.0f, -1.0f );
+
+                            // DELME { 
+                            // // build vertices and normals
+                            // switch ( plane ) {
+                            // case Plane.XY:
+                            //     vertices[vert_id+j] = new Vector3( x, y, 0.0f );
+                            //     // normals[vert_id+j] = new Vector3( 0.0f, 0.0f, -1.0f );
+                            //     break;
+                            // case Plane.XZ:
+                            //     vertices[vert_id+j] = new Vector3( x, 0.0f, y );
+                            //     // normals[vert_id+j] = new Vector3( 0.0f, 1.0f, 0.0f );
+                            //     break;
+                            // case Plane.ZY:
+                            //     vertices[vert_id+j] = new Vector3( 0.0f, y, x );
+                            //     // normals[vert_id+j] = new Vector3( 1.0f, 0.0f, 0.0f );
+                            //     break;
+                            // }
+                            // } DELME end 
                         }
                     }
 
@@ -760,7 +786,7 @@ public class exSpriteFont : exSpriteBase {
                     indices[idx_id + 5] = vert_id + 3;
 
                     //
-                    curX = curX + charInfo.xadvance * scale_.x + tracking_;
+                    curX = curX + (charInfo.xadvance + tracking_) * scale_.x;
                     if ( useKerning_ ) {
                         if ( i < text_.Length - 1 ) {
                             curX += kernings[i] * scale_.x;
@@ -863,7 +889,7 @@ public class exSpriteFont : exSpriteBase {
                             curX = halfWidthScaled * 2.0f - lineWidths[curLine] * scale_.x;
                             break;
                         }
-                        curY = curY + fontInfo_.lineHeight * scale_.y + lineSpacing_;
+                        curY = curY + (fontInfo_.lineHeight + lineSpacing_) * scale_.y;
                     }
                     continue;
                 }
@@ -891,22 +917,27 @@ public class exSpriteFont : exSpriteBase {
                             y += x * shear_.y;
 
                             // build vertices
-                            switch ( plane ) {
-                            case Plane.XY:
-                                vertices[vert_id+j] = new Vector3( x, y, 0.0f );
-                                break;
-                            case Plane.XZ:
-                                vertices[vert_id+j] = new Vector3( x, 0.0f, y );
-                                break;
-                            case Plane.ZY:
-                                vertices[vert_id+j] = new Vector3( 0.0f, y, x );
-                                break;
-                            }
+                            vertices[vert_id+j] = new Vector3( x, y, 0.0f );
+
+                            // DELME { 
+                            // // build vertices
+                            // switch ( plane ) {
+                            // case Plane.XY:
+                            //     vertices[vert_id+j] = new Vector3( x, y, 0.0f );
+                            //     break;
+                            // case Plane.XZ:
+                            //     vertices[vert_id+j] = new Vector3( x, 0.0f, y );
+                            //     break;
+                            // case Plane.ZY:
+                            //     vertices[vert_id+j] = new Vector3( 0.0f, y, x );
+                            //     break;
+                            // }
+                            // } DELME end 
                         }
                     }
 
                     //
-                    curX = curX + charInfo.xadvance * scale_.x + tracking_;
+                    curX = curX + (charInfo.xadvance + tracking_) * scale_.x;
                     if ( useKerning_ ) {
                         if ( i < text_.Length - 1 ) {
                             curX += kernings[i] * scale_.x;
@@ -1066,4 +1097,11 @@ public class exSpriteFont : exSpriteBase {
             meshFilter_.sharedMesh = null;
         }
     }
+
+    // // ------------------------------------------------------------------ 
+    // // Desc: 
+    // // ------------------------------------------------------------------ 
+
+    // public Vector2 GetCharPosition ( int _row, int _col, exPlane.Anchor _anchor = exPlane.Anchor.MidCenter ) {
+    // }
 }

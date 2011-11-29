@@ -49,16 +49,18 @@ public class exPixelPerfect : MonoBehaviour {
 
     void Awake () {
         sprite = GetComponent<exSpriteBase>();
-        depthToCamera = 0.0f;
+        depthToCamera = transform.position.z - sprite.renderCamera.transform.position.z;
 
-        //
-        if ( sprite.renderCamera.orthographic == false ) {
-            switch ( sprite.plane ) {
-            case exPlane.Plane.XY: depthToCamera = transform.position.z - sprite.renderCamera.transform.position.z; break;
-            case exPlane.Plane.XZ: depthToCamera = transform.position.y - sprite.renderCamera.transform.position.y; break;
-            case exPlane.Plane.ZY: depthToCamera = transform.position.x - sprite.renderCamera.transform.position.x; break;
-            }
-        }
+        // DELME { 
+        // //
+        // if ( sprite.renderCamera.orthographic == false ) {
+        //     switch ( sprite.plane ) {
+        //     case exPlane.Plane.XY: depthToCamera = transform.position.z - sprite.renderCamera.transform.position.z; break;
+        //     case exPlane.Plane.XZ: depthToCamera = transform.position.y - sprite.renderCamera.transform.position.y; break;
+        //     case exPlane.Plane.ZY: depthToCamera = transform.position.x - sprite.renderCamera.transform.position.x; break;
+        //     }
+        // }
+        // } DELME end 
 
         //
         ppfCamera = sprite.renderCamera.GetComponent<exPixelPerfectCamera>();
@@ -85,12 +87,16 @@ public class exPixelPerfect : MonoBehaviour {
 
     void Update () {
         if ( sprite.renderCamera.orthographic == false ) {
-            float depth = 0.0f;
-            switch ( sprite.plane ) {
-            case exPlane.Plane.XY: depth = transform.position.z - sprite.renderCamera.transform.position.z; break;
-            case exPlane.Plane.XZ: depth = transform.position.y - sprite.renderCamera.transform.position.y; break;
-            case exPlane.Plane.ZY: depth = transform.position.x - sprite.renderCamera.transform.position.x; break;
-            }
+            float depth = transform.position.z - sprite.renderCamera.transform.position.z;
+
+            // DELME { 
+            // switch ( sprite.plane ) {
+            // case exPlane.Plane.XY: depth = transform.position.z - sprite.renderCamera.transform.position.z; break;
+            // case exPlane.Plane.XZ: depth = transform.position.y - sprite.renderCamera.transform.position.y; break;
+            // case exPlane.Plane.ZY: depth = transform.position.x - sprite.renderCamera.transform.position.x; break;
+            // }
+            // } DELME end 
+
             if ( depth != depthToCamera ) {
                 depthToCamera = depth;
 

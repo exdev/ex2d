@@ -18,9 +18,9 @@ using System.Collections;
 // } DISABLE end 
 
 ///////////////////////////////////////////////////////////////////////////////
-///
-/// The base layer class
-///
+//
+// The base layer class
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 // DISABLE { 
@@ -29,21 +29,21 @@ using System.Collections;
 public class exLayer2D : MonoBehaviour {
 
     // ------------------------------------------------------------------ 
-    /// \memberof MAX_LAYER
+    // \memberof MAX_LAYER
     // ------------------------------------------------------------------ 
 
     public static int MAX_LAYER = 32;
 
     // ------------------------------------------------------------------ 
     [SerializeField] protected int layer_ = 0;
-    /// layer is a value from 0 to exLayer2D.MAX_LAYER
+    // layer is a value from 0 to exLayer2D.MAX_LAYER
     // ------------------------------------------------------------------ 
 
     public int layer { get { return layer_; } }
 
     // ------------------------------------------------------------------ 
     [SerializeField] protected float bias_ = 0.0f;
-    /// bias is a value from 0.0f to 1.0f
+    // bias is a value from 0.0f to 1.0f
     // ------------------------------------------------------------------ 
 
     public float bias { get { return bias_; } }
@@ -68,7 +68,7 @@ public class exLayer2D : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////////////////
 
     // ------------------------------------------------------------------ 
-    /// the cached plane
+    // the cached plane
     // ------------------------------------------------------------------ 
 
     [System.NonSerialized] public exPlane plane;
@@ -123,9 +123,9 @@ public class exLayer2D : MonoBehaviour {
 // } DISABLE end 
 
     // ------------------------------------------------------------------ 
-    /// \param _layer the expect layer
-    /// \param _bias the expect bias
-    /// set the layer and bias of the sprite
+    // \param _layer the expect layer
+    // \param _bias the expect bias
+    // set the layer and bias of the sprite
     // ------------------------------------------------------------------ 
 
     public void SetLayer ( int _layer, float _bias ) {
@@ -140,9 +140,9 @@ public class exLayer2D : MonoBehaviour {
     }
 
     // ------------------------------------------------------------------ 
-    /// \param _layer the expect layer
-    /// \param _bias the expect bias
-    /// force set the layer and bias of the sprite
+    // \param _layer the expect layer
+    // \param _bias the expect bias
+    // force set the layer and bias of the sprite
     // ------------------------------------------------------------------ 
 
     public void ForceSetLayer ( int _layer, float _bias ) {
@@ -153,7 +153,7 @@ public class exLayer2D : MonoBehaviour {
     }
 
     // ------------------------------------------------------------------ 
-    /// Calculate and update the depth manually, useful in editor
+    // Calculate and update the depth manually, useful in editor
     // ------------------------------------------------------------------ 
 
     public void UpdateDepth () {
@@ -170,7 +170,7 @@ public class exLayer2D : MonoBehaviour {
 
 
     // ------------------------------------------------------------------ 
-    /// recursively update the transform depth in child layers 
+    // recursively update the transform depth in child layers 
     // ------------------------------------------------------------------ 
 
     public void RecursivelyUpdateTransformDepth () {
@@ -185,7 +185,7 @@ public class exLayer2D : MonoBehaviour {
     }
 
     // ------------------------------------------------------------------ 
-    /// recursively update child layers, this will recalculate depth, and update the transform
+    // recursively update child layers, this will recalculate depth, and update the transform
     // ------------------------------------------------------------------ 
 
     public void RecursivelyUpdateLayer () {

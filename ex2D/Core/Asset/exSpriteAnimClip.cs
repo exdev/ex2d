@@ -141,7 +141,6 @@ public class exSpriteAnimClip : ScriptableObject {
     public bool editorNeedRebuild = false; ///< check if the sprite animation clip need rebuild
 
     private EventInfoComparer eventInfoComparer = new EventInfoComparer();
-    private EventInfo tmpEventInfo = new EventInfo();
 
     ///////////////////////////////////////////////////////////////////////////////
     // functions
@@ -196,103 +195,94 @@ public class exSpriteAnimClip : ScriptableObject {
     }
 
     // ------------------------------------------------------------------ 
-    /// \param _gameObject send message to target _gameObject
+    /// \param _spAnim send message to target _spAnim.gameObject
+    /// \param _lastAnim last animation state
+    /// \param _lastIndex last triggered event info index (-1 means from start)
     /// \param _start the start time in seconds 
     /// \param _delta the delta time in seconds
     /// \param _wrapMode  the wrap mode
+    /// \return return the last triggered event index
     /// Trigger events locate between the start and start+_delta time span
     // ------------------------------------------------------------------ 
 
-    public void TriggerEvents ( GameObject _gameObject, 
-                                float _start, 
-                                float _delta, 
-                                WrapMode _wrapMode ) 
+    public int TriggerEvents ( exSpriteAnimation _spAnim, 
+                               exSpriteAnimState _lastAnim,
+                               int _lastIndex,
+                               float _start, 
+                               float _delta, 
+                               WrapMode _wrapMode ) 
     {
         if ( eventInfos.Count == 0 )
-            return;
+            return -1;
         if ( _delta == 0.0f )
-            return;
-
-        int index = 0;
+            return -1;
 
         // WrapSeconds
         float t = WrapSeconds(_start,_wrapMode); 
 
-        // start index
-        tmpEventInfo.time = t;
-        index = eventInfos.BinarySearch( tmpEventInfo, eventInfoComparer );
-        if ( index < 0 )
-            index = ~index;
+        // if we are the just start playing
+        if ( _lastIndex == -1 ) {
+            return ForwardTriggerEvents ( _spAnim, _lastAnim, -1, t, t + _delta, true );
+        }
 
-        // forward
+        //
+        if ( _wrapMode == WrapMode.PingPong ) {
+            int cnt = (int)(_start/length);
+            if ( cnt % 2 == 1 )
+                _delta = -_delta; 
+        }
+
+        // if we are play forward
         if ( _delta > 0.0f ) {
             if ( t + _delta > length ) {
-                float rest = t + _delta - length;
                 if ( _wrapMode == WrapMode.Loop ) {
-                    ForwardTriggerEvents ( _gameObject, index, t, length, false );
-                        tmpEventInfo.time = 0.0f;
-                        index = eventInfos.BinarySearch( tmpEventInfo, eventInfoComparer );
-                        if ( index < 0 )
-                            index = ~index;
-                    ForwardTriggerEvents ( _gameObject, index, 0.0f, rest, true );
+                    float rest = t + _delta - length;
+                    ForwardTriggerEvents ( _spAnim, _lastAnim, _lastIndex, t, length, false );
+                    exSpriteAnimState curAnim = _spAnim.GetCurrentAnimation();
+                    if ( curAnim == null || _lastAnim != curAnim )
+                        return -1;
+                    return ForwardTriggerEvents ( _spAnim, _lastAnim, -1, 0.0f, rest, true );
                 }
                 else if ( _wrapMode == WrapMode.PingPong ) {
-                    // FIXME: it looks like the backward trigger didn't work at all { 
-                    int cnt = (int)(_start/length);
-                    if ( cnt % 2 == 1 ) {
-                        BackwardTriggerEvents ( _gameObject, index, t, 0.0f, false );
-                            tmpEventInfo.time = 0.0f;
-                            index = eventInfos.BinarySearch( tmpEventInfo, eventInfoComparer );
-                            if ( index < 0 )
-                                index = ~index;
-                        ForwardTriggerEvents ( _gameObject, index, 0.0f, rest, false );
-                    }
-                    else {
-                        ForwardTriggerEvents ( _gameObject, index, t, length, false );
-                            tmpEventInfo.time = length;
-                            index = eventInfos.BinarySearch( tmpEventInfo, eventInfoComparer );
-                            if ( index < 0 )
-                                index = ~index;
-                        BackwardTriggerEvents ( _gameObject, index, length, length - rest, false );
-                    }
-                    // } FIXME end 
+                    float rest = t + _delta - length;
+                    ForwardTriggerEvents ( _spAnim, _lastAnim, _lastIndex, t, length, false );
+                    exSpriteAnimState curAnim = _spAnim.GetCurrentAnimation();
+                    if ( curAnim == null || _lastAnim != curAnim )
+                        return -1;
+                    return BackwardTriggerEvents ( _spAnim, _lastAnim, eventInfos.Count, length, length - rest, false );
                 }
                 else {
-                    ForwardTriggerEvents ( _gameObject, index, t, t + _delta, false );
+                    return ForwardTriggerEvents ( _spAnim, _lastAnim, _lastIndex, t, t + _delta, false );
                 }
             }
             else {
-                ForwardTriggerEvents ( _gameObject, index, t, t + _delta, true );
+                return ForwardTriggerEvents ( _spAnim, _lastAnim, _lastIndex, t, t + _delta, false );
             }
         }
-        // backward
         else {
             if ( t + _delta < 0.0f ) {
-                float rest = 0.0f - (t + _delta);
                 if ( _wrapMode == WrapMode.Loop ) {
-                    BackwardTriggerEvents ( _gameObject, index, t, 0.0f, false );
-                        tmpEventInfo.time = length;
-                        index = eventInfos.BinarySearch( tmpEventInfo, eventInfoComparer );
-                        if ( index < 0 )
-                            index = ~index;
-                    BackwardTriggerEvents ( _gameObject, index, length, length - rest, true );
+                    float rest = 0.0f - (t + _delta);
+                    BackwardTriggerEvents ( _spAnim, _lastAnim, _lastIndex, t, 0.0f, false );
+                    exSpriteAnimState curAnim = _spAnim.GetCurrentAnimation();
+                    if ( curAnim == null || _lastAnim != curAnim )
+                        return -1;
+                    return BackwardTriggerEvents ( _spAnim, _lastAnim, eventInfos.Count, length, length - rest, true );
                 }
                 else if ( _wrapMode == WrapMode.PingPong ) {
-                    // FIXME { 
-                    BackwardTriggerEvents ( _gameObject, index, t, 0.0f, false );
-                        tmpEventInfo.time = 0.0f;
-                        index = eventInfos.BinarySearch( tmpEventInfo, eventInfoComparer );
-                        if ( index < 0 )
-                            index = ~index;
-                    ForwardTriggerEvents ( _gameObject, index, 0.0f, rest, false );
-                    // } FIXME end 
+                    float rest = 0.0f - (t + _delta);
+                    BackwardTriggerEvents ( _spAnim, _lastAnim, _lastIndex, t, 0.0f, false );
+                    exSpriteAnimState curAnim = _spAnim.GetCurrentAnimation();
+                    if ( curAnim == null || _lastAnim != curAnim )
+                        return -1;
+                    return ForwardTriggerEvents ( _spAnim, _lastAnim, -1, 0.0f, rest, false );
                 }
                 else {
-                    BackwardTriggerEvents ( _gameObject, index, t, t + _delta, false );
+                    return BackwardTriggerEvents ( _spAnim, _lastAnim, _lastIndex, t, t + _delta, false );
                 }
             }
             else {
-                BackwardTriggerEvents ( _gameObject, index, t, t + _delta, true );
+                return BackwardTriggerEvents ( _spAnim, _lastAnim, _lastIndex, t, t + _delta, false );
             }
         }
     }
@@ -301,77 +291,102 @@ public class exSpriteAnimClip : ScriptableObject {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void ForwardTriggerEvents ( GameObject _gameObject, 
+    int ForwardTriggerEvents ( exSpriteAnimation _spAnim, 
+                               exSpriteAnimState _lastAnim,
+                               int _index, 
+                               float _start, 
+                               float _end, 
+                               bool _includeStart ) 
+    {
+        int idx = _index;
+        exSpriteAnimState curAnim = _spAnim.GetCurrentAnimation();
+        for ( int i = _index+1; i < eventInfos.Count; ++i ) {
+            EventInfo ei = eventInfos[i];
+
+            if ( ei.time == _start && _includeStart == false ) {
+                idx = i;
+                continue;
+            }
+
+            if ( ei.time <= _end ) {
+                Trigger ( _spAnim, ei );
+                if ( curAnim == null || _lastAnim != curAnim )
+                    return -1;
+                idx = i;
+            }
+            else {
+                break;
+            }
+        }
+        return idx;
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    int BackwardTriggerEvents ( exSpriteAnimation _spAnim, 
+                                exSpriteAnimState _lastAnim,
                                 int _index, 
                                 float _start, 
                                 float _end,
-                                bool _includeStart ) 
+                                bool _includeStart )
     {
-        for ( int i = _index; i < eventInfos.Count; ++i ) {
-            EventInfo ei = eventInfos[i];
-            if ( ei.time == _start && _includeStart == false )
-                continue;
-
-            if ( ei.time <= _end ) {
-                Trigger ( _gameObject, ei );
-            }
-        }
-    }
-
-    // ------------------------------------------------------------------ 
-    // Desc: 
-    // ------------------------------------------------------------------ 
-
-    void BackwardTriggerEvents ( GameObject _gameObject, 
-                                 int _index, 
-                                 float _start, 
-                                 float _end,
-                                 bool _includeStart )
-    {
+        int idx = _index;
+        exSpriteAnimState curAnim = _spAnim.GetCurrentAnimation();
         for ( int i = _index-1; i >= 0; --i ) {
             EventInfo ei = eventInfos[i];
-            if ( ei.time == _start && _includeStart == false )
+
+            if ( ei.time == _start && _includeStart == false ) {
+                idx = i;
                 continue;
+            }
 
             if ( ei.time >= _end ) {
-                Trigger ( _gameObject, ei );
+                Trigger ( _spAnim, ei );
+                if ( curAnim == null || _lastAnim != curAnim )
+                    return -1;
+                idx = i;
+            }
+            else {
+                break;
             }
         }
+        return idx;
     }
 
     // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void Trigger ( GameObject _gameObject, 
-                   EventInfo _eventInfo ) {
+    void Trigger ( exSpriteAnimation _spAnim, EventInfo _eventInfo ) {
 
         if ( _eventInfo.methodName == "" )
             return;
 
         switch ( _eventInfo.paramType ) {
         case EventInfo.ParamType.NONE:
-            _gameObject.SendMessage ( _eventInfo.methodName, _eventInfo.msgOptions );
+            _spAnim.SendMessage ( _eventInfo.methodName, _eventInfo.msgOptions );
             break;
 
         case EventInfo.ParamType.STRING:
-            _gameObject.SendMessage ( _eventInfo.methodName, _eventInfo.stringParam, _eventInfo.msgOptions );
+            _spAnim.SendMessage ( _eventInfo.methodName, _eventInfo.stringParam, _eventInfo.msgOptions );
             break;
 
         case EventInfo.ParamType.FLOAT:
-            _gameObject.SendMessage ( _eventInfo.methodName, _eventInfo.floatParam, _eventInfo.msgOptions );
+            _spAnim.SendMessage ( _eventInfo.methodName, _eventInfo.floatParam, _eventInfo.msgOptions );
             break;
 
         case EventInfo.ParamType.INT:
-            _gameObject.SendMessage ( _eventInfo.methodName, _eventInfo.intParam, _eventInfo.msgOptions );
+            _spAnim.SendMessage ( _eventInfo.methodName, _eventInfo.intParam, _eventInfo.msgOptions );
             break;
 
         case EventInfo.ParamType.BOOL:
-            _gameObject.SendMessage ( _eventInfo.methodName, _eventInfo.boolParam, _eventInfo.msgOptions );
+            _spAnim.SendMessage ( _eventInfo.methodName, _eventInfo.boolParam, _eventInfo.msgOptions );
             break;
 
         case EventInfo.ParamType.OBJECT:
-            _gameObject.SendMessage ( _eventInfo.methodName, _eventInfo.objectParam, _eventInfo.msgOptions );
+            _spAnim.SendMessage ( _eventInfo.methodName, _eventInfo.objectParam, _eventInfo.msgOptions );
             break;
         }
     }

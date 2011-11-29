@@ -419,53 +419,70 @@ public class exSprite : exSpriteBase {
             float yMaxClip = scale_.y * height_ * (  0.5f - clipBottom );
 
             // build vertices & normals
-            switch ( plane ) {
-            case Plane.XY:
-                for ( int r = 0; r < 2; ++r ) {
-                    for ( int c = 0; c < 2; ++c ) {
-                        int i = r * 2 + c;
-                        float x, y;
-                        CalculateVertex( out x, out y,
-                                         width_ * scale_.x, height_ * scale_.y,
-                                         c, r, 
-                                         xMinClip, xMaxClip, yMinClip, yMaxClip, 
-                                         offsetX, offsetY );
-                        vertices[i] = new Vector3( x, y, 0.0f );
-                        normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
-                    }
+            for ( int r = 0; r < 2; ++r ) {
+                for ( int c = 0; c < 2; ++c ) {
+                    int i = r * 2 + c;
+                    float x, y;
+                    CalculateVertex( out x, out y,
+                                     width_ * scale_.x, height_ * scale_.y,
+                                     c, r, 
+                                     xMinClip, xMaxClip, yMinClip, yMaxClip, 
+                                     offsetX, offsetY );
+                    vertices[i] = new Vector3( x, y, 0.0f );
+                    normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
                 }
-                break;
-            case Plane.XZ:
-                for ( int r = 0; r < 2; ++r ) {
-                    for ( int c = 0; c < 2; ++c ) {
-                        int i = r * 2 + c;
-                        float x, y;
-                        CalculateVertex( out x, out y,
-                                         width_ * scale_.x, height_ * scale_.y,
-                                         c, r, 
-                                         xMinClip, xMaxClip, yMinClip, yMaxClip, 
-                                         offsetX, offsetY );
-                        vertices[i] = new Vector3( x, 0.0f, y );
-                        normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
-                    }
-                }
-                break;
-            case Plane.ZY:
-                for ( int r = 0; r < 2; ++r ) {
-                    for ( int c = 0; c < 2; ++c ) {
-                        int i = r * 2 + c;
-                        float x, y;
-                        CalculateVertex( out x, out y,
-                                         width_ * scale_.x, height_ * scale_.y,
-                                         c, r, 
-                                         xMinClip, xMaxClip, yMinClip, yMaxClip, 
-                                         offsetX, offsetY );
-                        vertices[i] = new Vector3( 0.0f, y, x );
-                        normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
-                    }
-                }
-                break;
             }
+
+            // DELME { 
+            // switch ( plane ) {
+            // case Plane.XY:
+            //     for ( int r = 0; r < 2; ++r ) {
+            //         for ( int c = 0; c < 2; ++c ) {
+            //             int i = r * 2 + c;
+            //             float x, y;
+            //             CalculateVertex( out x, out y,
+            //                              width_ * scale_.x, height_ * scale_.y,
+            //                              c, r, 
+            //                              xMinClip, xMaxClip, yMinClip, yMaxClip, 
+            //                              offsetX, offsetY );
+            //             vertices[i] = new Vector3( x, y, 0.0f );
+            //             normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
+            //         }
+            //     }
+            //     break;
+            // case Plane.XZ:
+            //     for ( int r = 0; r < 2; ++r ) {
+            //         for ( int c = 0; c < 2; ++c ) {
+            //             int i = r * 2 + c;
+            //             float x, y;
+            //             CalculateVertex( out x, out y,
+            //                              width_ * scale_.x, height_ * scale_.y,
+            //                              c, r, 
+            //                              xMinClip, xMaxClip, yMinClip, yMaxClip, 
+            //                              offsetX, offsetY );
+            //             vertices[i] = new Vector3( x, 0.0f, y );
+            //             normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
+            //         }
+            //     }
+            //     break;
+            // case Plane.ZY:
+            //     for ( int r = 0; r < 2; ++r ) {
+            //         for ( int c = 0; c < 2; ++c ) {
+            //             int i = r * 2 + c;
+            //             float x, y;
+            //             CalculateVertex( out x, out y,
+            //                              width_ * scale_.x, height_ * scale_.y,
+            //                              c, r, 
+            //                              xMinClip, xMaxClip, yMinClip, yMaxClip, 
+            //                              offsetX, offsetY );
+            //             vertices[i] = new Vector3( 0.0f, y, x );
+            //             normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
+            //         }
+            //     }
+            //     break;
+            // }
+            // } DELME end 
+
             _mesh.vertices = vertices;
             _mesh.normals = normals; // TEMP
             _mesh.bounds = GetMeshBounds ( offsetX, offsetY, halfWidthScaled * 2.0f, halfHeightScaled * 2.0f );
@@ -613,9 +630,6 @@ public class exSprite : exSpriteBase {
         if ( spanim == null ) {
             spanim = GetComponent<exSpriteAnimation>(); 
         }
-        if ( spanim ) {
-            spanim.enabled = true;
-        }
     }
 
     // ------------------------------------------------------------------ 
@@ -630,7 +644,6 @@ public class exSprite : exSpriteBase {
             spanim = GetComponent<exSpriteAnimation>(); 
         }
         if ( spanim ) {
-            spanim.enabled = false;
             spanim.Stop();
         }
     }
@@ -727,6 +740,7 @@ public class exSprite : exSpriteBase {
 
     public void SetSprite ( exAtlas _atlas, int _index ) {
         bool checkVertex = false;
+        bool createMesh = false;
 
         // pre-check
         if ( _atlas == null || 
@@ -736,6 +750,11 @@ public class exSprite : exSpriteBase {
         {
             Debug.LogWarning ( "Invalid input in SetSprite. atlas = " + (_atlas ? _atlas.name : "null") + ", index = " + _index );
             return;
+        }
+
+        // it is possible that the atlas is null and we don't have mesh
+        if ( atlas_ == null ) {
+            createMesh = true;
         }
 
         //
@@ -754,7 +773,7 @@ public class exSprite : exSpriteBase {
         }
 
         //
-        if ( checkVertex  ) {
+        if ( checkVertex ) {
 
             // NOTE: if we use texture offset, it always need to update vertex
             if ( useTextureOffset_ ) {
@@ -780,6 +799,19 @@ public class exSprite : exSpriteBase {
                     height_ = newHeight;
                     updateFlags |= UpdateFlags.Vertex;
                 }
+            }
+        }
+
+        //
+        if ( createMesh ) {
+            // create mesh ( in editor, this can duplicate mesh to prevent shared mesh for sprite)
+            meshFilter_.mesh = new Mesh();
+            updateFlags = UpdateFlags.Vertex | UpdateFlags.UV | UpdateFlags.Color | UpdateFlags.Index;
+
+            // check if update mesh collider
+            MeshCollider meshCollider = collider as MeshCollider;  
+            if ( meshCollider && meshCollider.sharedMesh == null ) {
+                this.UpdateColliderSize(0.2f);
             }
         }
     }

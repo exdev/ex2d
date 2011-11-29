@@ -17,6 +17,7 @@ using System.Collections;
 ///////////////////////////////////////////////////////////////////////////////
 
 [ExecuteInEditMode]
+[RequireComponent (typeof(exSprite))]
 public class exSpriteAnimHelper : exSpriteBaseAnimHelper {
 
     exSprite sprite;
@@ -47,6 +48,13 @@ public class exSpriteAnimHelper : exSpriteBaseAnimHelper {
 
     override protected void Update () {
         base.Update();
+        if ( sprite == null ) {
+            sprite = GetComponent<exSprite>();
+            if ( sprite == null ) {
+                Debug.LogError("Can't find exSprite Component in GameObject " + gameObject.name);
+                return;
+            }
+        }
 
         if ( lastColor != sprite.color ) {
             lastColor = sprite.color;

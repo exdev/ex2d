@@ -17,6 +17,7 @@ using System.Collections;
 ///////////////////////////////////////////////////////////////////////////////
 
 [ExecuteInEditMode]
+[RequireComponent (typeof(exSpriteFont))]
 public class exSpriteFontAnimHelper : exSpriteBaseAnimHelper {
 
     exSpriteFont spriteFont;
@@ -53,6 +54,13 @@ public class exSpriteFontAnimHelper : exSpriteBaseAnimHelper {
 
     override protected void Update () {
         base.Update();
+        if ( spriteFont == null ) {
+            spriteFont = GetComponent<exSpriteFont>();
+            if ( spriteFont == null ) {
+                Debug.LogError("Can't find exSpriteBorder Component in GameObject " + gameObject.name);
+                return;
+            }
+        }
 
         //
         if ( lastTopColor != spriteFont.topColor ) {

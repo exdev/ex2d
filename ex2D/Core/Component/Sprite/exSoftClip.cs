@@ -37,7 +37,7 @@ public class exSoftClip : exPlane {
         get { return width_; }
         set {
             if ( width_ != value ) {
-                width_ = value;
+                width_ = Mathf.Max(value, 0.0f);
                 updateFlags |= UpdateFlags.Vertex;
             }
         }
@@ -52,7 +52,7 @@ public class exSoftClip : exPlane {
         get { return height_; }
         set {
             if ( height_ != value ) {
-                height_ = value;
+                height_ = Mathf.Max(value, 0.0f);
                 updateFlags |= UpdateFlags.Vertex;
             }
         }
@@ -114,10 +114,8 @@ public class exSoftClip : exPlane {
 
     override protected void Awake () {
         base.Awake();
-
         updateFlags |= UpdateFlags.Vertex;
-        Commit ();
-        updateFlags = UpdateFlags.None;
+        Commit();
     }
 
     // ------------------------------------------------------------------ 
@@ -195,30 +193,49 @@ public class exSoftClip : exPlane {
             else {
                 clippedRect = boundingRect;
             }
+
+            if ( collisionHelper ) 
+                collisionHelper.UpdateCollider();
         }
+
+        //
+        updateFlags = UpdateFlags.None;
     }
 
     // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void Update () {
+    void LateUpdate () {
+        UpdateClipInfo ();
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    void UpdateClipInfo () {
         //
         Rect a = clippedRect;
-        switch ( plane ) {
-        case exSprite.Plane.XY:
-            a.x += transform.position.x;
-            a.y += transform.position.y;
-            break;
-        case exSprite.Plane.XZ:
-            a.x += transform.position.x;
-            a.y += transform.position.z;
-            break;
-        case exSprite.Plane.ZY:
-            a.x += transform.position.z;
-            a.y += transform.position.y;
-            break;
-        }
+        a.x += transform.position.x;
+        a.y += transform.position.y;
+
+        // DELME { 
+        // switch ( plane ) {
+        // case exSprite.Plane.XY:
+        //     a.x += transform.position.x;
+        //     a.y += transform.position.y;
+        //     break;
+        // case exSprite.Plane.XZ:
+        //     a.x += transform.position.x;
+        //     a.y += transform.position.z;
+        //     break;
+        // case exSprite.Plane.ZY:
+        //     a.x += transform.position.z;
+        //     a.y += transform.position.y;
+        //     break;
+        // }
+        // } DELME end 
 
         //
         for ( int i = 0; i < planes.Count; ++i ) {
@@ -233,20 +250,25 @@ public class exSoftClip : exPlane {
 
             //
             Rect b = p.boundingRect;
-            switch ( plane ) {
-            case exSprite.Plane.XY:
-                b.x += p.transform.position.x;
-                b.y += p.transform.position.y;
-                break;
-            case exSprite.Plane.XZ:
-                b.x += p.transform.position.x;
-                b.y += p.transform.position.z;
-                break;
-            case exSprite.Plane.ZY:
-                b.x += p.transform.position.z;
-                b.y += p.transform.position.y;
-                break;
-            }
+            b.x += p.transform.position.x;
+            b.y += p.transform.position.y;
+
+            // DELME { 
+            // switch ( plane ) {
+            // case exSprite.Plane.XY:
+            //     b.x += p.transform.position.x;
+            //     b.y += p.transform.position.y;
+            //     break;
+            // case exSprite.Plane.XZ:
+            //     b.x += p.transform.position.x;
+            //     b.y += p.transform.position.z;
+            //     break;
+            // case exSprite.Plane.ZY:
+            //     b.x += p.transform.position.z;
+            //     b.y += p.transform.position.y;
+            //     break;
+            // }
+            // } DELME end 
 
             //
             if ( a.xMin > b.xMin ) {
@@ -303,20 +325,27 @@ public class exSoftClip : exPlane {
         //
         float x = offset_.x - offsetX;
         float y = offset_.y + offsetY;
-        switch ( plane ) {
-        case exPlane.Plane.XY:
-            center_v3 += new Vector3( x, y, 0.0f );
-            size_v3 = new Vector3 ( width_, height_, 0.0f );
-            break;
-        case exPlane.Plane.XZ:
-            center_v3 += new Vector3( x, 0.0f, y );
-            size_v3 = new Vector3 ( width_, 0.0f, height_ );
-            break;
-        case exPlane.Plane.ZY:
-            center_v3 += new Vector3( 0.0f, y, x );
-            size_v3 = new Vector3 ( 0.0f, height_, width_ );
-            break;
-        }
+
+        center_v3 += new Vector3( x, y, 0.0f );
+        size_v3 = new Vector3 ( width_, height_, 0.0f );
+
+        // DELME { 
+        // switch ( plane ) {
+        // case exPlane.Plane.XY:
+        //     center_v3 += new Vector3( x, y, 0.0f );
+        //     size_v3 = new Vector3 ( width_, height_, 0.0f );
+        //     break;
+        // case exPlane.Plane.XZ:
+        //     center_v3 += new Vector3( x, 0.0f, y );
+        //     size_v3 = new Vector3 ( width_, 0.0f, height_ );
+        //     break;
+        // case exPlane.Plane.ZY:
+        //     center_v3 += new Vector3( 0.0f, y, x );
+        //     size_v3 = new Vector3 ( 0.0f, height_, width_ );
+        //     break;
+        // }
+        // } DELME end 
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube ( center_v3, size_v3 );
         // Gizmos.color = new Color ( 1.0f, 1.0f, 0.0f, 0.0001f ); // this is very hack

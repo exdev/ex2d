@@ -125,27 +125,9 @@ public static class ex2DExtension {
             break;
         }
 
-        // ======================================================== 
-        // plane
-        // ======================================================== 
-
-        switch ( _plane.plane ) {
-        case exPlane.Plane.XY:
-            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, _camera.nearClipPlane) );
-            result.z = _plane.transform.position.z;
-            break;
-
-        case exPlane.Plane.XZ:
-            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, _camera.nearClipPlane) );
-            result.y = _plane.transform.position.y;
-            break;
-
-        case exPlane.Plane.ZY:
-            result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, _camera.nearClipPlane) );
-            result.x = _plane.transform.position.x;
-            break;
-        }
-
+        //
+        result = _camera.ScreenToWorldPoint( new Vector3(offsetX, offsetY, _plane.transform.position.z) );
+        result.z = _plane.transform.position.z;
         return result;
     }
 
@@ -165,22 +147,8 @@ public static class ex2DExtension {
     {
         Vector3 result = Vector3.zero;
 
-        switch ( _plane.plane ) {
-        case exPlane.Plane.XY:
-            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, _camera.nearClipPlane) );
-            result.z = _plane.transform.position.z;
-            break;
-
-        case exPlane.Plane.XZ:
-            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, _camera.nearClipPlane) );
-            result.y = _plane.transform.position.y;
-            break;
-
-        case exPlane.Plane.ZY:
-            result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, _camera.nearClipPlane) );
-            result.x = _plane.transform.position.x;
-            break;
-        }
+        result = _camera.ViewportToWorldPoint( new Vector3(_viewport_x, _viewport_y, _plane.transform.position.z) );
+        result.z = _plane.transform.position.z;
 
         return result; 
     }
@@ -196,19 +164,23 @@ public static class ex2DExtension {
                                    float _dx, 
                                    float _dy )
     {
-        switch ( _plane.plane ) {
-        case exPlane.Plane.XY:
-            _plane.transform.Translate ( _dx, _dy, 0.0f );
-            break;
+        _plane.transform.Translate ( _dx, _dy, 0.0f );
 
-        case exPlane.Plane.XZ:
-            _plane.transform.Translate ( _dx, 0.0f, _dy );
-            break;
+        // DELME { 
+        // switch ( _plane.plane ) {
+        // case exPlane.Plane.XY:
+        //     _plane.transform.Translate ( _dx, _dy, 0.0f );
+        //     break;
 
-        case exPlane.Plane.ZY:
-            _plane.transform.Translate ( 0.0f, _dy, _dx );
-            break;
-        }
+        // case exPlane.Plane.XZ:
+        //     _plane.transform.Translate ( _dx, 0.0f, _dy );
+        //     break;
+
+        // case exPlane.Plane.ZY:
+        //     _plane.transform.Translate ( 0.0f, _dy, _dx );
+        //     break;
+        // }
+        // } DELME end 
     }
 
     // ------------------------------------------------------------------ 
@@ -218,38 +190,50 @@ public static class ex2DExtension {
     // ------------------------------------------------------------------ 
 
     public static void UpdateColliderSize ( this exPlane _plane, float _length ) {
-        Mesh mesh = _plane.meshFilter.sharedMesh;
         Collider collider = _plane.collider;
 
         // update box collider
         if ( collider is BoxCollider ) {
             BoxCollider boxCollider = collider as BoxCollider;
-            boxCollider.center = mesh.bounds.center;
-            boxCollider.size = mesh.bounds.size;
+            Rect boundingRect = _plane.boundingRect;
+            float center_x = _plane.boundingRect.x + _plane.boundingRect.width * 0.5f; 
+            float center_y = _plane.boundingRect.y + _plane.boundingRect.height * 0.5f; 
 
-            switch ( _plane.plane ) {
-            case exSprite.Plane.XY:
-                boxCollider.size = new Vector3( mesh.bounds.size.x, mesh.bounds.size.y, _length );
-                break;
+            boxCollider.center = new Vector3 ( center_x, center_y, boxCollider.center.z );
+            boxCollider.size = new Vector3( boundingRect.width, boundingRect.height, _length );
 
-            case exSprite.Plane.XZ:
-                boxCollider.size = new Vector3( mesh.bounds.size.x, _length, mesh.bounds.size.z );
-                break;
+            // DELME { 
+            // switch ( _plane.plane ) {
+            // case exSprite.Plane.XY:
+            //     boxCollider.center = new Vector3 ( center_x, center_y, boxCollider.center.z );
+            //     boxCollider.size = new Vector3( boundingRect.width, boundingRect.height, _length );
+            //     break;
 
-            case exSprite.Plane.ZY:
-                boxCollider.size = new Vector3( _length, mesh.bounds.size.y, mesh.bounds.size.z );
-                break;
-            }
+            // case exSprite.Plane.XZ:
+            //     boxCollider.center = new Vector3 ( center_x, boxCollider.center.y, center_y );
+            //     boxCollider.size = new Vector3( boundingRect.width, _length, boundingRect.height );
+            //     break;
+
+            // case exSprite.Plane.ZY:
+            //     boxCollider.center = new Vector3 ( boxCollider.center.x, center_y, center_x );
+            //     boxCollider.size = new Vector3( _length, boundingRect.height, boundingRect.width );
+            //     break;
+            // }
+            // } DELME end 
 
             return;
         }
 
         // update mesh collider
         if ( collider is MeshCollider ) {
-            MeshCollider meshCollider = collider as MeshCollider;
-            // NOTE: only in this way, mesh collider changes
-            meshCollider.sharedMesh = null;
-            meshCollider.sharedMesh = mesh;
+            MeshFilter meshFilter = _plane.meshFilter;
+            if ( meshFilter ) {
+                Mesh mesh = meshFilter.sharedMesh;
+                MeshCollider meshCollider = collider as MeshCollider;
+                // NOTE: only in this way, mesh collider changes
+                meshCollider.sharedMesh = null;
+                meshCollider.sharedMesh = mesh;
+            }
             return;
         }
     }

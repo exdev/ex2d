@@ -116,20 +116,24 @@ public class exSpriteBase : exPlane {
     // ------------------------------------------------------------------ 
 
     protected Bounds GetMeshBounds ( float _offsetX, float _offsetY, float _width, float _height ) {
-        switch ( plane ) {
-        case exSprite.Plane.XY:
-            return new Bounds (  new Vector3( -_offsetX, _offsetY, 0.0f ), 
-                                 new Vector3( _width, _height, 0.2f ) );
-        case exSprite.Plane.XZ:
-            return new Bounds (  new Vector3( -_offsetX, 0.0f, _offsetY ), 
-                                 new Vector3( _width, 0.2f, _height ) );
-        case exSprite.Plane.ZY:
-            return new Bounds (  new Vector3( 0.0f, _offsetY, -_offsetX ), 
-                                 new Vector3( 0.2f, _height, _width ) );
-        default:
-            return new Bounds (  new Vector3( -_offsetX, _offsetY, 0.0f ), 
-                                 new Vector3( _width, _height, 0.2f ) );
-        }
+        return new Bounds (  new Vector3( -_offsetX, _offsetY, 0.0f ), 
+                             new Vector3( _width, _height, 0.2f ) );
+        // DELME { 
+        // switch ( plane ) {
+        // case exSprite.Plane.XY:
+        //     return new Bounds (  new Vector3( -_offsetX, _offsetY, 0.0f ), 
+        //                          new Vector3( _width, _height, 0.2f ) );
+        // case exSprite.Plane.XZ:
+        //     return new Bounds (  new Vector3( -_offsetX, 0.0f, _offsetY ), 
+        //                          new Vector3( _width, 0.2f, _height ) );
+        // case exSprite.Plane.ZY:
+        //     return new Bounds (  new Vector3( 0.0f, _offsetY, -_offsetX ), 
+        //                          new Vector3( 0.2f, _height, _width ) );
+        // default:
+        //     return new Bounds (  new Vector3( -_offsetX, _offsetY, 0.0f ), 
+        //                          new Vector3( _width, _height, 0.2f ) );
+        // }
+        // } DELME end 
     } 
 }
 
