@@ -153,7 +153,17 @@ public class exSpriteAnimClip : ScriptableObject {
 
     public void AddEvent ( EventInfo _e ) {
         //
+#if UNITY_FLASH
+        int index = eventInfos.Count-1;
+        for ( int i = 0; i < eventInfos.Count; ++i ) {
+            if ( eventInfos[i].time > _e.time ) {
+                index = i-1;
+                break;
+            }
+        }
+#else
         int index = eventInfos.BinarySearch( _e, eventInfoComparer );
+#endif
         if ( index < 0 ) {
             index = ~index;
         }

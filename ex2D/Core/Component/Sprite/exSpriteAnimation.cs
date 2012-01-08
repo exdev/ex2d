@@ -102,7 +102,6 @@ public class exSpriteAnimation : MonoBehaviour {
     private exSpriteAnimState curAnimation;
     private exSprite sprite;
     private bool playing = false;
-    private bool paused = false;
     private exAtlas defaultAtlas;
     private int defaultIndex;
     private int lastEventInfoIndex = -1;
@@ -159,7 +158,7 @@ public class exSpriteAnimation : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     void Update () {
-        if ( !paused && playing && (curAnimation != null) ) {
+        if ( playing && (curAnimation != null) ) {
             // advance the time and check if we trigger any animation events
             float delta = Time.deltaTime * curAnimation.speed;
             float curTime = curAnimation.time;
@@ -249,7 +248,6 @@ public class exSpriteAnimation : MonoBehaviour {
             else if ( _index > 0 && _index < curAnimation.frameTimes.Count )
                 curAnimation.time = curAnimation.frameTimes[_index];
             playing = true;
-            paused = false;
             if ( curAnimation.speed >= 0.0f )
                 lastEventInfoIndex = -1;
             else
@@ -294,7 +292,6 @@ public class exSpriteAnimation : MonoBehaviour {
             curAnimation.time = 0.0f;
             curAnimation = null;
             playing = false;
-            paused = false;
 
             //
             switch ( stopAction ) {
@@ -318,12 +315,12 @@ public class exSpriteAnimation : MonoBehaviour {
         enabled = false;
     }
 
+    // DELME { 
     // ------------------------------------------------------------------ 
     /// Pause the playing animation
     // ------------------------------------------------------------------ 
 
     public void Pause () {
-        paused = true;
         enabled = false;
     }
 
@@ -332,9 +329,9 @@ public class exSpriteAnimation : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     public void Resume () {
-        paused = false;
         enabled = true;
     }
+    // } DELME end 
 
     // ------------------------------------------------------------------ 
     /// \param _name the name of the animation
@@ -359,9 +356,9 @@ public class exSpriteAnimation : MonoBehaviour {
 
     public bool IsPaused ( string _name = "" ) {
         if ( string.IsNullOrEmpty(_name) )
-            return paused;
+            return (enabled == false);
         else
-            return (paused && curAnimation.name == _name);
+            return (enabled == false && curAnimation.name == _name);
     }
 
     // ------------------------------------------------------------------ 
@@ -405,7 +402,17 @@ public class exSpriteAnimation : MonoBehaviour {
     public exSpriteAnimClip.FrameInfo GetCurFrameInfo () {
         if ( curAnimation != null ) {
             float wrappedTime = curAnimation.clip.WrapSeconds(curAnimation.time, curAnimation.wrapMode);
+#if UNITY_FLASH
+            int index = curAnimation.frameTimes.Count - 1;
+            for ( int i = 0; i < curAnimation.frameTimes.Count; ++i ) {
+                if ( curAnimation.frameTimes[i] > wrappedTime ) {
+                    index = i-1;
+                    break;
+                }
+            }
+#else
             int index = curAnimation.frameTimes.BinarySearch(wrappedTime);
+#endif
             if ( index < 0 ) {
                 index = ~index;
             }
@@ -424,7 +431,17 @@ public class exSpriteAnimation : MonoBehaviour {
         int index = -1;
         if ( curAnimation != null ) {
             float wrappedTime = curAnimation.clip.WrapSeconds(curAnimation.time, curAnimation.wrapMode);
+#if UNITY_FLASH
+            index = curAnimation.frameTimes.Count - 1;
+            for ( int i = 0; i < curAnimation.frameTimes.Count; ++i ) {
+                if ( curAnimation.frameTimes[i] > wrappedTime ) {
+                    index = i-1;
+                    break;
+                }
+            }
+#else
             index = curAnimation.frameTimes.BinarySearch(wrappedTime);
+#endif
         }
         return index;
     }

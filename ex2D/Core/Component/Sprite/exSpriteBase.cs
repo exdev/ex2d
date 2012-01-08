@@ -59,6 +59,21 @@ public class exSpriteBase : exPlane {
         }
     }
 
+    // ------------------------------------------------------------------ 
+    protected Vector2 ppfScale_ = Vector2.one;
+    /// the pixel-perfect scale of the sprite
+    // ------------------------------------------------------------------ 
+
+    public Vector2 ppfScale {
+        get { return ppfScale_; }
+        set { 
+            if ( ppfScale_ != value ) {
+                ppfScale_ = value;
+                updateFlags |= UpdateFlags.Vertex;
+            }
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
     // functions
     ///////////////////////////////////////////////////////////////////////////////

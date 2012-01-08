@@ -49,16 +49,18 @@ public class exLayer : MonoBehaviour {
                 return;
             }
 
+            //
+            exLayer rootLayer = null;
+
             // check if it is parent layer or child
             exLayer parentLayer = value;
-            exLayer lastLayer = value;
             while ( parentLayer != null ) {
                 if ( parentLayer == this ) {
                     Debug.LogWarning("can't add self or child as parent");
                     return;
                 } 
-                lastLayer = parentLayer;
-                parentLayer = lastLayer.parent;
+                rootLayer = parentLayer;
+                parentLayer = rootLayer.parent;
             }
 
             // remove self from old parent's child list
@@ -71,18 +73,41 @@ public class exLayer : MonoBehaviour {
                 value.children_.Add(this);
             }
 
-            // update layer mng
-            if ( lastLayer == null ) {
+            // get layer mng
+            if ( rootLayer == null ) {
                 parentLayer = parent_;
-                lastLayer = this;
+                rootLayer = this;
                 while ( parentLayer != null ) {
-                    lastLayer = parentLayer;
-                    parentLayer = lastLayer.parent;
+                    rootLayer = parentLayer;
+                    parentLayer = rootLayer.parent;
                 }
             }
-            exLayerMng layerMng = lastLayer as exLayerMng;
-            if ( layerMng ) {
-                layerMng.UpdateLayer();
+            exLayerMng layerMng = rootLayer as exLayerMng;
+
+            // get special layer to add
+            exLayer specialLayerToAdd = null;
+            parentLayer = value;
+            while ( parentLayer != null ) {
+                specialLayerToAdd = parentLayer;
+                if ( specialLayerToAdd.type != Type.Normal )
+                    break;
+                parentLayer = specialLayerToAdd.parent;
+            }
+            if ( specialLayerToAdd != null && specialLayerToAdd.isDirty == false ) {
+                if ( layerMng ) layerMng.AddDirtyLayer(specialLayerToAdd);
+            }
+
+            // get special layer to remove
+            exLayer specialLayerToRemove = null;
+            parentLayer = parent_;
+            while ( parentLayer != null ) {
+                specialLayerToRemove = parentLayer;
+                if ( specialLayerToRemove.type != Type.Normal )
+                    break;
+                parentLayer = specialLayerToRemove.parent;
+            }
+            if ( specialLayerToRemove != null && specialLayerToRemove.isDirty == false ) {
+                if ( layerMng ) layerMng.AddDirtyLayer(specialLayerToRemove);
             }
 
             //
@@ -105,17 +130,90 @@ public class exLayer : MonoBehaviour {
     }
 
     // ------------------------------------------------------------------ 
+    [SerializeField] protected Type type_ = Type.Normal;
+    // Desc: 
+    // NOTE: dynamic/abstract NEVER contains child with dynamic
+    // ------------------------------------------------------------------ 
+
+    public Type type {
+        set {
+            if ( value != Type.Normal ) {
+                bool isChildOfSpecialLayer = false;
+                exLayer parentLayer = parent_;
+                while ( parentLayer != null ) {
+                    if ( parentLayer.type != Type.Normal ) {
+                        isChildOfSpecialLayer = true;
+                        break;
+                    }
+                    parentLayer = parentLayer.parent;
+                }
+                if ( isChildOfSpecialLayer == false ) {
+                    type_ = value;
+                }
+                else {
+                    type_ = Type.Normal;
+                }
+
+                //
+                parentLayer = parent_;
+                exLayer rootLayer = this;
+                while ( parentLayer != null ) {
+                    rootLayer = parentLayer;
+                    parentLayer = rootLayer.parent;
+                }
+
+                exLayerMng layerMng = rootLayer as exLayerMng;
+                if ( layerMng != null ) {
+                    layerMng.AddDirtyLayer(layerMng);
+                }
+            }
+            else {
+                type_ = value;
+            }
+        }
+        get { return type_; }
+    }
+
+    // ------------------------------------------------------------------ 
+    [SerializeField] protected int range_ = 1;
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    public Type type = Type.Normal;
-    public float range = 100.0f;
+    public int range {
+        set { 
+            int clampValue = Mathf.Clamp ( value, 1, 1000 ); 
+            if ( range_ != clampValue ) {
+                range_ = clampValue;
 
+                exLayer parentLayer = parent_;
+                exLayer rootLayer = this;
+                while ( parentLayer != null ) {
+                    rootLayer = parentLayer;
+                    parentLayer = rootLayer.parent;
+                }
+
+                exLayerMng layerMng = rootLayer as exLayerMng;
+                if ( layerMng != null ) {
+                    layerMng.AddDirtyLayer(layerMng);
+                }
+            }
+        }
+        get { return range_; }
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    public float depth = 0.0f; // depth calculated
+
+    // ======================================================== 
     // editor only data
+    // ======================================================== 
+
     public bool foldout = true;
     [System.NonSerialized] public int indentLevel = -1;
-    [System.NonSerialized] public bool updated = false;
-    [System.NonSerialized] public int index = -1;
+    [System.NonSerialized] public bool isDirty = false;
 
     ///////////////////////////////////////////////////////////////////////////////
     // functions
@@ -189,7 +287,7 @@ public class exLayer : MonoBehaviour {
 
     // ------------------------------------------------------------------ 
     // Desc: 
-    // for editor
+    // NOTE: only used in Editor
     // ------------------------------------------------------------------ 
 
     public void ForceSetParent ( exLayer _parent ) {
@@ -224,10 +322,29 @@ public class exLayer : MonoBehaviour {
         }
         exLayerMng layerMng = lastLayer as exLayerMng;
         if ( layerMng ) {
-            layerMng.UpdateLayer();
+            layerMng.AddDirtyLayer(layerMng);
         }
 
         //
         parent_ = _parent;
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: manually add the layer to layerMng's dirty layer list, useful when rotate the sprite by transform.rotation
+    // ------------------------------------------------------------------ 
+
+    public void Dirty () {
+        exLayer lastLayer = this;
+        exLayer parentLayer = parent_;
+
+        while ( parentLayer != null ) {
+            lastLayer = parentLayer;
+            parentLayer = lastLayer.parent;
+        }
+
+        exLayerMng layerMng = lastLayer as exLayerMng;
+        if ( layerMng ) {
+            layerMng.AddDirtyLayer(this);
+        }
     }
 }

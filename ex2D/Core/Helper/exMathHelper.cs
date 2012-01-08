@@ -11,6 +11,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
@@ -26,8 +27,10 @@ public static class exMathHelper {
     /// get greatest common divisor
     // ------------------------------------------------------------------ 
 
-    public static int GetGCD ( int[] _list ) {
-        System.Array.Sort(_list);
+    // public static int GetGCD ( int[] _list ) {
+    public static int GetGCD ( List<int> _list ) {
+        // System.Array.Sort(_list);
+        _list.Sort();
         int min = _list[0];
         int result = 1;
         for ( int i = 2; i < min+1; ++i ) {

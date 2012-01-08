@@ -57,7 +57,15 @@ public class exPixelPerfectCamera : MonoBehaviour {
         lastOrthographicSize    = camera.orthographicSize;
         lastFieldOfView         = camera.fieldOfView;
         lastOrthographic        = camera.orthographic;
+
         CalculateScaleAndRatio ();
+        exPixelPerfect[] ppfs = GameObject.FindObjectsOfType ( typeof(exPixelPerfect) ) as exPixelPerfect[];
+        foreach ( exPixelPerfect ppf in ppfs ) {
+            CalculatePixelPerfectScale ( ppf.sprite, ppf.toCamera.magnitude );
+            exSpriteBase sprite = ppf.GetComponent<exSpriteBase>();
+            if ( sprite )
+                sprite.Commit();
+        }
     }
     
     // ------------------------------------------------------------------ 
@@ -108,7 +116,7 @@ public class exPixelPerfectCamera : MonoBehaviour {
             CalculateScaleAndRatio ();
             exPixelPerfect[] ppfs = GameObject.FindObjectsOfType ( typeof(exPixelPerfect) ) as exPixelPerfect[];
             foreach ( exPixelPerfect ppf in ppfs ) {
-                MakePixelPerfect( ppf.sprite, ppf.depthToCamera );
+                CalculatePixelPerfectScale ( ppf.sprite, ppf.toCamera.magnitude );
                 ppf.sprite.Commit();
             }
         }
@@ -130,7 +138,7 @@ public class exPixelPerfectCamera : MonoBehaviour {
     /// \param _depthToCamera the depth to camera
     // ------------------------------------------------------------------ 
 
-    public void MakePixelPerfect ( exSpriteBase _sprite, float _depthToCamera ) {
+    public void CalculatePixelPerfectScale ( exSpriteBase _sprite, float _depthToCamera ) {
         if ( (camera.orthographic && scale <= 0.0f) || ratio <= 0.0f )
             CalculateScaleAndRatio ();
 
@@ -138,7 +146,6 @@ public class exPixelPerfectCamera : MonoBehaviour {
         if ( camera.orthographic == false )
             s = ratio * _depthToCamera;
 
-        _sprite.scale = new Vector2( Mathf.Sign(_sprite.scale.x) * s, 
-                                     Mathf.Sign(_sprite.scale.y) * s );
+        _sprite.ppfScale = new Vector2( s, s );
     }
 }
