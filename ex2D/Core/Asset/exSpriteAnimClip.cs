@@ -157,7 +157,7 @@ public class exSpriteAnimClip : ScriptableObject {
         int index = eventInfos.Count-1;
         for ( int i = 0; i < eventInfos.Count; ++i ) {
             if ( eventInfos[i].time > _e.time ) {
-                index = i-1;
+                index = i;
                 break;
             }
         }

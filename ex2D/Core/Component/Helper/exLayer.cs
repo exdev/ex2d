@@ -238,6 +238,7 @@ public class exLayer : MonoBehaviour {
             if ( parent_.children.IndexOf(this) == -1 ) {
                 parent_.children_.Add(this);
             }
+            Dirty ();
         }
 
         //

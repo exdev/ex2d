@@ -76,7 +76,8 @@ public class exPixelPerfect : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     void OnDestroy () {
-        sprite.ppfScale = Vector2.one; 
+        if ( sprite != null )
+            sprite.ppfScale = Vector2.one; 
     }
 
     // ------------------------------------------------------------------ 
@@ -85,7 +86,7 @@ public class exPixelPerfect : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     void Update () {
-        if ( sprite.renderCamera.orthographic == false ) {
+        if ( sprite != null && sprite.renderCamera.orthographic == false ) {
             Vector3 newToCamera = transform.position - sprite.renderCamera.transform.position;
 
             if ( newToCamera.sqrMagnitude != toCamera.sqrMagnitude ) {

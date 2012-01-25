@@ -406,7 +406,7 @@ public class exSpriteAnimation : MonoBehaviour {
             int index = curAnimation.frameTimes.Count - 1;
             for ( int i = 0; i < curAnimation.frameTimes.Count; ++i ) {
                 if ( curAnimation.frameTimes[i] > wrappedTime ) {
-                    index = i-1;
+                    index = i;
                     break;
                 }
             }
@@ -435,7 +435,7 @@ public class exSpriteAnimation : MonoBehaviour {
             index = curAnimation.frameTimes.Count - 1;
             for ( int i = 0; i < curAnimation.frameTimes.Count; ++i ) {
                 if ( curAnimation.frameTimes[i] > wrappedTime ) {
-                    index = i-1;
+                    index = i;
                     break;
                 }
             }
