@@ -36,7 +36,6 @@ public class exLayerMng : exLayer {
     ///////////////////////////////////////////////////////////////////////////////
 
     List<exLayer> dirtyLayers = new List<exLayer>();
-    float totalDepth = 0.0f;
     bool updateAll = false;
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -56,23 +55,32 @@ public class exLayerMng : exLayer {
     // ------------------------------------------------------------------ 
 
     void OnPreRender () {
+        UpdateLayers ();
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    public void UpdateLayers () {
         if ( updateAll ) {
             updateAll = false;
 
             //
             List<exLayer> layerList = new List<exLayer>();
             List<exLayer> specialLayerList = new List<exLayer>();
-            totalDepth = camera.farClipPlane - camera.nearClipPlane;
+            float totalDepth = camera.farClipPlane - camera.nearClipPlane;
             totalDepth -= 0.2f; // we leave 1.0 for both near and far clip
             float startFrom = transform.position.z + camera.nearClipPlane + 0.1f;
 
-            int totalLayerCount = 0;
+            int totalNormalLayerCount = 0;
             foreach ( exLayer childLayer in children ) {
-                totalLayerCount += AddLayerRecursively ( childLayer, true, ref totalDepth, ref layerList );
+                childLayer.indentLevel = 1;
+                totalNormalLayerCount += AddLayerRecursively ( childLayer, true, ref totalDepth, ref layerList );
             }
 
             //
-            float unitLayer = totalDepth/totalLayerCount;
+            float unitLayer = totalDepth/totalNormalLayerCount;
 
             // normal layer depth calcualte
             const int MAX_INDENT = 99999;
@@ -93,6 +101,7 @@ public class exLayerMng : exLayer {
                 }
                 else {
                     if ( layer.indentLevel <= specialIndentLevel ) {
+                        // Debug.Log( layer.gameObject.name + " curDepth = " + curDepth + " , " + specialIndentLevel );
                         specialIndentLevel = MAX_INDENT;
                         curDepth += unitLayer; 
                     }
@@ -169,14 +178,18 @@ public class exLayerMng : exLayer {
         if ( _curLayer.type != exLayer.Type.Normal ) {
             doCount = false;
             if ( _curLayer.type == exLayer.Type.Dynamic ) {
-                totalDepth -= _curLayer.range;
+                _totalDepth -= _curLayer.range;
             }
         }
 
         //
         foreach ( exLayer childLayer in _curLayer.children ) {
+            childLayer.indentLevel = _curLayer.indentLevel + 1;
             count += AddLayerRecursively ( childLayer, doCount, ref _totalDepth, ref _layerList );
         }
+
+        if ( doCount == false )
+            return 1;
 
         return count;
     }
@@ -200,10 +213,10 @@ public class exLayerMng : exLayer {
     void CalculateDepthForDynamicLayer ( exLayer _curLayer, bool _doAssign ) {
         float totalDepth = 0.0f;
         List<exLayer> layerList = new List<exLayer>();
-        int totalLayerCount = AddLayerRecursively ( _curLayer, true, ref totalDepth, ref layerList );
+        AddLayerRecursively ( _curLayer, true, ref totalDepth, ref layerList );
 
-        if ( totalLayerCount > 1 ) {
-            float unitLayer = _curLayer.range/(totalLayerCount-1);
+        if ( layerList.Count > 1 ) {
+            float unitLayer = (float)_curLayer.range/(float)(layerList.Count-1);
             float curDepth = _curLayer.depth;
 
             for ( int i = 0; i < layerList.Count; ++i ) {

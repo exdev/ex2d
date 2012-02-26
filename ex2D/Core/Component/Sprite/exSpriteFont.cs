@@ -1087,7 +1087,9 @@ public class exSpriteFont : exSpriteBase {
     }
 
     // ------------------------------------------------------------------ 
-    // Desc: 
+    /// Get the character rect at _idx
+    /// \param _idx the index of the character
+    /// \return the rect
     // ------------------------------------------------------------------ 
 
     public Rect GetCharRect ( int _idx ) {
@@ -1128,10 +1130,14 @@ public class exSpriteFont : exSpriteBase {
     }
 
     // ------------------------------------------------------------------ 
-    // Desc: 
+    /// Set the character alpha
+    /// \param _idx the index of the character
+    /// \param _topColor the top color to set
+    /// \param _botColor the bot color to set
+    /// \param _alpha the alpha value to set
     // ------------------------------------------------------------------ 
 
-    public void SetCharAlpha ( int _idx, float _alpha ) {
+    public void SetCharColor ( int _idx, Color _topColor, Color _botColor, float _alpha ) {
         if ( meshFilter ) {
             if ( meshFilter_.sharedMesh != null ) {
 
@@ -1165,14 +1171,17 @@ public class exSpriteFont : exSpriteBase {
                 // ======================================================== 
 
                 Color[] colors = new Color[vertexCount];
+                Color newTopColor = new Color( _topColor.r, _topColor.g, _topColor.b, _alpha );
+                Color newBotColor = new Color( _botColor.r, _botColor.g, _botColor.b, _alpha );
+
                 for ( int i = 0; i < text_.Length; ++i ) {
                     Color clrTop = topColor_;
                     Color clrBot = botColor_;
                     Color clrOutline = outlineColor_;
                     Color clrShadow = shadowColor_;
                     if ( i == _idx ) {
-                        clrTop.a = _alpha;
-                        clrBot.a = _alpha;
+                        clrTop = newTopColor;
+                        clrBot = newBotColor;
                         clrOutline.a = _alpha;
                         clrShadow.a = _alpha;
                     }

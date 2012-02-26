@@ -375,7 +375,9 @@ public class exSpriteAnimation : MonoBehaviour {
         //     return null;
         // }
         // } DISABLE end 
-        return nameToState[_name];
+        if ( nameToState.ContainsKey(_name) )
+            return nameToState[_name];
+        return null;
     }
 
     // ------------------------------------------------------------------ 

@@ -49,16 +49,12 @@ public class exPixelPerfect : MonoBehaviour {
 
     void Awake () {
         sprite = GetComponent<exSpriteBase>();
-        if ( sprite.renderCamera.orthographic == false ) {
-            toCamera = transform.position - sprite.renderCamera.transform.position;
-        }
-
-        //
         ppfCamera = sprite.renderCamera.GetComponent<exPixelPerfectCamera>();
         if ( ppfCamera == null ) {
             ppfCamera = sprite.renderCamera.gameObject.AddComponent<exPixelPerfectCamera>();
         }
-        ppfCamera.CalculatePixelPerfectScale ( sprite, toCamera.magnitude );
+
+        UpdatePixelPerfectCamera (ppfCamera);
     }
 
     // ------------------------------------------------------------------ 
@@ -78,6 +74,20 @@ public class exPixelPerfect : MonoBehaviour {
     void OnDestroy () {
         if ( sprite != null )
             sprite.ppfScale = Vector2.one; 
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    public void UpdatePixelPerfectCamera ( exPixelPerfectCamera _ppfCamera ) {
+        ppfCamera = _ppfCamera;
+        if ( sprite.renderCamera.orthographic == false ) {
+            toCamera = transform.position - sprite.renderCamera.transform.position;
+        }
+
+        //
+        ppfCamera.CalculatePixelPerfectScale ( sprite, toCamera.magnitude );
     }
 
     // ------------------------------------------------------------------ 

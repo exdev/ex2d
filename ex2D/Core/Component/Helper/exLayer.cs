@@ -212,7 +212,7 @@ public class exLayer : MonoBehaviour {
     // ======================================================== 
 
     public bool foldout = true;
-    [System.NonSerialized] public int indentLevel = -1;
+    [System.NonSerialized] public int indentLevel = 0;
     [System.NonSerialized] public bool isDirty = false;
 
     ///////////////////////////////////////////////////////////////////////////////
