@@ -206,15 +206,15 @@ public class exSoftClip : exPlane {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void LateUpdate () {
-        UpdateClipInfo ();
+    void Update () {
+        spriteMng.AddToSoftClipList(this);
     }
 
     // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void UpdateClipInfo () {
+    public void UpdateClipInfo () {
         //
         Rect a = clippedRect;
         a.x += transform.position.x;

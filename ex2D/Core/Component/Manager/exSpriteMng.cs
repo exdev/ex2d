@@ -23,12 +23,43 @@ using System.Collections.Generic;
 public class exSpriteMng : MonoBehaviour {
 
     List<exPlane> sprites = new List<exPlane>();
+    List<exSoftClip> softClips = new List<exSoftClip>();
     
     // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
     void OnPreRender () {
+
+        // ======================================================== 
+        // pre-softclip 
+        // ======================================================== 
+
+        foreach ( exPlane sp in sprites ) {
+            // NOTE: it is possible the sprite has been destroyed first
+            if ( sp != null ) { 
+                if ( sp.updateFlags != exPlane.UpdateFlags.None ) {
+                    sp.Commit();
+                    sp.updateFlags = exPlane.UpdateFlags.None;
+                }
+                sp.inCommitList = false;
+            }
+        }
+        sprites.Clear();
+
+        // ======================================================== 
+        // process softclip items after sprites' boundingRect changes 
+        // ======================================================== 
+
+        foreach ( exSoftClip sp in softClips ) {
+            sp.UpdateClipInfo();
+        }
+        softClips.Clear();
+
+        // ======================================================== 
+        // post-softclip 
+        // ======================================================== 
+
         foreach ( exPlane sp in sprites ) {
             // NOTE: it is possible the sprite has been destroyed first
             if ( sp != null ) { 
@@ -51,5 +82,13 @@ public class exSpriteMng : MonoBehaviour {
             sprites.Add (_plane); 
             _plane.inCommitList = true;
         }
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    public void AddToSoftClipList ( exSoftClip _softClip ) {
+        softClips.Add (_softClip);
     }
 }
