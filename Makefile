@@ -9,13 +9,18 @@
 #  general
 # /////////////////////////////////////////////////////////////////////////////
 
-# settings
+# settings (windows)
+# UNITY_PATH = $(subst \,/,$(PROGRAMFILES))/Unity/Editor/Data
+# settings (mac)
 UNITY_PATH = /Applications/Unity/Unity.app/Contents/Frameworks
 
-# unit essential
+# unit essential (windows)
+# COMPILER = $(UNITY_PATH)/Mono/bin/gmcs.bat
+# unit essential (mac)
 COMPILER = $(UNITY_PATH)/Mono/bin/gmcs
+
 UNITY_ENGINE_DLL = $(UNITY_PATH)/Managed/UnityEngine.dll
-UNITY_VER = UNITY_3_4 
+UNITY_VER = UNITY_3_5 
 
 # Utilities.
 MKDIR = mkdir -p
@@ -44,14 +49,16 @@ rebuild: |clean all
 RUNTIME_SOURCE_DIRS += ex2D/Core/Asset/
 RUNTIME_SOURCE_DIRS += ex2D/Core/Component/
 RUNTIME_SOURCE_DIRS += ex2D/Core/Component/AnimationHelper/
+RUNTIME_SOURCE_DIRS += ex2D/Core/Component/Camera/
 RUNTIME_SOURCE_DIRS += ex2D/Core/Component/Helper/
+RUNTIME_SOURCE_DIRS += ex2D/Core/Component/Manager/
 RUNTIME_SOURCE_DIRS += ex2D/Core/Component/Sprite/
 RUNTIME_SOURCE_DIRS += ex2D/Core/Extension/
 RUNTIME_SOURCE_DIRS += ex2D/Core/Helper/
 RUNTIME_SOURCE = $(wildcard $(addsuffix *.cs,$(RUNTIME_SOURCE_DIRS)))
 
 # defines
-RUNTIME_DEFINE = -d:UNITY_3_4
+RUNTIME_DEFINE = -d:UNITY_3_5
 
 # deubg argument
 # RUNTIME_ARGUMENT = $(RUNTIME_DEFINE) -d:DEBUG -r:$(UNITY_ENGINE_DLL)
