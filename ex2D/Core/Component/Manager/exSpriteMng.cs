@@ -52,9 +52,9 @@ public class exSpriteMng : MonoBehaviour {
         // ======================================================== 
 
         foreach ( exSoftClip sp in softClips ) {
-            sp.UpdateClipInfo();
+            if ( sp.enabled )
+                sp.UpdateClipInfo();
         }
-        softClips.Clear();
 
         // ======================================================== 
         // post-softclip 
@@ -89,6 +89,15 @@ public class exSpriteMng : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     public void AddToSoftClipList ( exSoftClip _softClip ) {
-        softClips.Add (_softClip);
+        if ( softClips.IndexOf(_softClip) == -1 )
+            softClips.Add (_softClip);
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    public void RemoveFromSoftClipList ( exSoftClip _softClip ) {
+        softClips.Remove (_softClip);
     }
 }

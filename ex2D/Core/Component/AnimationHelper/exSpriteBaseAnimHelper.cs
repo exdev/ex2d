@@ -32,7 +32,7 @@ public class exSpriteBaseAnimHelper : exAnimationHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Awake () {
+    protected new void Awake () {
         spriteBase = GetComponent<exSpriteBase>();
         lastScale = spriteBase.scale;
         lastShear = spriteBase.shear;
@@ -42,7 +42,7 @@ public class exSpriteBaseAnimHelper : exAnimationHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Update () {
+    protected new void Update () {
         if ( spriteBase == null ) {
             spriteBase = GetComponent<exSpriteBase>();
             if ( spriteBase == null ) {

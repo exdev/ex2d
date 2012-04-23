@@ -33,7 +33,7 @@ public class exSoftClipAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Awake () {
+    protected new void Awake () {
         base.Awake();
 
         softClip = GetComponent<exSoftClip>();
@@ -46,7 +46,7 @@ public class exSoftClipAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Update () {
+    protected new void Update () {
         base.Update();
         if ( softClip == null ) {
             softClip = GetComponent<exSoftClip>();

@@ -559,7 +559,7 @@ public class exSprite : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override public void Commit () {
+    public override void Commit () {
         if ( meshFilter ) {
             if ( meshFilter_.sharedMesh != null ) {
                 UpdateMesh (meshFilter_.sharedMesh);
@@ -575,7 +575,7 @@ public class exSprite : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void OnEnable () {
+    protected new void OnEnable () {
         base.OnEnable();
 
         // NOTE: though we have ExecuteInEditMode, user can Add/Remove spanim in Editor
@@ -588,7 +588,7 @@ public class exSprite : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void OnDisable () {
+    protected new void OnDisable () {
         base.OnDisable();
 
         // NOTE: though we have ExecuteInEditMode, user can Add/Remove spanim in Editor
@@ -606,7 +606,7 @@ public class exSprite : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Awake () {
+    protected new void Awake () {
 
 // DISABLE { 
 // #if UNITY_EDITOR
@@ -689,10 +689,11 @@ public class exSprite : exSpriteBase {
     // ------------------------------------------------------------------ 
     /// \param _atlas the new atlas
     /// \param _index the index of the element in the new atlas
+    /// \param _changeDefaultAnimSprite if this is true, the default animation sprite will be changed so when we use stopAction = defaultSprite it will change to this new one 
     /// Set a new picture in an atlas to this sprite 
     // ------------------------------------------------------------------ 
 
-    public void SetSprite ( exAtlas _atlas, int _index ) {
+    public void SetSprite ( exAtlas _atlas, int _index, bool _changeDefaultAnimSprite = false ) {
         bool checkVertex = false;
         bool createMesh = false;
 
@@ -758,15 +759,22 @@ public class exSprite : exSpriteBase {
 
         //
         if ( createMesh ) {
-            // create mesh ( in editor, this can duplicate mesh to prevent shared mesh for sprite)
-            meshFilter_.mesh = new Mesh();
-            updateFlags = UpdateFlags.Vertex | UpdateFlags.UV | UpdateFlags.Color | UpdateFlags.Index;
+            if ( meshFilter ) {
+                // create mesh ( in editor, this can duplicate mesh to prevent shared mesh for sprite)
+                meshFilter_.mesh = new Mesh();
+                updateFlags = UpdateFlags.Vertex | UpdateFlags.UV | UpdateFlags.Color | UpdateFlags.Index;
 
-            // check if update mesh collider
-            MeshCollider meshCollider = collider as MeshCollider;  
-            if ( meshCollider && meshCollider.sharedMesh == null ) {
-                this.UpdateColliderSize(0.2f);
+                // check if update mesh collider
+                MeshCollider meshCollider = collider as MeshCollider;  
+                if ( meshCollider && meshCollider.sharedMesh == null ) {
+                    this.UpdateColliderSize(0.2f);
+                }
             }
+        }
+
+        //
+        if ( _changeDefaultAnimSprite && spanim ) {
+            spanim.UpdateDefaultSprite ( _atlas, _index );
         }
     }
 

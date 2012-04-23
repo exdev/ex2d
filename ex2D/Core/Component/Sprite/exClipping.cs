@@ -1,7 +1,7 @@
 // ======================================================================================
-// File         : exSoftClip.cs
+// File         : exClipping.cs
 // Author       : Wu Jie 
-// Last Change  : 08/25/2011 | 01:48:47 AM | Thursday,August
+// Last Change  : 03/05/2012 | 19:19:47 PM | Monday,March
 // Description  : 
 // ======================================================================================
 
@@ -25,8 +25,8 @@ using System.Collections.Generic;
 ///////////////////////////////////////////////////////////////////////////////
 
 [ExecuteInEditMode]
-[AddComponentMenu("ex2D Sprite/Soft Clip")]
-public class exSoftClip : exPlane {
+[AddComponentMenu("ex2D Sprite/Clipping")]
+public class exClipping : exPlane {
 
     // ------------------------------------------------------------------ 
     [SerializeField] protected float width_ = 100.0f;
@@ -65,7 +65,7 @@ public class exSoftClip : exPlane {
     public List<exPlane> planes = new List<exPlane>();
 
     // ------------------------------------------------------------------ 
-    /// the clipped rect, if the soft-clip plane is a child of another soft-clip plane
+    /// the clipped rect, if the clipping plane is a child of another soft-clip plane
     // ------------------------------------------------------------------ 
 
     public Rect clippedRect { get; protected set; }
@@ -93,7 +93,7 @@ public class exSoftClip : exPlane {
             exPlane plane = child.GetComponent<exPlane>();
             if ( plane != null ) {
                 planes.Add(plane);
-                exSoftClip clipPlane = plane as exSoftClip;
+                exClipping clipPlane = plane as exClipping;
                 // if this is a clip plane, add child to it 
                 if ( clipPlane != null ) {
                     clipPlane.UpdateClipList ();
@@ -117,7 +117,9 @@ public class exSoftClip : exPlane {
         updateFlags |= UpdateFlags.Vertex;
         Commit();
 
-        spriteMng.AddToSoftClipList(this);
+        // TODO: DELME?? { 
+        // spriteMng.AddToSoftClipList(this);
+        // } TODO end 
     }
 
     // ------------------------------------------------------------------ 
@@ -127,9 +129,11 @@ public class exSoftClip : exPlane {
     protected new void OnDestroy () {
         base.OnDestroy();
 
-        if ( spriteMng != null ) {
-            spriteMng_.RemoveFromSoftClipList(this);
-        }
+        // TODO: DELME??? { 
+        // if ( spriteMng != null ) {
+        //     spriteMng_.RemoveFromSoftClipList(this);
+        // }
+        // } TODO end 
     }
 
     // ------------------------------------------------------------------ 

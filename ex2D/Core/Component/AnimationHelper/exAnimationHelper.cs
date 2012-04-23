@@ -18,6 +18,6 @@ using System.Collections;
 
 public class exAnimationHelper : MonoBehaviour {
 
-    virtual protected void Awake () {}
-    virtual protected void Update () {}
+    protected void Awake () {}
+    protected void Update () {}
 }

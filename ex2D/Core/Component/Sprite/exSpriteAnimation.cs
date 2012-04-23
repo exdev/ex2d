@@ -41,13 +41,12 @@ public class exSpriteAnimState {
     [System.NonSerialized] public List<float> frameTimes; ///< the list of the start time in seconds of each frame in the exSpriteAnimClip
 
     // ------------------------------------------------------------------ 
-    /// \param _animClip the referenced animation clip
-    /// Constructor of exSpriteAnimState, it will copy the settings from _animClip. 
+    // Desc: 
     // ------------------------------------------------------------------ 
 
-    public exSpriteAnimState ( exSpriteAnimClip _animClip ) {
+    void Init ( string _name, exSpriteAnimClip _animClip ) {
         clip = _animClip;
-        name = _animClip.name;
+        name = _name;
         wrapMode = _animClip.wrapMode;
         stopAction = _animClip.stopAction;
         length = _animClip.length;
@@ -59,6 +58,25 @@ public class exSpriteAnimState {
             tmp += fi.length;
             frameTimes.Add(tmp);
         }
+    }
+
+    // ------------------------------------------------------------------ 
+    /// \param _animClip the referenced animation clip
+    /// Constructor of exSpriteAnimState, it will copy the settings from _animClip. 
+    // ------------------------------------------------------------------ 
+
+    public exSpriteAnimState ( exSpriteAnimClip _animClip ) {
+        Init ( _animClip.name, _animClip );
+    }
+
+    // ------------------------------------------------------------------ 
+    /// \param _name the name of the animation state
+    /// \param _animClip the referenced animation clip
+    /// Constructor of exSpriteAnimState, it will copy the settings from _animClip. 
+    // ------------------------------------------------------------------ 
+
+    public exSpriteAnimState ( string _name, exSpriteAnimClip _animClip ) {
+        Init ( _name, _animClip );
     }
 }
 
@@ -213,6 +231,15 @@ public class exSpriteAnimation : MonoBehaviour {
         sprite.SetSprite( defaultAtlas, defaultIndex );
     }
 
+    // ------------------------------------------------------------------ 
+    /// update the default sprite if we dynamically change it in the game
+    // ------------------------------------------------------------------ 
+
+    public void UpdateDefaultSprite ( exAtlas _atlas, int _index ) {
+        defaultAtlas = _atlas;
+        defaultIndex = _index;
+    }
+
     // NOTE: the reason I design to Play instead of using default parameter is because in 
     // Unity Animation Editor, it can send message to function that only have one parameter.
 
@@ -246,7 +273,7 @@ public class exSpriteAnimation : MonoBehaviour {
             if ( _index == 0 )
                 curAnimation.time = 0.0f;
             else if ( _index > 0 && _index < curAnimation.frameTimes.Count )
-                curAnimation.time = curAnimation.frameTimes[_index];
+                curAnimation.time = curAnimation.frameTimes[_index-1];
             playing = true;
             if ( curAnimation.speed >= 0.0f )
                 lastEventInfoIndex = -1;
@@ -443,6 +470,9 @@ public class exSpriteAnimation : MonoBehaviour {
             }
 #else
             index = curAnimation.frameTimes.BinarySearch(wrappedTime);
+            if ( index < 0 ) {
+                index = ~index;
+            }
 #endif
         }
         return index;
@@ -455,19 +485,41 @@ public class exSpriteAnimation : MonoBehaviour {
     /// it to the lookup table by the name of the clip
     /// 
     /// \note if the animation already in the exSpriteAnimation.animations, 
-    /// it will do nothing
+    /// it will override the old clip and return a new animation state.
     // ------------------------------------------------------------------ 
 
     public exSpriteAnimState AddAnimation ( exSpriteAnimClip _animClip ) {
+        return AddAnimation ( _animClip.name, _animClip );
+    }
+
+    // ------------------------------------------------------------------ 
+    /// \param _name the name of animation state you want to add
+    /// \param _animClip the sprite animation clip wants to add
+    /// \return the instantiate animation state of the added _animClip 
+    /// Add a sprite animation clip, create a new animation state and saves 
+    /// it to the lookup table by the name of the clip
+    /// 
+    /// \note if the animation already in the exSpriteAnimation.animations, 
+    /// it will override the old clip and return a new animation state.
+    // ------------------------------------------------------------------ 
+
+    public exSpriteAnimState AddAnimation ( string _name, exSpriteAnimClip _animClip ) {
+        exSpriteAnimState state = null;
+
         // if we already have the animation, just return the animation state
         if ( animations.IndexOf(_animClip) != -1 ) {
-            return nameToState[_animClip.name];
+            state = nameToState[_name];
+            if ( state.clip != _animClip ) {
+                state = new exSpriteAnimState( _name, _animClip );
+                nameToState[_name] = state;
+            }
+            return state;
         }
 
         //
         animations.Add (_animClip);
-        exSpriteAnimState state = new exSpriteAnimState(_animClip);
-        nameToState[state.name] = state;
+        state = new exSpriteAnimState( _name, _animClip );
+        nameToState[_name] = state;
         return state;
     }
 

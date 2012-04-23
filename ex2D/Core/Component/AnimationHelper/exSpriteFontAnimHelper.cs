@@ -36,7 +36,7 @@ public class exSpriteFontAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Awake () {
+    protected new void Awake () {
         base.Awake();
 
         spriteFont = GetComponent<exSpriteFont>();
@@ -52,7 +52,7 @@ public class exSpriteFontAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Update () {
+    protected new void Update () {
         base.Update();
         if ( spriteFont == null ) {
             spriteFont = GetComponent<exSpriteFont>();

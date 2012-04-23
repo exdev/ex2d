@@ -82,7 +82,7 @@ public class exSpriteBase : exPlane {
     /// OnEnable functoin inherit from exPlane
     // ------------------------------------------------------------------ 
 
-    override protected void OnEnable () {
+    protected new void OnEnable () {
         base.OnEnable();
         exPixelPerfect ppf = GetComponent<exPixelPerfect>();
         if ( ppf ) {
@@ -94,7 +94,7 @@ public class exSpriteBase : exPlane {
     /// OnDisable functoin inherit from exPlane
     // ------------------------------------------------------------------ 
 
-    override protected void OnDisable () {
+    protected new void OnDisable () {
         base.OnDisable();
         exPixelPerfect ppf = GetComponent<exPixelPerfect>();
         if ( ppf ) {

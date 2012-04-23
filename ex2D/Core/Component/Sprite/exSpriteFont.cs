@@ -1034,7 +1034,7 @@ public class exSpriteFont : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override public void Commit () {
+    public override void Commit () {
         if ( meshFilter ) {
             if ( meshFilter_.sharedMesh != null ) {
                 UpdateMesh (meshFilter_.sharedMesh);
@@ -1050,7 +1050,7 @@ public class exSpriteFont : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Awake () {
+    protected new void Awake () {
         base.Awake();
 
         if ( fontInfo_ != null && fontInfo_.pageInfos.Count == 1 ) {

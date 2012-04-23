@@ -46,7 +46,7 @@ public class exLayerMng : exLayer {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    protected override void Awake () {
+    protected new void Awake () {
         base.Awake();
     }
 
@@ -113,9 +113,9 @@ public class exLayerMng : exLayer {
                 exLayer layer = specialLayerList[i];
 
                 if ( layer.type == exLayer.Type.Dynamic )
-                    CalculateDepthForDynamicLayer ( layer, false );
+                    CalculateDepthForDynamicLayer ( layer );
                 else if ( layer.type == exLayer.Type.Abstract )
-                    CalculateDepthForAbstractLayer ( layer, false );
+                    CalculateDepthForAbstractLayer ( layer );
             }
 
             // assignment
@@ -124,17 +124,28 @@ public class exLayerMng : exLayer {
                 if ( layer.isDirty == false )
                     continue;
 
-                RecursivelyUpdateLayer ( layer.transform.root );
+                RecursivelyUpdateLayer ( layer.transform.root, false );
             }
         }
         else {
+            List<exLayer> layerList = new List<exLayer>();
+
             // re-update special layers
             for ( int i = 0; i < dirtyLayers.Count; ++i ) {
                 exLayer layer = dirtyLayers[i];
                 if ( layer.type == exLayer.Type.Dynamic )
-                    CalculateDepthForDynamicLayer ( layer, true );
+                    layerList.AddRange ( CalculateDepthForDynamicLayer ( layer ) );
                 else if ( layer.type == exLayer.Type.Abstract )
-                    CalculateDepthForAbstractLayer ( layer, true );
+                    layerList.AddRange ( CalculateDepthForAbstractLayer ( layer ) ) ;
+            }
+
+            // assignment
+            for ( int i = 0; i < layerList.Count; ++i ) {
+                exLayer layer = layerList[i];
+                if ( layer.isDirty == false )
+                    continue;
+
+                RecursivelyUpdateLayer ( layer.transform.root, true );
             }
         }
 
@@ -145,17 +156,17 @@ public class exLayerMng : exLayer {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void RecursivelyUpdateLayer ( Transform _trans ) {
+    void RecursivelyUpdateLayer ( Transform _trans, bool _force ) {
         //
         exLayer layer = _trans.GetComponent<exLayer>(); 
-        if ( layer != null && layer.isDirty ) {
+        if ( layer != null && (_force || layer.isDirty) ) {
             layer.isDirty = false;
             _trans.position = new Vector3 ( _trans.position.x, _trans.position.y, layer.depth );
         }
 
         //
         foreach ( Transform child in _trans ) {
-            RecursivelyUpdateLayer ( child );
+            RecursivelyUpdateLayer ( child, _force );
         }
     }
 
@@ -210,7 +221,7 @@ public class exLayerMng : exLayer {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void CalculateDepthForDynamicLayer ( exLayer _curLayer, bool _doAssign ) {
+    List<exLayer> CalculateDepthForDynamicLayer ( exLayer _curLayer ) {
         float totalDepth = 0.0f;
         List<exLayer> layerList = new List<exLayer>();
         AddLayerRecursively ( _curLayer, true, ref totalDepth, ref layerList );
@@ -227,25 +238,15 @@ public class exLayerMng : exLayer {
                     curDepth += unitLayer; 
                 }
             }
-
-            // assignment
-            if ( _doAssign ) {
-                for ( int i = 0; i < layerList.Count; ++i ) {
-                    exLayer layer = layerList[i];
-                    if ( layer.isDirty == false )
-                        continue;
-
-                    RecursivelyUpdateLayer ( layer.transform.root );
-                }
-            }
         }
+        return layerList;
     }
 
     // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void CalculateDepthForAbstractLayer ( exLayer _curLayer, bool _doAssign ) {
+    List<exLayer> CalculateDepthForAbstractLayer ( exLayer _curLayer ) {
         float totalDepth = 0.0f;
         List<exLayer> layerList = new List<exLayer>();
         AddLayerRecursively ( _curLayer, true, ref totalDepth, ref layerList );
@@ -256,17 +257,7 @@ public class exLayerMng : exLayer {
             layer.depth = curDepth;
             layer.isDirty = true;
         }
-
-        // assignment
-        if ( _doAssign ) {
-            for ( int i = 0; i < layerList.Count; ++i ) {
-                exLayer layer = layerList[i];
-                if ( layer.isDirty == false )
-                    continue;
-
-                RecursivelyUpdateLayer ( layer.transform.root );
-            }
-        }
+        return layerList;
     }
 
     // ------------------------------------------------------------------ 

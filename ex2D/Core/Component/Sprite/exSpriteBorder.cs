@@ -613,7 +613,7 @@ public class exSpriteBorder : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override public void Commit () {
+    public override void Commit () {
         if ( meshFilter ) {
             if ( meshFilter_.sharedMesh != null ) {
                 UpdateMesh (meshFilter_.sharedMesh);
@@ -629,7 +629,7 @@ public class exSpriteBorder : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Awake () {
+    protected new void Awake () {
         base.Awake();
 
         if ( guiBorder_ != null 
@@ -654,7 +654,7 @@ public class exSpriteBorder : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void OnEnable () {
+    protected new void OnEnable () {
         base.OnEnable();
     }
 
@@ -662,7 +662,7 @@ public class exSpriteBorder : exSpriteBase {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void OnDisable () {
+    protected new void OnDisable () {
         base.OnDisable();
     }
 

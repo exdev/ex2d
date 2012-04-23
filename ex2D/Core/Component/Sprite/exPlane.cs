@@ -126,18 +126,21 @@ public class exPlane : MonoBehaviour {
             if ( newCamera != camera_ ) {
                 camera_ = newCamera;
                 inCommitList = false;
+                spriteMng_ = null;
 
                 // update sprite manager
-                spriteMng_ = camera_.GetComponent<exSpriteMng>();
-                if ( spriteMng_ == null )
-                    spriteMng_ = camera_.gameObject.AddComponent<exSpriteMng>();
+                if ( camera_ ) {
+                    spriteMng_ = camera_.GetComponent<exSpriteMng>();
+                    if ( spriteMng_ == null )
+                        spriteMng_ = camera_.gameObject.AddComponent<exSpriteMng>();
 
-                // update pixel-perfect camera
-                exPixelPerfectCamera ppfCamera = camera_.GetComponent<exPixelPerfectCamera>();
-                if ( ppfCamera != null ) {
-                    exPixelPerfect ppf = GetComponent<exPixelPerfect>();
-                    if ( ppf != null )
-                        ppf.UpdatePixelPerfectCamera(ppfCamera);
+                    // update pixel-perfect camera
+                    exPixelPerfectCamera ppfCamera = camera_.GetComponent<exPixelPerfectCamera>();
+                    if ( ppfCamera != null ) {
+                        exPixelPerfect ppf = GetComponent<exPixelPerfect>();
+                        if ( ppf != null )
+                            ppf.UpdatePixelPerfectCamera(ppfCamera);
+                    }
                 }
             }
         }
@@ -308,7 +311,7 @@ public class exPlane : MonoBehaviour {
     /// you need to override this and call base.Awake() in your Awake block.
     // ------------------------------------------------------------------ 
 
-    virtual protected void Awake () {
+    protected void Awake () {
         //
         if ( camera_ == null )
             camera_ = Camera.main;
@@ -333,7 +336,7 @@ public class exPlane : MonoBehaviour {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    void OnDestroy () {
+    protected void OnDestroy () {
         if ( meshFilter ) {
             DestroyImmediate( meshFilter.sharedMesh, true );
         }
@@ -348,7 +351,7 @@ public class exPlane : MonoBehaviour {
     /// you need to override this and call base.OnEnable() in your OnEnable block.
     // ------------------------------------------------------------------ 
 
-    virtual protected void OnEnable () {
+    protected void OnEnable () {
         if ( renderer != null )
             renderer.enabled = true;
     }
@@ -362,7 +365,7 @@ public class exPlane : MonoBehaviour {
     /// you need to override this and call base.OnDisable() in your OnDisable block.
     // ------------------------------------------------------------------ 
 
-    virtual protected void OnDisable () {
+    protected void OnDisable () {
         if ( renderer != null )
             renderer.enabled = false;
     }
@@ -385,7 +388,7 @@ public class exPlane : MonoBehaviour {
     /// It will be invoked when updateFlags is not UpdateFlags.None
     // ------------------------------------------------------------------ 
 
-    virtual public void Commit () {
+    public virtual void Commit () {
         // Debug.LogWarning ("You should not directly call this function. please override it!");
     }
 

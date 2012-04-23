@@ -33,7 +33,7 @@ public class exSpriteBorderAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Awake () {
+    protected new void Awake () {
         base.Awake();
 
         spriteBorder = GetComponent<exSpriteBorder>();
@@ -46,7 +46,7 @@ public class exSpriteBorderAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Update () {
+    protected new void Update () {
         base.Update();
         if ( spriteBorder == null ) {
             spriteBorder = GetComponent<exSpriteBorder>();

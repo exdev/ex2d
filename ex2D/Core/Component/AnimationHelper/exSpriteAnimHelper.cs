@@ -33,7 +33,7 @@ public class exSpriteAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Awake () {
+    protected new void Awake () {
         base.Awake();
 
         sprite = GetComponent<exSprite>();
@@ -46,7 +46,7 @@ public class exSpriteAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    override protected void Update () {
+    protected new void Update () {
         base.Update();
         if ( sprite == null ) {
             sprite = GetComponent<exSprite>();

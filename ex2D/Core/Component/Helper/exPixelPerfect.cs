@@ -49,6 +49,13 @@ public class exPixelPerfect : MonoBehaviour {
 
     void Awake () {
         sprite = GetComponent<exSpriteBase>();
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    void Start () {
         ppfCamera = sprite.renderCamera.GetComponent<exPixelPerfectCamera>();
         if ( ppfCamera == null ) {
             ppfCamera = sprite.renderCamera.gameObject.AddComponent<exPixelPerfectCamera>();
