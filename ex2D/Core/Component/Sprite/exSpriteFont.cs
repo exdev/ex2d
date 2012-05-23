@@ -347,7 +347,8 @@ public class exSpriteFont : exSpriteBase {
                 curWidth = curWidth + charInfo.xadvance + tracking_;
                 if ( useKerning_ ) {
                     if ( i < text_.Length - 1 ) {
-                        foreach ( exBitmapFont.KerningInfo k in fontInfo_.kernings ) {
+                        for ( int idx = 0; idx < fontInfo_.kernings.Count; ++idx ) {
+                            exBitmapFont.KerningInfo k = fontInfo_.kernings[idx];
                             if ( k.first == c && k.second == text_[i+1] ) {
                                 curWidth += k.amount;
                                 _kernings[i] = k.amount;

@@ -35,8 +35,8 @@ public static class exMathHelper {
         int result = 1;
         for ( int i = 2; i < min+1; ++i ) {
             bool flag = true;
-            foreach ( int j in _list ) {
-                if ( j % i != 0 ) {
+            for ( int idx = 0; idx < _list.Count; ++idx ) {
+                if ( _list[idx] % i != 0 ) {
                     flag = false;
                 }
             }

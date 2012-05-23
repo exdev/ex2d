@@ -60,13 +60,12 @@ public class exPixelPerfectCamera : MonoBehaviour {
 
         CalculateScaleAndRatio ();
         exPixelPerfect[] ppfs = GameObject.FindObjectsOfType ( typeof(exPixelPerfect) ) as exPixelPerfect[];
-        foreach ( exPixelPerfect ppf in ppfs ) {
-            exSpriteBase sprite = ppf.GetComponent<exSpriteBase>();
+        for ( int i = 0; i < ppfs.Length; ++i ) {
+            exSpriteBase sprite = ppfs[i].GetComponent<exSpriteBase>();
             if ( sprite == null || sprite.renderCamera != camera )
                 continue;
 
-            Vector3 toCamera = sprite.transform.position - transform.position;
-            CalculatePixelPerfectScale ( sprite, toCamera.magnitude );
+            CalculatePixelPerfectScale ( sprite, sprite.transform.position - transform.position );
             sprite.Commit();
         }
     }
@@ -118,13 +117,12 @@ public class exPixelPerfectCamera : MonoBehaviour {
         if ( changed ) {
             CalculateScaleAndRatio ();
             exPixelPerfect[] ppfs = GameObject.FindObjectsOfType ( typeof(exPixelPerfect) ) as exPixelPerfect[];
-            foreach ( exPixelPerfect ppf in ppfs ) {
-                exSpriteBase sprite = ppf.GetComponent<exSpriteBase>();
+            for ( int i = 0; i < ppfs.Length; ++i ) {
+                exSpriteBase sprite = ppfs[i].GetComponent<exSpriteBase>();
                 if ( sprite == null || sprite.renderCamera != camera )
                     continue;
 
-                Vector3 toCamera = sprite.transform.position - transform.position;
-                CalculatePixelPerfectScale ( sprite, toCamera.magnitude );
+                CalculatePixelPerfectScale ( sprite, sprite.transform.position - transform.position );
                 sprite.Commit();
             }
         }
@@ -146,13 +144,16 @@ public class exPixelPerfectCamera : MonoBehaviour {
     /// \param _depthToCamera the depth to camera
     // ------------------------------------------------------------------ 
 
-    public void CalculatePixelPerfectScale ( exSpriteBase _sprite, float _depthToCamera ) {
+    public void CalculatePixelPerfectScale ( exSpriteBase _sprite, Vector3 _toSprite ) {
         if ( (camera.orthographic && scale <= 0.0f) || ratio <= 0.0f )
             CalculateScaleAndRatio ();
 
         float s = scale;
-        if ( camera.orthographic == false )
-            s = ratio * _depthToCamera;
+        if ( camera.orthographic == false ) {
+            float angle = Vector3.Angle(transform.forward, _toSprite);
+            float depth = Mathf.Cos( angle * Mathf.Deg2Rad ) * _toSprite.magnitude;
+            s = ratio * depth;
+        }
 
         _sprite.ppfScale = new Vector2( s, s );
     }

@@ -96,7 +96,8 @@ public class exBitmapFont : ScriptableObject {
             idToCharInfo = new Dictionary<int,CharInfo>();
         }
         idToCharInfo.Clear();
-        foreach ( CharInfo c in charInfos ) {
+        for ( int i = 0; i < charInfos.Count; ++i ) {
+            CharInfo c = charInfos[i];
             idToCharInfo[c.id] = c;
         }
     }
@@ -111,7 +112,8 @@ public class exBitmapFont : ScriptableObject {
         // create and build idToCharInfo table if null
         if ( idToCharInfo == null ) {
             idToCharInfo = new Dictionary<int,CharInfo>();
-            foreach ( CharInfo c in charInfos ) {
+            for ( int i = 0; i < charInfos.Count; ++i ) {
+                CharInfo c = charInfos[i];
                 idToCharInfo[c.id] = c;
             }
         }

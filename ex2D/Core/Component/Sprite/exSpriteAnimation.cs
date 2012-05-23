@@ -54,8 +54,8 @@ public class exSpriteAnimState {
 
         frameTimes = new List<float>(_animClip.frameInfos.Count);
         float tmp = 0.0f;
-        foreach ( exSpriteAnimClip.FrameInfo fi in _animClip.frameInfos ) {
-            tmp += fi.length;
+        for ( int i = 0; i < _animClip.frameInfos.Count; ++i ) {
+            tmp += _animClip.frameInfos[i].length;
             frameTimes.Add(tmp);
         }
     }
@@ -141,8 +141,8 @@ public class exSpriteAnimation : MonoBehaviour {
             defaultIndex = sprite.index;
 
             nameToState = new Dictionary<string,exSpriteAnimState> ();
-            foreach ( exSpriteAnimClip clip in animations ) {
-                exSpriteAnimState state = new exSpriteAnimState(clip);
+            for ( int i = 0; i < animations.Count; ++i ) {
+                exSpriteAnimState state = new exSpriteAnimState(animations[i]);
                 nameToState[state.name] = state;
             }
 
@@ -371,7 +371,7 @@ public class exSpriteAnimation : MonoBehaviour {
         if ( string.IsNullOrEmpty(_name) )
             return playing;
         else
-            return ( playing && curAnimation.name == _name );
+            return ( playing && curAnimation != null && curAnimation.name == _name );
     }
 
     // ------------------------------------------------------------------ 
@@ -385,7 +385,7 @@ public class exSpriteAnimation : MonoBehaviour {
         if ( string.IsNullOrEmpty(_name) )
             return (enabled == false);
         else
-            return (enabled == false && curAnimation.name == _name);
+            return (enabled == false && curAnimation != null && curAnimation.name == _name);
     }
 
     // ------------------------------------------------------------------ 
@@ -504,6 +504,7 @@ public class exSpriteAnimation : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     public exSpriteAnimState AddAnimation ( string _name, exSpriteAnimClip _animClip ) {
+        Init ();
         exSpriteAnimState state = null;
 
         // if we already have the animation, just return the animation state

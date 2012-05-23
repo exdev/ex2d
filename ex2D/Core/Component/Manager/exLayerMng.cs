@@ -74,7 +74,8 @@ public class exLayerMng : exLayer {
             float startFrom = transform.position.z + camera.nearClipPlane + 0.1f;
 
             int totalNormalLayerCount = 0;
-            foreach ( exLayer childLayer in children ) {
+            for ( int i = 0; i < children.Count; ++i ) {
+                exLayer childLayer = children[i];
                 childLayer.indentLevel = 1;
                 totalNormalLayerCount += AddLayerRecursively ( childLayer, true, ref totalDepth, ref layerList );
             }
@@ -194,7 +195,8 @@ public class exLayerMng : exLayer {
         }
 
         //
-        foreach ( exLayer childLayer in _curLayer.children ) {
+        for ( int i = 0; i < _curLayer.children.Count; ++i ) {
+            exLayer childLayer = _curLayer.children[i];
             childLayer.indentLevel = _curLayer.indentLevel + 1;
             count += AddLayerRecursively ( childLayer, doCount, ref _totalDepth, ref _layerList );
         }
@@ -212,8 +214,8 @@ public class exLayerMng : exLayer {
     void SetLayerDepthRecursively ( exLayer _curLayer, float _depth ) {
         _curLayer.depth = _depth;
 
-        foreach ( exLayer childLayer in _curLayer.children ) {
-            SetLayerDepthRecursively ( childLayer, _depth );
+        for ( int i = 0; i < _curLayer.children.Count; ++i ) {
+            SetLayerDepthRecursively ( _curLayer.children[i], _depth );
         }
     } 
 

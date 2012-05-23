@@ -35,7 +35,8 @@ public class exSpriteMng : MonoBehaviour {
         // pre-softclip 
         // ======================================================== 
 
-        foreach ( exPlane sp in sprites ) {
+        for ( int i = 0; i < sprites.Count; ++i ) {
+            exPlane sp = sprites[i];
             // NOTE: it is possible the sprite has been destroyed first
             if ( sp != null ) { 
                 if ( sp.updateFlags != exPlane.UpdateFlags.None ) {
@@ -51,7 +52,8 @@ public class exSpriteMng : MonoBehaviour {
         // process softclip items after sprites' boundingRect changes 
         // ======================================================== 
 
-        foreach ( exSoftClip sp in softClips ) {
+        for ( int i = 0; i < softClips.Count; ++i ) {
+            exSoftClip sp = softClips[i];
             if ( sp.enabled )
                 sp.UpdateClipInfo();
         }
@@ -60,7 +62,8 @@ public class exSpriteMng : MonoBehaviour {
         // post-softclip 
         // ======================================================== 
 
-        foreach ( exPlane sp in sprites ) {
+        for ( int i = 0; i < sprites.Count; ++i ) {
+            exPlane sp = sprites[i];
             // NOTE: it is possible the sprite has been destroyed first
             if ( sp != null ) { 
                 if ( sp.updateFlags != exPlane.UpdateFlags.None ) {

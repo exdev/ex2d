@@ -31,7 +31,7 @@ public class exPixelPerfect : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     [System.NonSerialized] public exSpriteBase sprite;
-    [System.NonSerialized] public Vector3 toCamera;
+    [System.NonSerialized] public Vector3 cameraToSprite;
 
     // ------------------------------------------------------------------ 
     // Desc: 
@@ -90,11 +90,11 @@ public class exPixelPerfect : MonoBehaviour {
     public void UpdatePixelPerfectCamera ( exPixelPerfectCamera _ppfCamera ) {
         ppfCamera = _ppfCamera;
         if ( sprite.renderCamera.orthographic == false ) {
-            toCamera = transform.position - sprite.renderCamera.transform.position;
+            cameraToSprite = transform.position - sprite.renderCamera.transform.position;
         }
 
         //
-        ppfCamera.CalculatePixelPerfectScale ( sprite, toCamera.magnitude );
+        ppfCamera.CalculatePixelPerfectScale ( sprite, cameraToSprite );
     }
 
     // ------------------------------------------------------------------ 
@@ -104,10 +104,10 @@ public class exPixelPerfect : MonoBehaviour {
 
     void Update () {
         if ( sprite != null && sprite.renderCamera.orthographic == false ) {
-            Vector3 newToCamera = transform.position - sprite.renderCamera.transform.position;
+            Vector3 newCameraToSprite = transform.position - sprite.renderCamera.transform.position;
 
-            if ( newToCamera.sqrMagnitude != toCamera.sqrMagnitude ) {
-                toCamera = newToCamera;
+            if ( newCameraToSprite.sqrMagnitude != cameraToSprite.sqrMagnitude ) {
+                cameraToSprite = newCameraToSprite;
 
                 //
                 if ( ppfCamera == null || ppfCamera.camera != sprite.renderCamera ) {
@@ -116,7 +116,7 @@ public class exPixelPerfect : MonoBehaviour {
                         ppfCamera = sprite.renderCamera.gameObject.AddComponent<exPixelPerfectCamera>();
                     }
                 }
-                ppfCamera.CalculatePixelPerfectScale ( sprite, toCamera.magnitude );
+                ppfCamera.CalculatePixelPerfectScale ( sprite, cameraToSprite );
             }
         }
     }
