@@ -17,8 +17,8 @@ rm -rf $dest_gui
 mkdir -p $dest_gui
 
 cd $src_gui
-find . -type d -name '*' -exec mkdir -p $dest/{} \;
-find . -type f -iname "*.cs" -exec cp {} $dest/{} \;
-find . -type f -iname "*.shader" -exec cp {} $dest/{} \;
+find . -type d -name '*' -exec mkdir -p $dest_gui/{} \;
+find . -type f -iname "*.cs" -exec cp {} $dest_gui/{} \;
+find . -type f -iname "*.shader" -exec cp {} $dest_gui/{} \;
 cd $dest_gui
 
