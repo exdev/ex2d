@@ -1,7 +1,7 @@
 // ======================================================================================
-// File         : exSoftClipAnimHelper.cs
+// File         : exClippingAnimHelper.cs
 // Author       : Wu Jie 
-// Last Change  : 08/27/2011 | 20:54:58 PM | Saturday,August
+// Last Change  : 06/09/2012 | 11:17:32 AM | Saturday,June
 // Description  : 
 // ======================================================================================
 
@@ -17,11 +17,10 @@ using System.Collections;
 ///////////////////////////////////////////////////////////////////////////////
 
 [ExecuteInEditMode]
-[RequireComponent (typeof(exSoftClip))]
-public class exSoftClipAnimHelper : exSpriteBaseAnimHelper {
+[RequireComponent (typeof(exClipping))]
+public class exClippingAnimHelper : exAnimationHelper {
 
-    exSoftClip softClip;
-    // Vector2 lastCenter = Vector2.zero;
+    exClipping clipping;
     float lastWidth;
     float lastHeight;
 
@@ -36,10 +35,9 @@ public class exSoftClipAnimHelper : exSpriteBaseAnimHelper {
     protected new void Awake () {
         base.Awake();
 
-        softClip = GetComponent<exSoftClip>();
-        // lastCenter = softClip.center;
-        lastWidth = softClip.width;
-        lastHeight = softClip.height;
+        clipping = GetComponent<exClipping>();
+        lastWidth = clipping.width;
+        lastHeight = clipping.height;
     }
 
     // ------------------------------------------------------------------ 
@@ -48,25 +46,23 @@ public class exSoftClipAnimHelper : exSpriteBaseAnimHelper {
 
     protected new void Update () {
         base.Update();
-        if ( softClip == null ) {
-            softClip = GetComponent<exSoftClip>();
-            if ( softClip == null ) {
-                Debug.LogError("Can't find exSoftClip Component in GameObject " + gameObject.name);
+        if ( clipping == null ) {
+            clipping = GetComponent<exClipping>();
+            if ( clipping == null ) {
+                Debug.LogError("Can't find exClipping Component in GameObject " + gameObject.name);
                 return;
             }
         }
 
-        // if ( lastCenter != softClip.center ) {
-        //     lastCenter = softClip.center;
-        // }
-        if ( lastWidth != softClip.width ) {
-            lastWidth = softClip.width;
-            softClip.updateFlags |= exPlane.UpdateFlags.Vertex;
+        if ( lastWidth != clipping.width ) {
+            lastWidth = clipping.width;
+            clipping.updateFlags |= exPlane.UpdateFlags.Vertex;
         }
-        if ( lastHeight != softClip.height ) {
-            lastHeight = softClip.height;
-            softClip.updateFlags |= exPlane.UpdateFlags.Vertex;
+        if ( lastHeight != clipping.height ) {
+            lastHeight = clipping.height;
+            clipping.updateFlags |= exPlane.UpdateFlags.Vertex;
         }
     }
+
 }
 

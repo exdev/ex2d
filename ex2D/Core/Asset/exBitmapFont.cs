@@ -123,5 +123,6 @@ public class exBitmapFont : ScriptableObject {
             return idToCharInfo[_id];
         return null;
     }
+
 }
 

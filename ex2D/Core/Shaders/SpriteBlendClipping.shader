@@ -12,6 +12,7 @@
 Shader "ex2D/Alpha Blended (Clipping)" {
     Properties {
         _MainTex ("Atlas Texture", 2D) = "white" {}
+        _ClipRect ("Rect", Vector) = ( 0, 0, 0, 0 )
     }
 
     // ======================================================== 
@@ -41,6 +42,7 @@ Shader "ex2D/Alpha Blended (Clipping)" {
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float4 _ClipRect = float4(0.0, 0.0, 1.0, 1.0);
+			float4x4 _ClipMatrix;
 
 			struct appdata_t {
 				float4 vertex   : POSITION;
@@ -55,18 +57,19 @@ Shader "ex2D/Alpha Blended (Clipping)" {
 				float2 worldPosition : TEXCOORD1;
 			};
 
-			v2f vert ( appdata_t _v ) {
+			v2f vert ( appdata_t _in ) {
 				v2f o;
-				o.worldPosition = mul(_Object2World, _v.vertex).xy;
-				o.vertex = mul(UNITY_MATRIX_MVP, _v.vertex);
-				o.color = _v.color;
-				o.texcoord = TRANSFORM_TEX(_v.texcoord, _MainTex);
+                float4 wpos = mul(_Object2World, _in.vertex);
+                o.worldPosition = mul(_ClipMatrix, wpos).xy;
+				o.vertex = mul(UNITY_MATRIX_MVP, _in.vertex);
+				o.color = _in.color;
+				o.texcoord = TRANSFORM_TEX(_in.texcoord, _MainTex);
 				return o;
 			}
 
 			fixed4 frag ( v2f _in ) : COLOR {
-                _ClipRect = float4( 0.0, 0.0, 20.0, 40.0 ); // DELME TEMP
-				float2 factor = abs ( _in.worldPosition - _ClipRect.xy ) / _ClipRect.zw;
+                float2 half_wh = _ClipRect.zw * 0.5f;
+				float2 factor = abs ( _in.worldPosition - _ClipRect.xy ) / half_wh;
 				clip ( 1.0 - max ( factor.x, factor.y ) );
 				return tex2D ( _MainTex, _in.texcoord ) * _in.color;
 			}

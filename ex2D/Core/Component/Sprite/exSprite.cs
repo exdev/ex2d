@@ -227,10 +227,6 @@ public class exSprite : exSpriteBase {
                            float _heightScaled,
                            float _col,
                            float _row,
-                           float _xMinClip, 
-                           float _xMaxClip,
-                           float _yMinClip, 
-                           float _yMaxClip, 
                            float _offsetX, 
                            float _offsetY ) 
     {
@@ -238,23 +234,6 @@ public class exSprite : exSpriteBase {
         // calculate the base pos
         _x = _widthScaled * (_col - 0.5f);
         _y =  _heightScaled * (0.5f - _row);
-
-        // do clip
-        if ( clipInfo_.clipped ) {
-            if ( _x <= _xMinClip ) {
-                _x = _xMinClip;
-            }
-            else if ( _x >= _xMaxClip ) {
-                _x = _xMaxClip;
-            }
-
-            if ( _y <= _yMinClip ) {
-                _y = _yMinClip;
-            }
-            else if ( _y >= _yMaxClip ) {
-                _y = _yMaxClip;
-            }
-        }
 
         // calculate the pos affect by anchor
         _x -= _offsetX;
@@ -277,35 +256,6 @@ public class exSprite : exSpriteBase {
         exAtlas.Element el = null;
         if ( useAtlas )
             el = atlas_.elements[index_];
-
-        // ======================================================== 
-        // get clip info first
-        // ======================================================== 
-
-        float clipLeft   = 0.0f; 
-        float clipRight  = 0.0f; 
-        float clipTop    = 0.0f; 
-        float clipBottom = 0.0f;
-
-        if ( clipInfo_.clipped ) {
-            if ( scale_.x >= 0.0f ) {
-                clipLeft = clipInfo_.left;
-                clipRight = clipInfo_.right;
-            }
-            else {
-                clipLeft = clipInfo_.right;
-                clipRight = clipInfo_.left;
-            }
-
-            if ( scale_.y >= 0.0f ) {
-                clipTop = clipInfo_.top;
-                clipBottom = clipInfo_.bottom;
-            }
-            else{
-                clipTop = clipInfo_.bottom;
-                clipBottom = clipInfo_.top;
-            }
-        }
 
         // ======================================================== 
         // Update Vertex
@@ -426,12 +376,6 @@ public class exSprite : exSpriteBase {
             offsetX -= offset_.x;
             offsetY += offset_.y;
 
-            //
-            float xMinClip = finalScale.x * width_  * ( -0.5f + clipLeft   );
-            float xMaxClip = finalScale.x * width_  * (  0.5f - clipRight  );
-            float yMinClip = finalScale.y * height_ * ( -0.5f + clipTop    );
-            float yMaxClip = finalScale.y * height_ * (  0.5f - clipBottom );
-
             // build vertices & normals
             for ( int r = 0; r < 2; ++r ) {
                 for ( int c = 0; c < 2; ++c ) {
@@ -440,7 +384,6 @@ public class exSprite : exSpriteBase {
                     CalculateVertex( out x, out y,
                                      width_ * finalScale.x, height_ * finalScale.y,
                                      c, r, 
-                                     xMinClip, xMaxClip, yMinClip, yMaxClip, 
                                      offsetX, offsetY );
                     vertices[i] = new Vector3( x, y, 0.0f );
                     normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
@@ -475,14 +418,6 @@ public class exSprite : exSpriteBase {
                 float xEnd    = el.coords.xMax;
                 float yEnd    = el.coords.yMax;
 
-                // do uv clip
-                if ( clipInfo_.clipped ) {
-                    xStart  += el.coords.width  * clipLeft;
-                    yStart  += el.coords.height * clipTop;
-                    xEnd    -= el.coords.width  * clipRight;
-                    yEnd    -= el.coords.height * clipBottom;
-                }
-
                 if ( el.rotated ) {
                     uvs[0] = new Vector2 ( xEnd,    yEnd );
                     uvs[1] = new Vector2 ( xEnd,    yStart );
@@ -501,14 +436,6 @@ public class exSprite : exSpriteBase {
                 float yStart  = trimUV.y;
                 float xEnd    = trimUV.xMax;
                 float yEnd    = trimUV.yMax;
-
-                // do uv clip
-                if ( clipInfo_.clipped ) {
-                    xStart  += trimUV.width  * clipLeft;
-                    yStart  += trimUV.height * clipTop;
-                    xEnd    -= trimUV.width  * clipRight;
-                    yEnd    -= trimUV.height * clipBottom;
-                }
 
                 uvs[0] = new Vector2 ( xStart,  yEnd );
                 uvs[1] = new Vector2 ( xEnd,    yEnd );

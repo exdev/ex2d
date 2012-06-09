@@ -26,5 +26,6 @@ public class exGUIBorder : ScriptableObject {
 
     // editor data
     public bool editorNeedRebuild = false; ///< check if the gui border need rebuild
+
 }
 

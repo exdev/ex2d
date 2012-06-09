@@ -153,35 +153,6 @@ public class exSpriteBorder : exSpriteBase {
             el = atlas_.elements[index_];
 
         // ======================================================== 
-        // get clip info first
-        // ======================================================== 
-
-        float clipLeft   = 0.0f; 
-        float clipRight  = 0.0f; 
-        float clipTop    = 0.0f; 
-        float clipBottom = 0.0f;
-
-        if ( clipInfo_.clipped ) {
-            if ( scale_.x >= 0.0f ) {
-                clipLeft = clipInfo_.left;
-                clipRight = clipInfo_.right;
-            }
-            else {
-                clipLeft = clipInfo_.right;
-                clipRight = clipInfo_.left;
-            }
-
-            if ( scale_.y >= 0.0f ) {
-                clipTop = clipInfo_.top;
-                clipBottom = clipInfo_.bottom;
-            }
-            else{
-                clipTop = clipInfo_.bottom;
-                clipBottom = clipInfo_.top;
-            }
-        }
-
-        // ======================================================== 
         // Update Vertex
         // ======================================================== 
 
@@ -214,12 +185,6 @@ public class exSpriteBorder : exSpriteBase {
             offsetX -= offset_.x;
             offsetY += offset_.y;
 
-            //
-            float xMinClip = scale_.x * width_  * ( -0.5f + clipLeft   );
-            float xMaxClip = scale_.x * width_  * (  0.5f - clipRight  );
-            float yMinClip = scale_.y * height_ * ( -0.5f + clipTop    );
-            float yMaxClip = scale_.y * height_ * (  0.5f - clipBottom );
-
             float centerWidth = width_ - guiBorder_.border.horizontal;
             float centerHeight = height_ - guiBorder_.border.vertical;
 
@@ -236,77 +201,6 @@ public class exSpriteBorder : exSpriteBase {
             float y1 = y0 - guiBorder_.border.top * scale_.y; 
             float y2 = y1 - centerHeight * scale_.y; 
             float y3 = y2 - guiBorder_.border.bottom * scale_.y; 
-
-            // do clip
-            if ( clipInfo_.clipped ) {
-                // xMinClip
-                if ( x2 <= xMinClip ) {
-                    clipLeft = (xMinClip - x3) / (guiBorder_.border.right * scale_.x); 
-                    x0 = xMinClip;
-                    x1 = xMinClip;
-                    x2 = xMinClip;
-                }
-                else if ( x1 <= xMinClip ) {
-                    clipLeft = 0.0f; // FIXME
-                    x0 = xMinClip;
-                    x1 = xMinClip;
-                }
-                else if ( x0 <= xMinClip ) {
-                    clipLeft = (xMinClip - x0) / (float)(guiBorder_.border.left * scale_.x); 
-                    x0 = xMinClip;
-                }
-
-                // xMaxClip
-                if ( x1 >= xMaxClip ) {
-                    clipRight = (x0 - xMaxClip) / (guiBorder_.border.left * scale_.x); 
-                    x1 = xMaxClip;
-                    x2 = xMaxClip;
-                    x3 = xMaxClip;
-                }
-                else if ( x2 >= xMaxClip ) {
-                    clipRight = 0.0f; // FIXME
-                    x2 = xMaxClip;
-                    x3 = xMaxClip;
-                }
-                else if ( x3 >= xMaxClip ) {
-                    clipRight = (x3 - xMaxClip) / (guiBorder_.border.right * scale_.x); 
-                    x3 = xMaxClip;
-                }
-
-                // yMinClip
-                if ( y1 <= yMinClip ) {
-                    clipTop = (yMinClip - y0) / (guiBorder_.border.bottom * scale_.y); 
-                    y1 = yMinClip;
-                    y2 = yMinClip;
-                    y3 = yMinClip;
-                }
-                else if ( y2 <= yMinClip ) {
-                    clipTop = 0.0f; // FIXME
-                    y2 = yMinClip;
-                    y3 = yMinClip;
-                }
-                else if ( y3 <= yMinClip ) {
-                    clipTop = (yMinClip - y3) / (guiBorder_.border.top * scale_.y); 
-                    y3 = yMinClip;
-                }
-
-                // yMaxClip
-                if ( y2 >= yMaxClip ) {
-                    clipBottom = (y3 - yMaxClip) / (guiBorder_.border.top * scale_.y); 
-                    y0 = yMaxClip;
-                    y1 = yMaxClip;
-                    y2 = yMaxClip;
-                }
-                else if ( y1 >= yMaxClip ) {
-                    clipBottom = 0.0f; // FIXME
-                    y0 = yMaxClip;
-                    y1 = yMaxClip;
-                }
-                else if ( y0 >= yMaxClip ) {
-                    clipBottom = (y0 - yMaxClip) / (guiBorder_.border.bottom * scale_.y); 
-                    y0 = yMaxClip;
-                }
-            }
 
             // calculate the pos affect by anchor
             x0 -= offsetX; x1 -= offsetX; x2 -= offsetX; x3 -= offsetX;
@@ -432,11 +326,6 @@ public class exSpriteBorder : exSpriteBase {
                 float topRatio      = (float)guiBorder_.border.top    / (float)atlas_.texture.height; 
                 float bottomRatio   = (float)guiBorder_.border.bottom / (float)atlas_.texture.height; 
 
-                float umin = xStart;
-                float umax = xEnd;
-                float vmin = yStart;
-                float vmax = yEnd;
-
                 float u0 = xStart; 
                 float u1 = xStart + leftRatio; 
                 float u2 = xEnd - rightRatio; 
@@ -446,24 +335,6 @@ public class exSpriteBorder : exSpriteBase {
                 float v1 = yEnd - topRatio; 
                 float v2 = yStart + bottomRatio; 
                 float v3 = yStart;
-
-                // do uv clip
-                if ( clipInfo_.clipped ) {
-                    umin = clipLeft   >= 0.0f ? xStart + clipLeft * leftRatio     : xEnd   + clipLeft * rightRatio;
-                    umax = clipRight  >= 0.0f ? xEnd   - clipRight * rightRatio   : xStart - clipRight * leftRatio;
-                    vmin = clipTop    >= 0.0f ? yStart + clipTop * topRatio       : yEnd   + clipTop * bottomRatio;
-                    vmax = clipBottom >= 0.0f ? yEnd   - clipBottom * bottomRatio : yStart - clipBottom * topRatio;
-
-                    u0 = Mathf.Clamp ( u0, umin, umax ); 
-                    u1 = Mathf.Clamp ( u1, umin, umax ); 
-                    u2 = Mathf.Clamp ( u2, umin, umax ); 
-                    u3 = Mathf.Clamp ( u3, umin, umax ); 
-
-                    v0 = Mathf.Clamp ( v0, vmin, vmax ); 
-                    v1 = Mathf.Clamp ( v1, vmin, vmax ); 
-                    v2 = Mathf.Clamp ( v2, vmin, vmax ); 
-                    v3 = Mathf.Clamp ( v3, vmin, vmax ); 
-                }
 
                 uvs[0]  = new Vector2 ( u0, v0 );
                 uvs[1]  = new Vector2 ( u1, v0 );
@@ -497,11 +368,6 @@ public class exSpriteBorder : exSpriteBase {
                 float topRatio      = (float)guiBorder_.border.top    / (float)texture.height; 
                 float bottomRatio   = (float)guiBorder_.border.bottom / (float)texture.height; 
 
-                float umin = xStart;
-                float umax = xEnd;
-                float vmin = yStart;
-                float vmax = yEnd;
-
                 float u0 = xStart; 
                 float u1 = xStart + leftRatio; 
                 float u2 = xEnd - rightRatio; 
@@ -511,24 +377,6 @@ public class exSpriteBorder : exSpriteBase {
                 float v1 = yEnd - topRatio; 
                 float v2 = yStart + bottomRatio; 
                 float v3 = yStart;
-
-                // do uv clip
-                if ( clipInfo_.clipped ) {
-                    umin = clipLeft   >= 0.0f ? xStart + clipLeft * leftRatio     : xEnd   + clipLeft * rightRatio;
-                    umax = clipRight  >= 0.0f ? xEnd   - clipRight * rightRatio   : xStart - clipRight * leftRatio;
-                    vmin = clipTop    >= 0.0f ? yStart + clipTop * topRatio       : yEnd   + clipTop * bottomRatio;
-                    vmax = clipBottom >= 0.0f ? yEnd   - clipBottom * bottomRatio : yStart - clipBottom * topRatio;
-
-                    u0 = Mathf.Clamp ( u0, umin, umax ); 
-                    u1 = Mathf.Clamp ( u1, umin, umax ); 
-                    u2 = Mathf.Clamp ( u2, umin, umax ); 
-                    u3 = Mathf.Clamp ( u3, umin, umax ); 
-
-                    v0 = Mathf.Clamp ( v0, vmin, vmax ); 
-                    v1 = Mathf.Clamp ( v1, vmin, vmax ); 
-                    v2 = Mathf.Clamp ( v2, vmin, vmax ); 
-                    v3 = Mathf.Clamp ( v3, vmin, vmax ); 
-                }
 
                 uvs[0]  = new Vector2 ( u0, v0 );
                 uvs[1]  = new Vector2 ( u1, v0 );

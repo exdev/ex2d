@@ -207,6 +207,38 @@ public class exSpriteAnimClip : ScriptableObject {
     }
 
     // ------------------------------------------------------------------ 
+    /// \param _time the time of the current animation
+    /// Get the event index play forward by time 
+    // ------------------------------------------------------------------ 
+
+    public int GetForwardEventIndex ( float _time ) {
+        for ( int i = eventInfos.Count-1; i >= 0; --i ) {
+            EventInfo ei = eventInfos[i];
+
+            if ( _time > ei.time ) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // ------------------------------------------------------------------ 
+    /// \param _time the time of the current animation
+    /// Get the event index play backward by time 
+    // ------------------------------------------------------------------ 
+
+    public int GetBackwardEventIndex ( float _time ) {
+        for ( int i = 0; i < eventInfos.Count; ++i ) {
+            EventInfo ei = eventInfos[i];
+
+            if ( _time < ei.time ) {
+                return i;
+            }
+        }
+        return eventInfos.Count;
+    }
+
+    // ------------------------------------------------------------------ 
     /// \param _spAnim send message to target _spAnim.gameObject
     /// \param _lastAnim last animation state
     /// \param _lastIndex last triggered event info index (-1 means from start)

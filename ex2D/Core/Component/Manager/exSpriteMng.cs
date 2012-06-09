@@ -23,7 +23,7 @@ using System.Collections.Generic;
 public class exSpriteMng : MonoBehaviour {
 
     List<exPlane> sprites = new List<exPlane>();
-    List<exSoftClip> softClips = new List<exSoftClip>();
+    List<exClipping> clippingList = new List<exClipping>();
     
     // ------------------------------------------------------------------ 
     // Desc: 
@@ -32,7 +32,7 @@ public class exSpriteMng : MonoBehaviour {
     void OnPreRender () {
 
         // ======================================================== 
-        // pre-softclip 
+        // update sprites
         // ======================================================== 
 
         for ( int i = 0; i < sprites.Count; ++i ) {
@@ -49,31 +49,14 @@ public class exSpriteMng : MonoBehaviour {
         sprites.Clear();
 
         // ======================================================== 
-        // process softclip items after sprites' boundingRect changes 
+        // update clip items
         // ======================================================== 
 
-        for ( int i = 0; i < softClips.Count; ++i ) {
-            exSoftClip sp = softClips[i];
-            if ( sp.enabled )
-                sp.UpdateClipInfo();
+        for ( int i = 0; i < clippingList.Count; ++i ) {
+            exClipping clipping = clippingList[i];
+            if ( clipping.enabled )
+                clipping.CommitMaterialProperties();
         }
-
-        // ======================================================== 
-        // post-softclip 
-        // ======================================================== 
-
-        for ( int i = 0; i < sprites.Count; ++i ) {
-            exPlane sp = sprites[i];
-            // NOTE: it is possible the sprite has been destroyed first
-            if ( sp != null ) { 
-                if ( sp.updateFlags != exPlane.UpdateFlags.None ) {
-                    sp.Commit();
-                    sp.updateFlags = exPlane.UpdateFlags.None;
-                }
-                sp.inCommitList = false;
-            }
-        }
-        sprites.Clear();
     }
 
     // ------------------------------------------------------------------ 
@@ -91,16 +74,16 @@ public class exSpriteMng : MonoBehaviour {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    public void AddToSoftClipList ( exSoftClip _softClip ) {
-        if ( softClips.IndexOf(_softClip) == -1 )
-            softClips.Add (_softClip);
+    public void AddToClippingList ( exClipping _clipping ) {
+        if ( clippingList.IndexOf(_clipping) == -1 )
+            clippingList.Add (_clipping);
     }
 
     // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    public void RemoveFromSoftClipList ( exSoftClip _softClip ) {
-        softClips.Remove (_softClip);
+    public void RemoveFromClippingList ( exClipping _clipping ) {
+        clippingList.Remove (_clipping);
     }
 }

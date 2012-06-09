@@ -141,7 +141,7 @@ public class exPixelPerfectCamera : MonoBehaviour {
 
     // ------------------------------------------------------------------ 
     /// \param _sprite the in sprite
-    /// \param _depthToCamera the depth to camera
+    /// \param _toSprite the vector from camera to sprite
     // ------------------------------------------------------------------ 
 
     public void CalculatePixelPerfectScale ( exSpriteBase _sprite, Vector3 _toSprite ) {

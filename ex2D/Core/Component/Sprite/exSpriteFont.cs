@@ -587,46 +587,6 @@ public class exSpriteFont : exSpriteBase {
                             out offsetX,
                             out offsetY );
 
-            // get clip info first
-            float widthScaled = 2.0f * halfWidthScaled;
-            float heightScaled = 2.0f * halfHeightScaled;
-
-            float clipLeft   = 0.0f; 
-            float clipRight  = 0.0f; 
-            float clipTop    = 0.0f; 
-            float clipBottom = 0.0f;
-
-            float xMinClip = -halfWidthScaled;
-            float xMaxClip =  halfWidthScaled;
-            float yMinClip = -halfHeightScaled;
-            float yMaxClip =  halfHeightScaled;
-
-            if ( clipInfo_.clipped ) {
-                if ( scale_.x >= 0.0f ) {
-                    clipLeft = clipInfo_.left;
-                    clipRight = clipInfo_.right;
-                }
-                else {
-                    clipLeft = clipInfo_.right;
-                    clipRight = clipInfo_.left;
-                }
-
-                if ( scale_.y >= 0.0f ) {
-                    clipTop = clipInfo_.top;
-                    clipBottom = clipInfo_.bottom;
-                }
-                else{
-                    clipTop = clipInfo_.bottom;
-                    clipBottom = clipInfo_.top;
-                }
-
-                //
-                xMinClip = widthScaled  * ( -0.5f + clipLeft   );
-                xMaxClip = widthScaled  * (  0.5f - clipRight  );
-                yMinClip = heightScaled * ( -0.5f + clipTop    );
-                yMaxClip = heightScaled * (  0.5f - clipBottom );
-            }
-
             //
             Vector3[] vertices  = new Vector3[vertexCount];
             Vector2[] uvs       = new Vector2[vertexCount];
@@ -679,12 +639,6 @@ public class exSpriteFont : exSpriteBase {
                 exBitmapFont.CharInfo charInfo = fontInfo_.GetCharInfo(id);
 
                 //
-                float charClipLeft   = 0.0f;
-                float charClipRight  = 0.0f;
-                float charClipTop    = 0.0f;
-                float charClipBottom = 0.0f;
-
-                //
                 if ( charInfo != null ) {
                     // build vertices & normals
                     for ( int r = 0; r < 2; ++r ) {
@@ -694,33 +648,6 @@ public class exSpriteFont : exSpriteBase {
                             // calculate the base pos
                             float x = curX - halfWidthScaled + c * charInfo.width * finalScale.x + charInfo.xoffset * finalScale.x;
                             float y = -curY + halfHeightScaled - r * charInfo.height * finalScale.y - charInfo.yoffset * finalScale.y;
-
-                            // do clip
-                            if ( clipInfo_.clipped ) {
-                                //
-                                if ( x <= xMinClip ) {
-                                    if ( j == 0 )
-                                        charClipLeft = (xMinClip - x) / (charInfo.width * finalScale.x); 
-                                    x = xMinClip;
-                                }
-                                else if ( x >= xMaxClip ) {
-                                    if ( j == 3 )
-                                        charClipRight = (x - xMaxClip) / (charInfo.width * finalScale.x); 
-                                    x = xMaxClip;
-                                }
-
-                                //
-                                if ( y <= yMinClip ) {
-                                    if ( j == 3 )
-                                        charClipTop = (yMinClip - y) / (charInfo.height * finalScale.y); 
-                                    y = yMinClip;
-                                }
-                                else if ( y >= yMaxClip ) {
-                                    if ( j == 0 )
-                                        charClipBottom = (y - yMaxClip) / (charInfo.height * finalScale.y); 
-                                    y = yMaxClip;
-                                }
-                            }
 
                             // calculate the pos affect by anchor
                             x -= offsetX;
@@ -734,24 +661,6 @@ public class exSpriteFont : exSpriteBase {
                             // build vertices and normals
                             vertices[vert_id+j] = new Vector3( x, y, 0.0f );
                             // normals[vert_id+j] = new Vector3( 0.0f, 0.0f, -1.0f );
-
-                            // DELME { 
-                            // // build vertices and normals
-                            // switch ( plane ) {
-                            // case Plane.XY:
-                            //     vertices[vert_id+j] = new Vector3( x, y, 0.0f );
-                            //     // normals[vert_id+j] = new Vector3( 0.0f, 0.0f, -1.0f );
-                            //     break;
-                            // case Plane.XZ:
-                            //     vertices[vert_id+j] = new Vector3( x, 0.0f, y );
-                            //     // normals[vert_id+j] = new Vector3( 0.0f, 1.0f, 0.0f );
-                            //     break;
-                            // case Plane.ZY:
-                            //     vertices[vert_id+j] = new Vector3( 0.0f, y, x );
-                            //     // normals[vert_id+j] = new Vector3( 1.0f, 0.0f, 0.0f );
-                            //     break;
-                            // }
-                            // } DELME end 
                         }
                     }
 
@@ -765,14 +674,6 @@ public class exSpriteFont : exSpriteBase {
                     float yStart  = charInfo.uv0.y;
                     float xEnd    = xStart + charUVWidth; 
                     float yEnd    = yStart + charUVHeight; 
-
-                    // do uv clip
-                    if ( clipInfo_.clipped ) {
-                        xStart  += charUVWidth  * charClipLeft;
-                        yStart  += charUVHeight * charClipTop;
-                        xEnd    -= charUVWidth  * charClipRight;
-                        yEnd    -= charUVHeight * charClipBottom;
-                    }
 
                     //
                     uvs[vert_id + 0] = new Vector2 ( xStart,  yEnd );
@@ -1055,7 +956,7 @@ public class exSpriteFont : exSpriteBase {
         base.Awake();
 
         if ( fontInfo_ != null && fontInfo_.pageInfos.Count == 1 ) {
-            renderer.sharedMaterial = fontInfo_.pageInfos[0].material;
+            // renderer.sharedMaterial = fontInfo_.pageInfos[0].material; // DELME???
 
             if ( meshFilter ) {
                 // create mesh ( in editor, this can duplicate mesh to prevent shared mesh for sprite)
