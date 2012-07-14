@@ -23,8 +23,14 @@ using System.Collections.Generic;
 
 public class exUIElement : exPlane {
 
+    [System.Serializable]
+    public class MessageInfo {
+        public GameObject receiver = null;
+        public string method = "";
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
-    // properties
+    // non-Serializable
     ///////////////////////////////////////////////////////////////////////////////
 
     [System.NonSerialized] public exUIElement parent = null;
@@ -39,8 +45,7 @@ public class exUIElement : exPlane {
         get { return width_; }
         set {
             if ( width_ != value ) {
-                width_ = Mathf.Max(value, 0.0f);
-                updateFlags |= UpdateFlags.Vertex;
+                OnSizeChanged ( Mathf.Max(value, 0.0f), height_ );
             }
         }
     }
@@ -54,14 +59,14 @@ public class exUIElement : exPlane {
         get { return height_; }
         set {
             if ( height_ != value ) {
-                height_ = Mathf.Max(value, 0.0f);
-                updateFlags |= UpdateFlags.Vertex;
+                OnSizeChanged ( width_, Mathf.Max(value, 0.0f) );
             }
         }
     }
 
     // ------------------------------------------------------------------ 
     // Desc: 
+    // NOTE: used in Raycast test
     // ------------------------------------------------------------------ 
 
     public bool isActive {
@@ -142,11 +147,22 @@ public class exUIElement : exPlane {
 
     public static void FindAndAddChild ( exUIElement _el ) {
         _el.children.Clear();
-        foreach ( Transform child in _el.transform ) {
+        FindAndAddChildRecursively (_el, _el.transform );
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    static void FindAndAddChildRecursively ( exUIElement _el, Transform _trans ) {
+        foreach ( Transform child in _trans ) {
             exUIElement child_el = child.GetComponent<exUIElement>();
             if ( child_el ) {
                 _el.AddChild (child_el);
                 exUIElement.FindAndAddChild (child_el);
+            }
+            else {
+                FindAndAddChildRecursively( _el, child );
             }
         }
     }
@@ -154,52 +170,6 @@ public class exUIElement : exPlane {
     ///////////////////////////////////////////////////////////////////////////////
     // functions
     ///////////////////////////////////////////////////////////////////////////////
-
-    // ------------------------------------------------------------------ 
-    // Desc: 
-    // ------------------------------------------------------------------ 
-
-    void Reset () {
-        // add box collider
-        BoxCollider boxCollider = GetComponent<BoxCollider>();
-        if ( boxCollider == null ) {
-            boxCollider = gameObject.AddComponent<BoxCollider>();
-            boxCollider.center = new Vector3( boxCollider.center.x, boxCollider.center.y, 0.2f );
-
-            // DELME { 
-            // switch ( plane ) {
-            // case exSprite.Plane.XY:
-            //     boxCollider.center = new Vector3( boxCollider.center.x, boxCollider.center.y, 0.2f );
-            //     break;
-
-            // case exSprite.Plane.XZ:
-            //     boxCollider.center = new Vector3( boxCollider.center.x, 0.2f, boxCollider.center.z );
-            //     break;
-
-            // case exSprite.Plane.ZY:
-            //     boxCollider.center = new Vector3( 0.2f, boxCollider.center.y, boxCollider.center.z );
-            //     break;
-            // }
-            // } DELME end 
-        }
-
-        // add collision helper
-        exCollisionHelper collisionHelper = GetComponent<exCollisionHelper>();
-        if ( collisionHelper == null ) {
-            collisionHelper = gameObject.AddComponent<exCollisionHelper>();
-            collisionHelper.plane = this;
-            collisionHelper.autoLength = false;
-            collisionHelper.length = 0.2f;
-            collisionHelper.UpdateCollider();
-        }
-    }
-
-    // ------------------------------------------------------------------ 
-    // Desc: 
-    // ------------------------------------------------------------------ 
-
-    public virtual void Sync () {
-    }
 
     // ------------------------------------------------------------------ 
     // Desc: 
@@ -253,4 +223,27 @@ public class exUIElement : exPlane {
         }
         return null;
     } 
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    protected void ProcessMessageInfoList ( List<MessageInfo> _messageInfos ) {
+        for ( int i = 0; i < _messageInfos.Count; ++i ) {
+            MessageInfo msgInfo = _messageInfos[i];
+            if ( msgInfo.receiver != null ) {
+                msgInfo.receiver.SendMessage ( msgInfo.method, SendMessageOptions.DontRequireReceiver );
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    protected virtual void OnSizeChanged ( float _newWidth, float _newHeight ) {
+        width_ = _newWidth;
+        height_ = _newHeight;
+        updateFlags |= UpdateFlags.Vertex;
+    }
 }

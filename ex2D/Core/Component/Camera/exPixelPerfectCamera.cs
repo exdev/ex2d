@@ -30,6 +30,9 @@ public class exPixelPerfectCamera : MonoBehaviour {
     public int width = 480;
     public int height = 320;
 
+    public bool fixOrthographicSize = false;
+    public float orthographicSize = 100.0f;
+
     [System.NonSerialized] public float scale = -1.0f;
     [System.NonSerialized] public float ratio = -1.0f;
 
@@ -95,9 +98,17 @@ public class exPixelPerfectCamera : MonoBehaviour {
 
         //
         if ( camera.orthographic ) {
-            if ( lastOrthographicSize != camera.orthographicSize ) {
-                lastOrthographicSize = camera.orthographicSize;
-                changed = true;
+            if ( fixOrthographicSize ) {
+                if ( lastOrthographicSize != orthographicSize ) {
+                    lastOrthographicSize = orthographicSize;
+                    changed = true;
+                }
+            }
+            else {
+                if ( lastOrthographicSize != camera.orthographicSize ) {
+                    lastOrthographicSize = camera.orthographicSize;
+                    changed = true;
+                }
             }
         }
         else {
@@ -133,7 +144,7 @@ public class exPixelPerfectCamera : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     public void CalculateScaleAndRatio () {
-        if ( camera.orthographic )
+        if ( lastOrthographic )
             scale = 2.0f * lastOrthographicSize / lastScreenHeight;
         else
             ratio = 2.0f * Mathf.Tan(Mathf.Deg2Rad * lastFieldOfView * 0.5f) / lastScreenHeight;
@@ -145,11 +156,11 @@ public class exPixelPerfectCamera : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     public void CalculatePixelPerfectScale ( exSpriteBase _sprite, Vector3 _toSprite ) {
-        if ( (camera.orthographic && scale <= 0.0f) || ratio <= 0.0f )
+        if ( (lastOrthographic && scale <= 0.0f) || ratio <= 0.0f )
             CalculateScaleAndRatio ();
 
         float s = scale;
-        if ( camera.orthographic == false ) {
+        if ( lastOrthographic == false ) {
             float angle = Vector3.Angle(transform.forward, _toSprite);
             float depth = Mathf.Cos( angle * Mathf.Deg2Rad ) * _toSprite.magnitude;
             s = ratio * depth;

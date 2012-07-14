@@ -52,8 +52,8 @@ public class exSpriteFontAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    protected new void Update () {
-        base.Update();
+    protected new void LateUpdate () {
+        base.LateUpdate();
         if ( spriteFont == null ) {
             spriteFont = GetComponent<exSpriteFont>();
             if ( spriteFont == null ) {

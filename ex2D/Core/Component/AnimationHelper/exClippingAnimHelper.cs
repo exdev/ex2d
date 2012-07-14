@@ -44,8 +44,8 @@ public class exClippingAnimHelper : exAnimationHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    protected new void Update () {
-        base.Update();
+    protected new void LateUpdate () {
+        base.LateUpdate();
         if ( clipping == null ) {
             clipping = GetComponent<exClipping>();
             if ( clipping == null ) {

@@ -72,12 +72,15 @@ public class exPlane : MonoBehaviour {
     /// The camera you used to calculate the pixel perfect scale
     // ------------------------------------------------------------------ 
 
+    public Camera renderCameraForPrefab { get { return camera_; } }
     public Camera renderCamera {
         get { 
             // NOTE: this is because prefab may missing link of main camera ( but will not missing second one )
             if ( camera_ != null )
                 return camera_; 
-            return Camera.main; 
+            else if ( Camera.main )
+                renderCamera = Camera.main;
+            return camera_;
         }
         set {
             Camera newCamera = value;
@@ -135,6 +138,24 @@ public class exPlane : MonoBehaviour {
     }
 
     // ------------------------------------------------------------------ 
+    /// the clipping plane contains this
+    // ------------------------------------------------------------------ 
+
+    public exClipping clippingPlane = null;
+
+    // ------------------------------------------------------------------ 
+    [SerializeField] protected Rect boundingRect_ = new Rect( 0.0f, 0.0f, 0.0f, 0.0f );
+    /// The bounding rect of the plane
+    // ------------------------------------------------------------------ 
+
+    public Rect boundingRect { 
+        get { return boundingRect_; } 
+        protected set {
+            boundingRect_ = value;
+        } 
+    }
+
+    // ------------------------------------------------------------------ 
     /// The cached exCollisionHelper component
     // ------------------------------------------------------------------ 
 
@@ -179,18 +200,6 @@ public class exPlane : MonoBehaviour {
         }
         get { return updateFlags_; }
     }
-
-    // ------------------------------------------------------------------ 
-    /// the clipping plane contains this
-    // ------------------------------------------------------------------ 
-
-    public exClipping clippingPlane = null;
-
-    // ------------------------------------------------------------------ 
-    /// The bounding rect of the plane
-    // ------------------------------------------------------------------ 
-
-    public Rect boundingRect { get; protected set; }
 
     // DISABLE { 
     // protected ClipInfo clipInfo_ = new ClipInfo();
@@ -278,9 +287,10 @@ public class exPlane : MonoBehaviour {
         if ( collisionHelper_ )
             collisionHelper_.plane = this;
 
-        //
-        if ( clippingPlane )
-            clippingPlane.AddPlane(this);
+        // DISABLE: no reason to do this { 
+        // if ( clippingPlane )
+        //     clippingPlane.AddPlane(this);
+        // } DISABLE end 
     }
 
     // ------------------------------------------------------------------ 
@@ -290,6 +300,9 @@ public class exPlane : MonoBehaviour {
     protected void OnDestroy () {
         if ( meshFilter ) {
             DestroyImmediate( meshFilter.sharedMesh, true );
+        }
+        if ( clippingPlane ) {
+            clippingPlane.RemovePlane(this);
         }
     }
 

@@ -28,7 +28,7 @@ Shader "ex2D/Alpha Blended (Clipping)" {
         Cull Off 
         Lighting Off 
         ZWrite Off 
-        Fog { Color (0,0,0,0) }
+        Fog { Mode Off }
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass {

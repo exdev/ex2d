@@ -19,5 +19,5 @@ using System.Collections;
 public class exAnimationHelper : MonoBehaviour {
 
     protected void Awake () {}
-    protected void Update () {}
+    protected void LateUpdate () {}
 }

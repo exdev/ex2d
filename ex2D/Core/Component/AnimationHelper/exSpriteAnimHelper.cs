@@ -46,8 +46,8 @@ public class exSpriteAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    protected new void Update () {
-        base.Update();
+    protected new void LateUpdate () {
+        base.LateUpdate();
         if ( sprite == null ) {
             sprite = GetComponent<exSprite>();
             if ( sprite == null ) {

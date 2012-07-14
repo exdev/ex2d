@@ -1,7 +1,7 @@
 // ======================================================================================
-// File         : exUIScrollView.cs
+// File         : exUIScrollView_.cs
 // Author       : Wu Jie 
-// Last Change  : 11/01/2011 | 15:25:52 PM | Tuesday,November
+// Last Change  : 06/23/2012 | 17:36:09 PM | Saturday,June
 // Description  : 
 // ======================================================================================
 
@@ -23,7 +23,7 @@ using System.Collections.Generic;
 
 [ExecuteInEditMode]
 [AddComponentMenu("ex2D GUI/Button")]
-public class exUIScrollView : exUIElement {
+public class exUIScrollView_ : exUIElement {
 
     // delegates
 	public delegate void EventHandler ();
@@ -102,220 +102,222 @@ public class exUIScrollView : exUIElement {
         }
     }
 
-    // ------------------------------------------------------------------ 
-    // Desc: 
-    // ------------------------------------------------------------------ 
+    // DELME { 
+    // // ------------------------------------------------------------------ 
+    // // Desc: 
+    // // ------------------------------------------------------------------ 
 
-    public override void Sync () {
-        base.Sync();
+    // public override void Sync () {
+    //     base.Sync();
 
-        float startX = boundingRect.xMin;
-        float startY = boundingRect.yMax;
-        float endX = boundingRect.xMax;
-        float endY = boundingRect.yMin;
+    //     float startX = boundingRect.xMin;
+    //     float startY = boundingRect.yMax;
+    //     float endX = boundingRect.xMax;
+    //     float endY = boundingRect.yMin;
 
-        clipRect.anchor = anchor;
-        clipRect.width = width;
-        clipRect.height = height;
-        clipRect.transform.localPosition = new Vector3 ( 0.0f, 0.0f, clipRect.transform.localPosition.z );
+    //     clipRect.anchor = anchor;
+    //     clipRect.width = width;
+    //     clipRect.height = height;
+    //     clipRect.transform.localPosition = new Vector3 ( 0.0f, 0.0f, clipRect.transform.localPosition.z );
 
-        if ( contentAnchor )
-            contentAnchor.transform.localPosition = new Vector3 ( startX, startY, contentAnchor.transform.localPosition.z );
-        if ( horizontalBar )
-            horizontalBar.transform.localPosition = new Vector3 ( startX, endY, horizontalBar.transform.localPosition.z );
-        if ( horizontalSlider )
-            horizontalSlider.transform.localPosition = new Vector3 ( startX, endY, horizontalSlider.transform.localPosition.z );
-        if ( verticalBar )
-            verticalBar.transform.localPosition = new Vector3 ( endX, startY, verticalBar.transform.localPosition.z );
-        if ( verticalSlider )
-            verticalSlider.transform.localPosition = new Vector3 ( endX, startY, verticalSlider.transform.localPosition.z );
+    //     if ( contentAnchor )
+    //         contentAnchor.transform.localPosition = new Vector3 ( startX, startY, contentAnchor.transform.localPosition.z );
+    //     if ( horizontalBar )
+    //         horizontalBar.transform.localPosition = new Vector3 ( startX, endY, horizontalBar.transform.localPosition.z );
+    //     if ( horizontalSlider )
+    //         horizontalSlider.transform.localPosition = new Vector3 ( startX, endY, horizontalSlider.transform.localPosition.z );
+    //     if ( verticalBar )
+    //         verticalBar.transform.localPosition = new Vector3 ( endX, startY, verticalBar.transform.localPosition.z );
+    //     if ( verticalSlider )
+    //         verticalSlider.transform.localPosition = new Vector3 ( endX, startY, verticalSlider.transform.localPosition.z );
 
-        // DELME { 
-        // switch ( plane ) {
-        // case exPlane.Plane.XY:
-        //     if ( contentAnchor )
-        //         contentAnchor.transform.localPosition = new Vector3 ( startX, startY, 0.0f );
-        //     if ( horizontalBar )
-        //         horizontalBar.transform.localPosition = new Vector3 ( startX, endY, 0.0f );
-        //     if ( horizontalSlider )
-        //         horizontalSlider.transform.localPosition = new Vector3 ( startX, endY, 0.0f );
-        //     if ( verticalBar )
-        //         verticalBar.transform.localPosition = new Vector3 ( endX, startY, 0.0f );
-        //     if ( verticalSlider )
-        //         verticalSlider.transform.localPosition = new Vector3 ( endX, startY, 0.0f );
-        //     break;
+    //     // DELME { 
+    //     // switch ( plane ) {
+    //     // case exPlane.Plane.XY:
+    //     //     if ( contentAnchor )
+    //     //         contentAnchor.transform.localPosition = new Vector3 ( startX, startY, 0.0f );
+    //     //     if ( horizontalBar )
+    //     //         horizontalBar.transform.localPosition = new Vector3 ( startX, endY, 0.0f );
+    //     //     if ( horizontalSlider )
+    //     //         horizontalSlider.transform.localPosition = new Vector3 ( startX, endY, 0.0f );
+    //     //     if ( verticalBar )
+    //     //         verticalBar.transform.localPosition = new Vector3 ( endX, startY, 0.0f );
+    //     //     if ( verticalSlider )
+    //     //         verticalSlider.transform.localPosition = new Vector3 ( endX, startY, 0.0f );
+    //     //     break;
 
-        // case exPlane.Plane.XZ:
-        //     if ( contentAnchor )
-        //         contentAnchor.transform.localPosition = new Vector3 ( startX, 0.0f, startY );
-        //     if ( horizontalBar )
-        //         horizontalBar.transform.localPosition = new Vector3 ( startX, 0.0f, endY );
-        //     if ( horizontalSlider )
-        //         horizontalSlider.transform.localPosition = new Vector3 ( startX, 0.0f, endY );
-        //     if ( verticalBar )
-        //         verticalBar.transform.localPosition = new Vector3 ( endX, 0.0f, startY );
-        //     if ( verticalSlider )
-        //         verticalSlider.transform.localPosition = new Vector3 ( endX, 0.0f, startY );
-        //     break;
+    //     // case exPlane.Plane.XZ:
+    //     //     if ( contentAnchor )
+    //     //         contentAnchor.transform.localPosition = new Vector3 ( startX, 0.0f, startY );
+    //     //     if ( horizontalBar )
+    //     //         horizontalBar.transform.localPosition = new Vector3 ( startX, 0.0f, endY );
+    //     //     if ( horizontalSlider )
+    //     //         horizontalSlider.transform.localPosition = new Vector3 ( startX, 0.0f, endY );
+    //     //     if ( verticalBar )
+    //     //         verticalBar.transform.localPosition = new Vector3 ( endX, 0.0f, startY );
+    //     //     if ( verticalSlider )
+    //     //         verticalSlider.transform.localPosition = new Vector3 ( endX, 0.0f, startY );
+    //     //     break;
 
-        // case exPlane.Plane.ZY:
-        //     if ( contentAnchor )
-        //         contentAnchor.transform.localPosition = new Vector3 ( 0.0f, startY, startX );
-        //     if ( horizontalBar )
-        //         horizontalBar.transform.localPosition = new Vector3 ( 0.0f, endY, startX );
-        //     if ( horizontalSlider )
-        //         horizontalSlider.transform.localPosition = new Vector3 ( 0.0f, endY, startX );
-        //     if ( verticalBar )
-        //         verticalBar.transform.localPosition = new Vector3 ( 0.0f, endX, startY );
-        //     if ( verticalSlider )
-        //         verticalSlider.transform.localPosition = new Vector3 ( 0.0f, endX, startY );
-        //     break;
-        // }
-        // } DELME end 
+    //     // case exPlane.Plane.ZY:
+    //     //     if ( contentAnchor )
+    //     //         contentAnchor.transform.localPosition = new Vector3 ( 0.0f, startY, startX );
+    //     //     if ( horizontalBar )
+    //     //         horizontalBar.transform.localPosition = new Vector3 ( 0.0f, endY, startX );
+    //     //     if ( horizontalSlider )
+    //     //         horizontalSlider.transform.localPosition = new Vector3 ( 0.0f, endY, startX );
+    //     //     if ( verticalBar )
+    //     //         verticalBar.transform.localPosition = new Vector3 ( 0.0f, endX, startY );
+    //     //     if ( verticalSlider )
+    //     //         verticalSlider.transform.localPosition = new Vector3 ( 0.0f, endX, startY );
+    //     //     break;
+    //     // }
+    //     // } DELME end 
 
-        //
-        float hbarHeight = (horizontalBar && horizontalBar.guiBorder) ? horizontalBar.guiBorder.border.vertical : 0.0f;
-        float vbarWidth = (verticalBar && verticalBar.guiBorder) ? verticalBar.guiBorder.border.horizontal : 0.0f;
-        if ( horizontalBar ) {
-            horizontalBar.width = width - vbarWidth; 
-            horizontalBar.height = hbarHeight;
-        }
-        if ( verticalBar ) {
-            verticalBar.height = height - hbarHeight;
-            verticalBar.width = vbarWidth;
-        }
-    }
+    //     //
+    //     float hbarHeight = (horizontalBar && horizontalBar.guiBorder) ? horizontalBar.guiBorder.border.vertical : 0.0f;
+    //     float vbarWidth = (verticalBar && verticalBar.guiBorder) ? verticalBar.guiBorder.border.horizontal : 0.0f;
+    //     if ( horizontalBar ) {
+    //         horizontalBar.width = width - vbarWidth; 
+    //         horizontalBar.height = hbarHeight;
+    //     }
+    //     if ( verticalBar ) {
+    //         verticalBar.height = height - hbarHeight;
+    //         verticalBar.width = vbarWidth;
+    //     }
+    // }
+    // } DELME end 
 
     // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
     public override bool OnEvent ( exUIEvent _e ) {
-        switch ( _e.type ) {
-        case exUIEvent.Type.HoverIn: 
-            if ( OnHoverIn != null )
-                OnHoverIn ();
-            return true;
+        // switch ( _e.type ) {
+        // case exUIEvent.Type.PointerEnter: 
+        //     if ( OnHoverIn != null )
+        //         OnHoverIn ();
+        //     return true;
 
-        case exUIEvent.Type.HoverOut: 
-            if ( OnHoverOut != null )
-                OnHoverOut ();
-            return true;
+        // case exUIEvent.Type.PointerExit: 
+        //     if ( OnHoverOut != null )
+        //         OnHoverOut ();
+        //     return true;
 
-        case exUIEvent.Type.PointerPress: 
-            if ( _e.buttons == exUIEvent.PointerButtonFlags.Left ||
-                 _e.buttons == exUIEvent.PointerButtonFlags.Touch ) 
-            {
-                exUIMng.instance.activeElement = this;
-                velocity = Vector2.zero;
-                pressTime = Time.time;
-                pressPoint = _e.position;
-                isDragging = false;
-                stateUpdate = null;
-            }
-            return true;
+        // case exUIEvent.Type.PointerPress: 
+        //     if ( _e.buttons == exUIEvent.PointerButtonFlags.Left ||
+        //          _e.buttons == exUIEvent.PointerButtonFlags.Touch ) 
+        //     {
+        //         exUIMng.focus = this;
+        //         velocity = Vector2.zero;
+        //         pressTime = Time.time;
+        //         pressPoint = _e.position;
+        //         isDragging = false;
+        //         stateUpdate = null;
+        //     }
+        //     return true;
 
-        case exUIEvent.Type.PointerRelease: 
-            if ( _e.buttons == exUIEvent.PointerButtonFlags.Left ||
-                 _e.buttons == exUIEvent.PointerButtonFlags.Touch ) 
-            {
-                exUIMng.instance.activeElement = null;
-                horizontalSlider.width = width/contentWidth * width;
-                verticalSlider.height = height/contentHeight * height;
-                if ( isDragging ) {
-                    isDragging = false;
-                    if ( Time.time - pressTime < 0.01f ) {
-                        velocity = Vector2.zero;
-                    }
-                    else {
-                        velocity = (pressPoint - _e.position)/(Time.time - pressTime);
-                    }
+        // case exUIEvent.Type.PointerRelease: 
+        //     if ( _e.buttons == exUIEvent.PointerButtonFlags.Left ||
+        //          _e.buttons == exUIEvent.PointerButtonFlags.Touch ) 
+        //     {
+        //         exUIMng.focus = null;
+        //         horizontalSlider.width = width/contentWidth * width;
+        //         verticalSlider.height = height/contentHeight * height;
+        //         if ( isDragging ) {
+        //             isDragging = false;
+        //             if ( Time.time - pressTime < 0.01f ) {
+        //                 velocity = Vector2.zero;
+        //             }
+        //             else {
+        //                 velocity = (pressPoint - _e.position)/(Time.time - pressTime);
+        //             }
 
-                    if ( scrollDirection == ScrollDirection.Vertical )
-                        velocity.x = 0.0f;
-                    else if ( scrollDirection == ScrollDirection.Horizontal )
-                        velocity.y = 0.0f;
-                }
-                else {
-                    velocity = Vector2.zero;
-                }
-                stateUpdate = DeaccelerateScrolling;
-            }
-            return true;
+        //             if ( scrollDirection == ScrollDirection.Vertical )
+        //                 velocity.x = 0.0f;
+        //             else if ( scrollDirection == ScrollDirection.Horizontal )
+        //                 velocity.y = 0.0f;
+        //         }
+        //         else {
+        //             velocity = Vector2.zero;
+        //         }
+        //         stateUpdate = DeaccelerateScrolling;
+        //     }
+        //     return true;
 
-        case exUIEvent.Type.PointerMove: 
-            if ( _e.buttons == exUIEvent.PointerButtonFlags.Left ||
-                 _e.buttons == exUIEvent.PointerButtonFlags.Touch ) 
-            {
-                if ( _e.delta.magnitude > 1.0f ) {
-                    if ( isDragging == false ) {
-                        pressTime = Time.time;
-                        pressPoint = _e.position;
-                        isDragging = true;
-                    }
-                }
-                else {
-                    pressTime = Time.time;
-                    pressPoint = _e.position;
-                    isDragging = false;
-                }
+        // case exUIEvent.Type.PointerMove: 
+        //     if ( _e.buttons == exUIEvent.PointerButtonFlags.Left ||
+        //          _e.buttons == exUIEvent.PointerButtonFlags.Touch ) 
+        //     {
+        //         if ( _e.delta.magnitude > 1.0f ) {
+        //             if ( isDragging == false ) {
+        //                 pressTime = Time.time;
+        //                 pressPoint = _e.position;
+        //                 isDragging = true;
+        //             }
+        //         }
+        //         else {
+        //             pressTime = Time.time;
+        //             pressPoint = _e.position;
+        //             isDragging = false;
+        //         }
 
-                float maxOffsetX = Mathf.Max(contentWidth - width, 0.0f);
-                float maxOffsetY = Mathf.Max(contentHeight - height, 0.0f);
-                float newX = -_e.delta.x;
-                float newY = -_e.delta.y;
-                Vector2 scrollDistance = Vector2.zero;
+        //         float maxOffsetX = Mathf.Max(contentWidth - width, 0.0f);
+        //         float maxOffsetY = Mathf.Max(contentHeight - height, 0.0f);
+        //         float newX = -_e.delta.x;
+        //         float newY = -_e.delta.y;
+        //         Vector2 scrollDistance = Vector2.zero;
 
-                //
-                if ( scrollDirection == ScrollDirection.Vertical )
-                    newX = 0.0f;
-                else if ( scrollDirection == ScrollDirection.Horizontal )
-                    newY = 0.0f;
+        //         //
+        //         if ( scrollDirection == ScrollDirection.Vertical )
+        //             newX = 0.0f;
+        //         else if ( scrollDirection == ScrollDirection.Horizontal )
+        //             newY = 0.0f;
 
-                //
-                if ( bounce ) {
-                    //
-                    float bounceX = 0.0f;
-                    if ( contentOffset.x > 0.0f ) {
-                        bounceX = contentOffset.x;
-                        // newX *= elasticity / bounceX;
-                        newX *= elasticity;
-                    }
-                    else if (  contentOffset.x < maxOffsetX ) {
-                        bounceX = maxOffsetX - contentOffset.x;
-                        // newX *= elasticity / bounceX;
-                        newX *= elasticity;
-                    }
-                    horizontalSlider.width = (width - bounceX)/contentWidth * (width - bounceX);
+        //         //
+        //         if ( bounce ) {
+        //             //
+        //             float bounceX = 0.0f;
+        //             if ( contentOffset.x > 0.0f ) {
+        //                 bounceX = contentOffset.x;
+        //                 // newX *= elasticity / bounceX;
+        //                 newX *= elasticity;
+        //             }
+        //             else if (  contentOffset.x < maxOffsetX ) {
+        //                 bounceX = maxOffsetX - contentOffset.x;
+        //                 // newX *= elasticity / bounceX;
+        //                 newX *= elasticity;
+        //             }
+        //             horizontalSlider.width = (width - bounceX)/contentWidth * (width - bounceX);
 
-                    //
-                    float bounceY = 0.0f;
-                    if ( contentOffset.y > 0.0f ) {
-                        bounceY = contentOffset.y;
-                        // newY *= elasticity / bounceY; 
-                        newY *= elasticity;
-                    }
-                    else if (  contentOffset.y < -maxOffsetY ) {
-                        bounceY = -maxOffsetY - contentOffset.y;
-                        // newY *= elasticity / bounceY; 
-                        newY *= elasticity;
-                    }
-                    verticalSlider.height = (height - bounceY)/contentHeight * (height - bounceY);
+        //             //
+        //             float bounceY = 0.0f;
+        //             if ( contentOffset.y > 0.0f ) {
+        //                 bounceY = contentOffset.y;
+        //                 // newY *= elasticity / bounceY; 
+        //                 newY *= elasticity;
+        //             }
+        //             else if (  contentOffset.y < -maxOffsetY ) {
+        //                 bounceY = -maxOffsetY - contentOffset.y;
+        //                 // newY *= elasticity / bounceY; 
+        //                 newY *= elasticity;
+        //             }
+        //             verticalSlider.height = (height - bounceY)/contentHeight * (height - bounceY);
 
-                    //
-                    scrollDistance = new Vector2( newX, newY );
-                    contentOffset += scrollDistance;
-                }
-                else {
-                    scrollDistance = new Vector2( newX, newY );
-                    contentOffset += scrollDistance;
-                    contentOffset = new Vector2 ( Mathf.Clamp ( contentOffset.x, 0.0f, maxOffsetX ),
-                                                  Mathf.Clamp ( contentOffset.y, -maxOffsetY, 0.0f ) );
-                }
-                SetOffset ( contentOffset );
-            }
-            return true;
-        }
+        //             //
+        //             scrollDistance = new Vector2( newX, newY );
+        //             contentOffset += scrollDistance;
+        //         }
+        //         else {
+        //             scrollDistance = new Vector2( newX, newY );
+        //             contentOffset += scrollDistance;
+        //             contentOffset = new Vector2 ( Mathf.Clamp ( contentOffset.x, 0.0f, maxOffsetX ),
+        //                                           Mathf.Clamp ( contentOffset.y, -maxOffsetY, 0.0f ) );
+        //         }
+        //         SetOffset ( contentOffset );
+        //     }
+        //     return true;
+        // }
 
         return false;
     }

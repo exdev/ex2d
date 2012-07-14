@@ -46,8 +46,8 @@ public class exSpriteBorderAnimHelper : exSpriteBaseAnimHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    protected new void Update () {
-        base.Update();
+    protected new void LateUpdate () {
+        base.LateUpdate();
         if ( spriteBorder == null ) {
             spriteBorder = GetComponent<exSpriteBorder>();
             if ( spriteBorder == null ) {

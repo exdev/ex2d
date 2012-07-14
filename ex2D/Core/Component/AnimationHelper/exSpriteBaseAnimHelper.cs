@@ -42,7 +42,7 @@ public class exSpriteBaseAnimHelper : exAnimationHelper {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    protected new void Update () {
+    protected new void LateUpdate () {
         if ( spriteBase == null ) {
             spriteBase = GetComponent<exSpriteBase>();
             if ( spriteBase == null ) {

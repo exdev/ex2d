@@ -23,7 +23,7 @@ Shader "ex2D/Alpha Blended" {
         Cull Off 
         Lighting Off 
         ZWrite Off 
-        Fog { Color (0,0,0,0) }
+        Fog { Mode Off }
         Blend SrcAlpha OneMinusSrcAlpha
 
         BindChannels {

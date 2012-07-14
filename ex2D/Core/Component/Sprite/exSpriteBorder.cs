@@ -487,6 +487,7 @@ public class exSpriteBorder : exSpriteBase {
             if ( meshFilter ) {
                 // create mesh ( in editor, this can duplicate mesh to prevent shared mesh for sprite)
                 meshFilter_.mesh = new Mesh();
+                meshFilter_.sharedMesh.hideFlags = HideFlags.DontSave;
                 ForceUpdateMesh( meshFilter_.sharedMesh );
 
                 // check if update mesh collider

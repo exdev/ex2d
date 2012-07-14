@@ -143,14 +143,7 @@ public class exClipping : exPlane {
         }
 
         // 
-        for ( int i = 0; i < planeInfoList.Count; ++i ) {
-            PlaneInfo pi = planeInfoList[i];
-            if ( pi.plane )
-                pi.plane.renderer.sharedMaterial = pi.material;
-        }
-        planeInfoList.Clear();
-        textureToClipMaterialTable.Clear();
-        clipMaterialList.Clear();
+        Clear();
     }
 
     // ------------------------------------------------------------------ 
@@ -312,6 +305,21 @@ public class exClipping : exPlane {
     }
 
     // ------------------------------------------------------------------ 
+    /// remove all planes from clipping list
+    // ------------------------------------------------------------------ 
+
+    public void Clear () {
+        for ( int i = 0; i < planeInfoList.Count; ++i ) {
+            PlaneInfo pi = planeInfoList[i];
+            if ( pi.plane )
+                pi.plane.renderer.sharedMaterial = pi.material;
+        }
+        planeInfoList.Clear();
+        textureToClipMaterialTable.Clear();
+        clipMaterialList.Clear();
+    }
+
+    // ------------------------------------------------------------------ 
     // Desc: 
     // ------------------------------------------------------------------ 
 
@@ -380,8 +388,8 @@ public class exClipping : exPlane {
             }
 
             //
-            boundingRect = new Rect( -offsetX - halfWidth, 
-                                      offsetY - halfHeight,
+            boundingRect = new Rect( -offsetX - halfWidth - offset.x, 
+                                      offsetY - halfHeight + offset.y,
                                       width_, 
                                       height_ );
 
@@ -551,6 +559,8 @@ public class exClipping : exPlane {
 
         default                         : offsetX = 0.0f;               offsetY = 0.0f;               break;
         }
+        offsetX += offset.x;
+        offsetY += offset.y;
 
         //
         vertices[0] = new Vector3 (-halfWidthScaled-offsetX,  halfHeightScaled+offsetY, 0.0f );

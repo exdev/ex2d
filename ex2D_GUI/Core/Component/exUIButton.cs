@@ -24,16 +24,6 @@ using System.Collections.Generic;
 [AddComponentMenu("ex2D GUI/Button")]
 public class exUIButton : exUIElement {
 
-    // delegates
-	public delegate void EventHandler ();
-
-    // events
-	public event EventHandler OnHoverIn;
-	public event EventHandler OnHoverOut;
-	public event EventHandler OnButtonPress;
-	public event EventHandler OnButtonRelease;
-
-
     // ------------------------------------------------------------------ 
     [SerializeField] protected string text_ = "";
     /// the text of the button
@@ -50,13 +40,24 @@ public class exUIButton : exUIElement {
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    // properties
+    // non-serialized
     ///////////////////////////////////////////////////////////////////////////////
 
     bool isPressing = false;
 
-    public exSpriteBorder border = null;
+    ///////////////////////////////////////////////////////////////////////////////
+    // serialized 
+    ///////////////////////////////////////////////////////////////////////////////
+
     public exSpriteFont font = null;
+    public exSpriteBase background = null;
+
+    // message infos
+    public List<MessageInfo> hoverInSlots   = new List<MessageInfo>();
+    public List<MessageInfo> hoverOutSlots  = new List<MessageInfo>();
+    public List<MessageInfo> pressSlots     = new List<MessageInfo>();
+    public List<MessageInfo> releaseSlots   = new List<MessageInfo>();
+    public List<MessageInfo> clickSlots     = new List<MessageInfo>();
 
     ///////////////////////////////////////////////////////////////////////////////
     // functions
@@ -66,83 +67,78 @@ public class exUIButton : exUIElement {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    public override void Sync () {
-        base.Sync ();
-
-        if ( border ) {
-            border.anchor = anchor;
-            border.width = width;
-            border.height = height;
-            border.transform.localPosition = new Vector3 ( 0.0f, 0.0f, border.transform.localPosition.z );
-        }
-
-        if ( font ) {
-            BoxCollider boxCollider = GetComponent<BoxCollider>();
-            font.transform.localPosition 
-                = new Vector3( boxCollider.center.x, boxCollider.center.y, font.transform.localPosition.z );
-
-            // DELME { 
-            // switch ( plane ) {
-            // case exSprite.Plane.XY:
-            //     font.transform.localPosition 
-            //         = new Vector3( boxCollider.center.x, boxCollider.center.y, font.transform.localPosition.z );
-            //     break;
-
-            // case exSprite.Plane.XZ:
-            //     font.transform.localPosition 
-            //         = new Vector3( boxCollider.center.x, font.transform.localPosition.y, boxCollider.center.z );
-            //     break;
-
-            // case exSprite.Plane.ZY:
-            //     font.transform.localPosition 
-            //         = new Vector3( font.transform.localPosition.x, boxCollider.center.y, boxCollider.center.z );
-            //     break;
-            // }
-            // } DELME end 
-        }
-    }
-
-    // ------------------------------------------------------------------ 
-    // Desc: 
-    // ------------------------------------------------------------------ 
-
     public override bool OnEvent ( exUIEvent _e ) {
-        switch ( _e.type ) {
-        case exUIEvent.Type.HoverIn: 
-            if ( OnHoverIn != null )
-                OnHoverIn ();
-            return true;
+        exUIMng uimng = exUIMng.instance;
 
-        case exUIEvent.Type.HoverOut: 
-            if ( exUIMng.instance.activeElement == this ) {
-                isPressing = false;
-                exUIMng.instance.activeElement = null;
-                if ( OnHoverOut != null )
-                    OnHoverOut ();
+        if ( _e.category == exUIEvent.Category.Mouse ) {
+            if ( _e.type == exUIEvent.Type.MouseEnter ) {
+                OnHoverIn (_e);
+                return true;
             }
-            return true;
-
-        case exUIEvent.Type.PointerPress: 
-            if ( _e.buttons == exUIEvent.PointerButtonFlags.Left ||
-                 _e.buttons == exUIEvent.PointerButtonFlags.Touch ) {
-                isPressing = true;
-                exUIMng.instance.activeElement = this;
-                if ( OnButtonPress != null )
-                    OnButtonPress ();
-            }
-            return true;
-
-        case exUIEvent.Type.PointerRelease: 
-            if ( _e.buttons == exUIEvent.PointerButtonFlags.Left ||
-                 _e.buttons == exUIEvent.PointerButtonFlags.Touch ) {
-                exUIMng.instance.activeElement = null;
-                if ( isPressing ) {
-                    StartCoroutine ( DelayButtonRelease(0.0f) );
+            else if ( _e.type == exUIEvent.Type.MouseExit ) {
+                if ( uimng.GetMouseFocus() == this ) {
+                    isPressing = false;
+                    uimng.SetMouseFocus(null);
                 }
+                OnHoverOut(_e);
+                return true;
             }
-            return true;
+            else if ( _e.type == exUIEvent.Type.MouseDown &&
+                      _e.buttons == exUIEvent.MouseButtonFlags.Left ) 
+            {
+                uimng.SetMouseFocus( this );
+                isPressing = true;
+                OnPress(_e);
+                return true;
+            }
+            else if ( _e.type == exUIEvent.Type.MouseUp &&
+                      _e.buttons == exUIEvent.MouseButtonFlags.Left )
+            {
+                if ( isPressing ) {
+                    if ( uimng.GetMouseFocus() == this ) {
+                        uimng.SetMouseFocus( null );
+                    }
+                    isPressing = false;
+                    OnClick(_e);
+                }
+                OnRelease(_e);
+                return true;
+            }
+        }
+        else if ( _e.category == exUIEvent.Category.Touch ) {
+            if ( _e.type == exUIEvent.Type.TouchEnter ) {
+                OnHoverIn (_e);
+                return true;
+            }
+            else if ( _e.type == exUIEvent.Type.TouchExit ) {
+                if ( uimng.GetTouchFocus(_e.touchID) == this ) {
+                    isPressing = false;
+                    uimng.SetTouchFocus( _e.touchID, null );
+                }
+                OnHoverOut(_e);
+                return true;
+            }
+            else if ( _e.type == exUIEvent.Type.TouchDown ) {
+                uimng.SetTouchFocus( _e.touchID, this );
+                isPressing = true;
+                OnPress(_e);
+                return true;
+            }
+            else if ( _e.type == exUIEvent.Type.TouchUp ) {
+                if ( isPressing ) {
+                    if ( uimng.GetTouchFocus(_e.touchID) == this ) {
+                        uimng.SetTouchFocus( _e.touchID, null );
+                    }
+                    isPressing = false;
+                    OnClick(_e);
+                }
+                OnRelease(_e);
+                OnHoverOut(_e);
+                return true;
+            }
         }
 
+        //
         return false;
     }
 
@@ -150,14 +146,63 @@ public class exUIButton : exUIElement {
     // Desc: 
     // ------------------------------------------------------------------ 
 
-    IEnumerator DelayButtonRelease ( float _delay ) {
-        float delay = _delay;
-        while ( delay > 0.0f ) {
-            delay -= Time.deltaTime;
-            yield return false;
+    protected override void OnSizeChanged ( float _newWidth, float _newHeight ) {
+        base.OnSizeChanged( _newWidth, _newHeight );
+
+        if ( background ) {
+            exSprite spriteBG = background as exSprite;
+            if ( spriteBG ) {
+                spriteBG.width = _newWidth;
+                spriteBG.height = _newHeight;
+            }
+            else {
+                exSpriteBorder borderBG = background as exSpriteBorder;
+                if ( borderBG ) {
+                    borderBG.width = _newWidth;
+                    borderBG.height = _newHeight;
+                }
+            }
         }
-        if ( OnButtonRelease != null )
-            OnButtonRelease ();
-        isPressing = false;
     }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+	public virtual void OnHoverIn ( exUIEvent _e ) {
+        ProcessMessageInfoList ( hoverInSlots );
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+	public virtual void OnHoverOut ( exUIEvent _e ) {
+        ProcessMessageInfoList ( hoverOutSlots );
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+	public virtual void OnPress ( exUIEvent _e ) {
+        ProcessMessageInfoList ( pressSlots );
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+	public virtual void OnRelease ( exUIEvent _e ) {
+        ProcessMessageInfoList ( releaseSlots );
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+	public virtual void OnClick ( exUIEvent _e ) {
+        ProcessMessageInfoList ( clickSlots );
+    }
+
 }
