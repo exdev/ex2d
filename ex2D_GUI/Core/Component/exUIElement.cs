@@ -29,6 +29,18 @@ public class exUIElement : exPlane {
         public string method = "";
     }
 
+    [System.Serializable]
+    public class Style {
+        public RectOffset margin = new RectOffset();
+        public RectOffset padding = new RectOffset();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Serializable
+    ///////////////////////////////////////////////////////////////////////////////
+
+    public Style style = new Style();
+
     ///////////////////////////////////////////////////////////////////////////////
     // non-Serializable
     ///////////////////////////////////////////////////////////////////////////////
@@ -37,7 +49,7 @@ public class exUIElement : exPlane {
     [System.NonSerialized] public List<exUIElement> children = new List<exUIElement>();
 
     // ------------------------------------------------------------------ 
-    [SerializeField] protected float width_ = 100.0f;
+    [SerializeField] protected float width_ = 0.0f;
     /// the width of the soft-clip
     // ------------------------------------------------------------------ 
 
@@ -51,7 +63,7 @@ public class exUIElement : exPlane {
     }
 
     // ------------------------------------------------------------------ 
-    [SerializeField] protected float height_ = 100.0f;
+    [SerializeField] protected float height_ = 0.0f;
     /// the height of the soft-clip
     // ------------------------------------------------------------------ 
 

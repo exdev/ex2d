@@ -39,6 +39,20 @@ public class exBitmapFont : ScriptableObject {
         public int xadvance = -1;          ///< the xadvance
         public int page = -1;              ///< the number of pages used
         public Vector2 uv0 = Vector2.zero; ///< the uv
+
+        public CharInfo () {}
+        public CharInfo ( CharInfo _c ) {
+            id = _c.id;
+            x = _c.x;
+            y = _c.y;
+            width = _c.width;
+            height = _c.height;
+            xoffset = _c.xoffset;
+            yoffset = _c.yoffset;
+            xadvance = _c.xadvance;
+            page = _c.page;
+            uv0 = _c.uv0;
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////

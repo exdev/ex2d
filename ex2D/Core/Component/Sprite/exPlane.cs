@@ -298,11 +298,11 @@ public class exPlane : MonoBehaviour {
     // ------------------------------------------------------------------ 
 
     protected void OnDestroy () {
-        if ( meshFilter ) {
-            DestroyImmediate( meshFilter.sharedMesh, true );
-        }
         if ( clippingPlane ) {
             clippingPlane.RemovePlane(this);
+        }
+        if ( meshFilter ) {
+            DestroyImmediate( meshFilter.sharedMesh, true );
         }
     }
 

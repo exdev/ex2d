@@ -159,7 +159,7 @@ public class exClipping : exPlane {
         for ( int i = 0; i < planeInfoList.Count; ++i ) {
             PlaneInfo pi = planeInfoList[i];
             exPlane plane = pi.plane;
-            if ( plane ) {
+            if ( plane && plane.renderer && plane.renderer.sharedMaterial ) {
                 Texture2D texture = plane.renderer.sharedMaterial.mainTexture as Texture2D;
                 plane.renderer.material = textureToClipMaterialTable[texture];
             }
@@ -177,7 +177,7 @@ public class exClipping : exPlane {
         // 
         for ( int i = 0; i < planeInfoList.Count; ++i ) {
             PlaneInfo pi = planeInfoList[i];
-            if ( pi.plane )
+            if ( pi.plane && pi.plane.renderer )
                 pi.plane.renderer.sharedMaterial = pi.material;
         }
     }
@@ -201,7 +201,8 @@ public class exClipping : exPlane {
     protected void AddPlaneInfo ( exPlane _plane ) {
         PlaneInfo planeInfo = new PlaneInfo();
         planeInfo.plane = _plane;
-        planeInfo.material = _plane.renderer.sharedMaterial;
+        if ( _plane.renderer != null )
+            planeInfo.material = _plane.renderer.sharedMaterial;
         planeInfoList.Add(planeInfo);
     }
 
@@ -212,7 +213,8 @@ public class exClipping : exPlane {
     protected void InsertPlaneInfo ( int _idx, exPlane _plane ) {
         PlaneInfo planeInfo = new PlaneInfo();
         planeInfo.plane = _plane;
-        planeInfo.material = _plane.renderer.sharedMaterial;
+        if ( _plane.renderer != null )
+            planeInfo.material = _plane.renderer.sharedMaterial;
         planeInfoList.Insert(_idx,planeInfo);
     }
 
@@ -224,12 +226,44 @@ public class exClipping : exPlane {
         for ( int i = 0; i < planeInfoList.Count; ++i ) {
             PlaneInfo pi = planeInfoList[i];
             if ( _plane ==  pi.plane ) {
-                _plane.renderer.sharedMaterial = pi.material;
+                if ( _plane.renderer != null )
+                    _plane.renderer.sharedMaterial = pi.material;
                 planeInfoList.RemoveAt(i);
                 return true;
             }
         }
         return false;
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    public void UpdatePlane ( exPlane _plane ) {
+        PlaneInfo planeInfo = null;
+        for ( int i = 0; i < planeInfoList.Count; ++i ) {
+            if ( planeInfoList[i].plane == _plane ) {
+                planeInfo = planeInfoList[i];
+                break;
+            }
+        }
+        if ( planeInfo == null ) {
+            Debug.LogWarning( "Can't find plane info of " + _plane.name );
+            return;
+        }
+
+        // update plane info material
+        if ( _plane.renderer != null )
+            planeInfo.material = _plane.renderer.sharedMaterial;
+
+        // if we are in player or if we are running in editor
+        if ( Application.isPlaying ) {
+            exClipping clipPlane = _plane as exClipping;
+            // if this is not a clip plane
+            if ( clipPlane == null ) {
+                ApplyClipMaterial (_plane);
+            }
+        }
     }
     
     // ------------------------------------------------------------------ 
@@ -249,17 +283,10 @@ public class exClipping : exPlane {
 
         // if we are in player or if we are running in editor
         if ( Application.isPlaying ) {
-            Renderer r = _plane.renderer;
-            if ( r != null ) {
-                Texture2D texture = r.sharedMaterial.mainTexture as Texture2D;
-                if ( textureToClipMaterialTable.ContainsKey(texture) == false ) {
-                    r.material = new Material( Shader.Find("ex2D/Alpha Blended (Clipping)") );
-                    r.material.mainTexture = texture;
-                    AddClipMaterial ( texture, r.material );
-                }
-                else {
-                    r.material = textureToClipMaterialTable[texture];
-                }
+            exClipping clipPlane = _plane as exClipping;
+            // if this is not a clip plane
+            if ( clipPlane == null ) {
+                ApplyClipMaterial (_plane);
             }
         }
     }
@@ -298,8 +325,11 @@ public class exClipping : exPlane {
         if ( result ) {
             _plane.clippingPlane = null;
 
-            if ( isDyanmic || (Application.isPlaying == false ) )
-                CheckAndRemoveClipMaterial(_plane.renderer.sharedMaterial.mainTexture as Texture2D);
+            if ( isDyanmic || (Application.isPlaying == false ) ) {
+                if ( _plane.renderer && _plane.renderer.sharedMaterial ) {
+                    CheckAndRemoveClipMaterial(_plane.renderer.sharedMaterial.mainTexture as Texture2D);
+                }
+            }
         }
         return result;
     }
@@ -311,7 +341,7 @@ public class exClipping : exPlane {
     public void Clear () {
         for ( int i = 0; i < planeInfoList.Count; ++i ) {
             PlaneInfo pi = planeInfoList[i];
-            if ( pi.plane )
+            if ( pi.plane && pi.plane.renderer && pi.plane.renderer.sharedMaterial  )
                 pi.plane.renderer.sharedMaterial = pi.material;
         }
         planeInfoList.Clear();
@@ -325,7 +355,7 @@ public class exClipping : exPlane {
 
     protected void ApplyClipMaterial ( exPlane _plane ) {
         Renderer r = _plane.renderer;
-        if ( r != null ) {
+        if ( r != null && r.sharedMaterial != null ) {
             Texture2D texture = r.sharedMaterial.mainTexture as Texture2D;
             if ( textureToClipMaterialTable.ContainsKey(texture) == false ) {
                 r.material = new Material( Shader.Find("ex2D/Alpha Blended (Clipping)") );
@@ -346,7 +376,7 @@ public class exClipping : exPlane {
         bool hasPlaneUseIt = false;
         for ( int i = 0; i < planeInfoList.Count; ++i ) {
             PlaneInfo pi = planeInfoList[i];
-            if ( pi.material.mainTexture == _texture ) {
+            if ( pi.material != null && pi.material.mainTexture == _texture ) {
                 hasPlaneUseIt = true;
                 break;
             }

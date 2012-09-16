@@ -70,8 +70,11 @@ Shader "ex2D/Alpha Blended (Clipping)" {
 			fixed4 frag ( v2f _in ) : COLOR {
                 float2 half_wh = _ClipRect.zw * 0.5f;
 				float2 factor = abs ( _in.worldPosition - _ClipRect.xy ) / half_wh;
-				clip ( 1.0 - max ( factor.x, factor.y ) );
-				return tex2D ( _MainTex, _in.texcoord ) * _in.color;
+				fixed4 outColor = tex2D ( _MainTex, _in.texcoord ) * _in.color;
+                if ( 1.0 - max ( factor.x, factor.y ) <= 0.0f )
+                    outColor.a = 0.0f;
+                return outColor; 
+                // clip ( 1.0 - max ( factor.x, factor.y ) );
 			}
 			ENDCG
         }

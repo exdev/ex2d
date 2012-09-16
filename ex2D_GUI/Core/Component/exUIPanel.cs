@@ -50,61 +50,104 @@ public class exUIPanel : exUIElement {
 
         if ( _e.category == exUIEvent.Category.Mouse ) {
             if ( _e.type == exUIEvent.Type.MouseEnter ) {
-                OnHoverIn (_e);
-                return true;
+                if ( hoverInSlots.Count > 0 ) {
+                    OnHoverIn (_e);
+                    return true;
+                }
+                return false;
             }
             else if ( _e.type == exUIEvent.Type.MouseExit ) {
                 if ( uimng.GetMouseFocus() == this ) {
                     uimng.SetMouseFocus(null);
                 }
-                OnHoverOut(_e);
-                return true;
+
+                if ( hoverOutSlots.Count > 0 ) {
+                    OnHoverOut(_e);
+                    return true;
+                }
+                return false;
             }
             else if ( _e.type == exUIEvent.Type.MouseDown ) {
-                uimng.SetMouseFocus( this );
-                OnPress(_e);
-                return true;
+                if ( uimng.GetMouseFocus() == null )
+                    uimng.SetMouseFocus( this );
+
+                if ( pressSlots.Count > 0 ) {
+                    OnPress(_e);
+                    return true;
+                }
+                return false;
             }
             else if ( _e.type == exUIEvent.Type.MouseUp ) {
                 if ( uimng.GetMouseFocus() == this ) {
                     uimng.SetMouseFocus( null );
                 }
-                OnRelease(_e);
-                return true;
+
+                if ( releaseSlots.Count > 0 ) {
+                    OnRelease(_e);
+                    return true;
+                }
+                return false;
             }
             else if ( _e.type == exUIEvent.Type.MouseMove ) {
-                OnPointerMove(_e);
-                return true;
+                if ( moveSlots.Count > 0 ) {
+                    OnPointerMove(_e);
+                    return true;
+                }
+                return false;
             }
         }
         else if ( _e.category == exUIEvent.Category.Touch ) {
             if ( _e.type == exUIEvent.Type.TouchEnter ) {
-                OnHoverIn (_e);
-                return true;
+                if ( hoverInSlots.Count > 0 ) {
+                    OnHoverIn (_e);
+                    return true;
+                }
+                return false;
             }
             else if ( _e.type == exUIEvent.Type.TouchExit ) {
                 if ( uimng.GetTouchFocus(_e.touchID) == this ) {
                     uimng.SetTouchFocus( _e.touchID, null );
                 }
-                OnHoverOut(_e);
-                return true;
+
+                if ( hoverOutSlots.Count > 0 ) {
+                    OnHoverOut(_e);
+                    return true;
+                }
+                return false;
             }
             else if ( _e.type == exUIEvent.Type.TouchDown ) {
-                uimng.SetTouchFocus( _e.touchID, this );
-                OnPress(_e);
-                return true;
+                if ( uimng.GetTouchFocus(_e.touchID) == null ) {
+                    uimng.SetTouchFocus( _e.touchID, this );
+                }
+
+                if ( pressSlots.Count > 0 ) {
+                    OnPress(_e);
+                    return true;
+                }
+                return false;
             }
             else if ( _e.type == exUIEvent.Type.TouchUp ) {
                 if ( uimng.GetTouchFocus(_e.touchID) == this ) {
                     uimng.SetTouchFocus( _e.touchID, null );
                 }
-                OnRelease(_e);
-                OnHoverOut(_e);
-                return true;
+
+                bool used = false;
+                if ( releaseSlots.Count > 0 ) {
+                    OnRelease(_e);
+                    used = true;
+                }
+                if ( hoverOutSlots.Count > 0 ) {
+                    OnHoverOut(_e);
+                    used = true;
+                }
+                return used;
             }
             else if ( _e.type == exUIEvent.Type.TouchMove ) {
-                OnPointerMove(_e);
-                return true;
+                if ( moveSlots.Count > 0 ) {
+                    OnPointerMove(_e);
+                    return true;
+                }
+                return false;
             }
         }
 
@@ -120,18 +163,7 @@ public class exUIPanel : exUIElement {
         base.OnSizeChanged( _newWidth, _newHeight );
 
         if ( background ) {
-            exSprite spriteBG = background as exSprite;
-            if ( spriteBG ) {
-                spriteBG.width = _newWidth;
-                spriteBG.height = _newHeight;
-            }
-            else {
-                exSpriteBorder borderBG = background as exSpriteBorder;
-                if ( borderBG ) {
-                    borderBG.width = _newWidth;
-                    borderBG.height = _newHeight;
-                }
-            }
+            exUIMng.SetSize ( background, _newWidth, _newHeight );
         }
     }
 

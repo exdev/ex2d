@@ -376,6 +376,11 @@ public class exSprite : exSpriteBase {
             offsetX -= offset_.x;
             offsetY += offset_.y;
 
+            float minX = 9999.0f;
+            float minY = 9999.0f;
+            float maxX = -9999.0f;
+            float maxY = -9999.0f;
+
             // build vertices & normals
             for ( int r = 0; r < 2; ++r ) {
                 for ( int c = 0; c < 2; ++c ) {
@@ -387,15 +392,23 @@ public class exSprite : exSpriteBase {
                                      offsetX, offsetY );
                     vertices[i] = new Vector3( x, y, 0.0f );
                     normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
+
+                    if ( x < minX ) minX = x;
+                    else if ( x > maxX ) maxX = x;
+                    if ( y < minY ) minY = y;
+                    else if ( y > maxY ) maxY = y;
                 }
             }
 
+            float shearScaleWidth = maxX - minX;
+            float shearScaleHeight = maxY - minY;
+
             _mesh.vertices = vertices;
             _mesh.normals = normals; // TEMP
-            _mesh.bounds = GetMeshBounds ( offsetX, offsetY, halfWidthScaled * 2.0f, halfHeightScaled * 2.0f );
+            _mesh.bounds = GetMeshBounds ( offsetX, offsetY, shearScaleWidth, shearScaleHeight );
 
             // update collider if we have
-            UpdateBoundRect ( offsetX, offsetY, halfWidthScaled * 2.0f, halfHeightScaled * 2.0f );
+            UpdateBoundRect ( offsetX, offsetY, shearScaleWidth, shearScaleHeight );
             if ( collisionHelper ) 
                 collisionHelper.UpdateCollider();
 
