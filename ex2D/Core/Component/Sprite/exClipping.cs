@@ -357,13 +357,15 @@ public class exClipping : exPlane {
         Renderer r = _plane.renderer;
         if ( r != null && r.sharedMaterial != null ) {
             Texture2D texture = r.sharedMaterial.mainTexture as Texture2D;
-            if ( textureToClipMaterialTable.ContainsKey(texture) == false ) {
-                r.material = new Material( Shader.Find("ex2D/Alpha Blended (Clipping)") );
-                r.material.mainTexture = texture;
-                AddClipMaterial ( texture, r.material );
-            }
-            else {
-                r.material = textureToClipMaterialTable[texture];
+            if ( texture != null ) {
+                if ( textureToClipMaterialTable.ContainsKey(texture) == false ) {
+                    r.material = new Material( Shader.Find("ex2D/Alpha Blended (Clipping)") );
+                    r.material.mainTexture = texture;
+                    AddClipMaterial ( texture, r.material );
+                }
+                else {
+                    r.material = textureToClipMaterialTable[texture];
+                }
             }
         }
     }

@@ -272,7 +272,7 @@ public class exSprite : exSpriteBase {
             float offsetY = 0.0f;
 
             Vector3[] vertices = new Vector3[4];
-            Vector3[] normals = new Vector3[4]; // TEMP
+            Vector3[] normals = new Vector3[4];
 
             // calculate anchor offset
             if ( useTextureOffset_ ) {
@@ -391,7 +391,7 @@ public class exSprite : exSpriteBase {
                                      c, r, 
                                      offsetX, offsetY );
                     vertices[i] = new Vector3( x, y, 0.0f );
-                    normals[i] = new Vector3( 0.0f, 0.0f, -1.0f ); // TEMP
+                    normals[i] = new Vector3( 0.0f, 0.0f, -1.0f );
 
                     if ( x < minX ) minX = x;
                     else if ( x > maxX ) maxX = x;
@@ -404,7 +404,7 @@ public class exSprite : exSpriteBase {
             float shearScaleHeight = maxY - minY;
 
             _mesh.vertices = vertices;
-            _mesh.normals = normals; // TEMP
+            _mesh.normals = normals;
             _mesh.bounds = GetMeshBounds ( offsetX, offsetY, shearScaleWidth, shearScaleHeight );
 
             // update collider if we have

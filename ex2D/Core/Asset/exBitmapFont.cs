@@ -102,6 +102,21 @@ public class exBitmapFont : ScriptableObject {
     ///////////////////////////////////////////////////////////////////////////////
 
     // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
+    public void Reset () {
+        pageInfos.Clear();
+        charInfos.Clear();
+        kernings.Clear();
+
+        inAtlas = false;
+        editorNeedRebuild = false;
+
+        idToCharInfo.Clear();
+    }
+
+    // ------------------------------------------------------------------ 
     /// Rebuild the table to store key exBitmapFont.CharInfo.id to value exBitmapFont.CharInfo
     // ------------------------------------------------------------------ 
 

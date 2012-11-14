@@ -114,12 +114,13 @@ public class exViewportPosition : MonoBehaviour {
     void LateUpdate () {
         //
         Vector3 newPos = Vector3.zero;
+        newPos.z = transform.position.z;
 
         //
-        if ( plane ) {
+        if ( plane && plane.renderCamera ) {
             newPos = plane.ViewportToWorldPoint ( plane.renderCamera, x_, y_ );
         }
-        else {
+        else if ( Camera.main ) {
             newPos = Camera.main.ViewportToWorldPoint( new Vector3(x_, y_, transform.position.z) );
             newPos.z = transform.position.z;
         }

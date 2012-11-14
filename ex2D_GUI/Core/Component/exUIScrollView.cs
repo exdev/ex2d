@@ -111,6 +111,47 @@ public class exUIScrollView : exUIElement {
 
     // ------------------------------------------------------------------ 
     // Desc: 
+    protected struct MoveToParams {
+        public Vector2 dest; 
+        public float duration; 
+
+        public MoveToParams ( Vector2 _dest, float _duration ) {
+            dest = _dest;
+            duration = _duration;
+        }
+    }
+    // ------------------------------------------------------------------ 
+
+    public void MoveTo ( Vector2 _destOffset, float _duration ) {
+        StopCoroutine ( "MoveTo_CO" );
+        StartCoroutine ( "MoveTo_CO", new MoveToParams ( _destOffset, _duration ) );
+    } 
+
+    protected IEnumerator MoveTo_CO ( MoveToParams _params ) {
+        Vector2 start = contentOffset;
+        Vector2 dest = _params.dest;
+        float timer = 0.0f;
+        if ( _params.duration != 0.0f  ) {
+            while ( timer <= _params.duration ) {
+                float ratio = timer/_params.duration;
+                contentOffset = Vector2.Lerp ( start, dest, ratio );
+                contentOffset.x = Mathf.Clamp ( contentOffset.x, minX, maxX );
+                contentOffset.y = Mathf.Clamp ( contentOffset.y, minY, maxY );
+                SetOffset(contentOffset);
+
+                yield return 0;
+                timer += Time.deltaTime;
+            }
+        }
+
+        contentOffset = dest;
+        contentOffset.x = Mathf.Clamp ( contentOffset.x, minX, maxX );
+        contentOffset.y = Mathf.Clamp ( contentOffset.y, minY, maxY );
+        SetOffset(contentOffset);
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
     protected struct FadeToParams {
         public exSpriteBorder slider;
         public float destAlpha; 
@@ -578,6 +619,15 @@ public class exUIScrollView : exUIElement {
     // Desc: 
     // ------------------------------------------------------------------ 
 
+    public void Clear () {
+        clipRect.Clear();
+        children.Clear();
+    }
+
+    // ------------------------------------------------------------------ 
+    // Desc: 
+    // ------------------------------------------------------------------ 
+
     public void AddElement ( exUIElement _el ) {
         int lastEl = children.Count-1;
         AddChild(_el);
@@ -645,8 +695,8 @@ public class exUIScrollView : exUIElement {
                 x = el.boundingRect.width; 
         }
 
-        contentHeight = y;
-        contentWidth = x;
+        contentHeight = Mathf.Max( y, 0.1f );
+        contentWidth = Mathf.Max( x, 0.1f );
 
         minX = 0.0f;
         maxX = Mathf.Max(contentWidth - clipRect.width, 0.0f);

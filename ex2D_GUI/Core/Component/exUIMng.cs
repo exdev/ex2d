@@ -379,6 +379,9 @@ public class exUIMng : MonoBehaviour {
     void ProcessTouch () {
         for ( int i = 0; i < Input.touches.Length; ++i ) {
             Touch touch = Input.touches[i];
+            if ( touch.fingerId >= 10 )
+                continue;
+
             TouchState touchState = null;
             exUIElement hotElement = PickElement(touch.position);
             
