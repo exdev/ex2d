@@ -1,0 +1,4 @@
+exclude: pages.vimentry, quick_gen_project_pages_autogen.sh
+safe: true
+pygments: true
+lsi: false
