@@ -8,7 +8,7 @@ rdiscount:
 
 # User Options
 name: ex2D
-baseurl:   # Leave this blank unless you are using a directory other than the root directory (Do not use a trailing slash '/')
+baseurl: /ex2d_dec  # Leave this blank unless you are using a directory other than the root directory (Do not use a trailing slash '/')
 description: 'A Sprite Engine For Unity That Is Both Performing And Elegant.'
 email: studio@ex-dev.com 
 twitter: abitgames 
