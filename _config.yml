@@ -1,14 +1,15 @@
 # Jekyll Specific Stuff
 markdown: rdiscount
 pygments: true
-permalink: /posts/:title
+permalink: news/:title
 paginate: 10 # the number of post per page
+paginate_path: 'news/page:num'
 rdiscount:
   extensions: [smart]
 
 # User Options
 name: ex2D
-baseurl: /ex2d_dec  # Leave this blank unless you are using a directory other than the root directory (Do not use a trailing slash '/')
+baseurl: /ex2d_doc  # Leave this blank unless you are using a directory other than the root directory (Do not use a trailing slash '/')
 description: 'A Sprite Engine For Unity That Is Both Performing And Elegant.'
 email: studio@ex-dev.com 
 twitter: abitgames 
