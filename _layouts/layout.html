@@ -65,7 +65,7 @@
   <div class="container">
     <section class="description">
       {% if site.icon_url %}
-      <a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/" title="{{ site.name }} - Home" class="portrait-icon"><img src="{{ site.icon_url }}" alt="{{ site.name }}"></a>
+      <a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/" title="{{ site.name }} - Home" class="portrait-icon"><img src="{% if site.baseurl %}{{ site.baseurl }}{% endif %}{{ site.icon_url }}" alt="{{ site.name }}"></a>
       {% else %}
       <h1><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/" title="{{ site.name }} - Home">{{ site.name }}</a></h1>
       {% endif %}
