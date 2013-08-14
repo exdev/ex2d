@@ -4,7 +4,7 @@
  <title>ex2D</title>
  <link href="/atom.xml" rel="self"/>
  <link href="/"/>
- <updated>2013-08-13T23:40:36+08:00</updated>
+ <updated>2013-08-15T01:11:29+08:00</updated>
  <id></id>
  <author>
    <name>ex2D</name>
@@ -13,9 +13,9 @@
  
  <entry>
    <title>Hello World</title>
-   <link href="/news/hello-world"/>
+   <link href="/posts/2013/08/09/hello-world.html"/>
    <updated>2013-08-09T00:00:00+08:00</updated>
-   <id>/news/hello-world</id>
+   <id>/posts/2013/08/09/hello-world</id>
    <content type="html">&lt;p&gt;For more about Jekyll view the &lt;a href=&quot;http://jekyllrb.com/docs/home/&quot;&gt;documentation&lt;/a&gt;.&lt;/p&gt;
 </content>
  </entry>

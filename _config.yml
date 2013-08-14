@@ -1,9 +1,9 @@
 # Jekyll Specific Stuff
 markdown: rdiscount
 pygments: true
-permalink: news/:title
 paginate: 10 # the number of post per page
 paginate_path: 'news/page:num'
+relative_permalinks: false
 rdiscount:
   extensions: [smart]
 

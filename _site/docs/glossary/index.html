@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-      Not Found &ndash;
+      Glossary &ndash;
     
     ex2D
   </title>
@@ -408,11 +408,55 @@
 
   <body class="page">
   <div class="container" id="main" role="main">
-    <section class="content">
-  <h1>Not Found</h1>
+    <h1>Glossary</h1>
 
-  <p>Sorry! Couldn't find that page. Bummer.</p>
-</section>
+<h3>2D Manager</h3>
+
+<h3>2D Scene Editor</h3>
+
+<h3>Atlas</h3>
+
+<p>Atlas is a texture container that makes a group of sprites share the same atlas texture and material. It is essentially a list of TextureInfos and their position info.</p>
+
+<p>The Atlas in ex2D can contain sprite textures and Bitmap Font textures at the same time, reducing draw calls even more.</p>
+
+<h3>Bitmap Font</h3>
+
+<p>Bitmap Font is non-scalable font that uses bitmap image to render texts. Compare to scalable fonts like TrueType font, it can&rsquo;t maintain sharpness when scaled up. But the advantage is you can apply different styles like stroke or shadow to the font before generating font texture.</p>
+
+<p>Usually when you create a bitmap font, there will be two files generated, a &ldquo;.png&rdquo; font texture and a &ldquo;.fnt&rdquo; or &ldquo;.txt&rdquo; control file that contain the position information for each character. You can easily create a Bitmap Font using one of the following tools:</p>
+
+<ul>
+<li><a href="http://www.71squared.com/">GlyphDesigner</a></li>
+<li><a href="https://code.google.com/p/libgdx/wiki/Hiero">Hiero</a></li>
+<li><a href="http://www.angelcode.com/products/bmfont/">BMFont</a></li>
+</ul>
+
+
+<h3>Dynamic Batching (ex2D)</h3>
+
+<p>Sprites in ex2D&rsquo;s Dynamic Layer will be dynamic batched in ex2D&rsquo;s own way. Dynamic Layer allows users to frequently modify sprites in the layer. Compare to Unity&rsquo;s Dynamic Batching, ex2D users can setup different batching parameter such as the mesh size. Depending on the project, you can find a good balance in spending your CPU and GPU time doing batching and rendering.</p>
+
+<p>Checkout <a href="http://jwu.github.io/ex2d_doc/docs/how-ex2d-renders.md">How ex2D Renders</a> for more details.</p>
+
+<h3>Layer</h3>
+
+<p>Layer is what ex2D uses to contain sprites in the scene. Not only the GameObject that carries the sprite will be grouped by the layer. All sprites in the same layer will also be batched for faster rendering.</p>
+
+<p>ex2D Layer also provides convenient interface to build atlas for all sprites in the same layer.</p>
+
+<h3>Sprite Animation</h3>
+
+<h3>Static Batching (ex2D)</h3>
+
+<p>All sprites in a static layer will be rendered using Static Batching system by ex2D. It&rsquo;s the most efficient way of rendering a group of sprites. Every sprites with the same material in the layer will be combined into a single mesh. It&rsquo;s essentially the same as Unity&rsquo;s static batching so it&rsquo;s the fastest.</p>
+
+<p>However ex2D allows you to dynamically create and modify Static Layer. This makes it possible to create static batched sprite groups during runtime, thus more convenient for developers.</p>
+
+<p>Checkout <a href="http://jwu.github.io/ex2d_doc/docs/how-ex2d-renders.md">How ex2D Renders</a> for more details.</p>
+
+<h3>TextureInfo</h3>
+
   </div>
   <footer class="page-foot">
   <div class="container">
