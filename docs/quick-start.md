@@ -1,3 +1,9 @@
+---
+layout: page
+title: Quick Start
+permalink: /docs/quick-start/
+---
+
 # Quick Start
 
 This page will quickly guide you through the working pipeline of ex2D's different component and editors. After reading this you'll be ready to create your scene with sprites and animations!
