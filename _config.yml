@@ -12,7 +12,7 @@ name: ex2D
 baseurl: /ex2d_doc  # Leave this blank unless you are using a directory other than the root directory (Do not use a trailing slash '/')
 description: 'A Sprite Engine For Unity That Is Both Performing And Elegant.'
 email: studio@ex-dev.com 
-twitter: abitgames 
+twitter: 
 icon_url: /images/logo.png 
 disqus_shortname: 
 
