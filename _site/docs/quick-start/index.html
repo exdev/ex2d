@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-      Not Found &ndash;
+      Quick Start &ndash;
     
     ex2D
   </title>
@@ -429,11 +429,76 @@
 
   <body class="page">
   <div class="container" id="main" role="main">
-    <section class="content">
-  <h1>Not Found</h1>
+    <h1>Quick Start</h1>
 
-  <p>Sorry! Couldn't find that page. Bummer.</p>
-</section>
+<p>This page will quickly guide you through the working pipeline of ex2D&rsquo;s different component and editors. After reading this you&rsquo;ll be ready to create your scene with sprites and animations!</p>
+
+<h2>Create Atlas Asset</h2>
+
+<p>Select the folder where you want to put your atlas in <strong>Project View</strong>. <strong>Right click</strong> the folder and select  <strong>Create -> ex2D -> Atlas</strong> to create an atlas asset.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/create_atlas.png" alt="create_atlas" /></p>
+
+<h2>Import Texture Into Atlas</h2>
+
+<p>Select the atlas asset we just created, in the bottom of <strong>Inspector</strong> window, click <strong>Edit&hellip;</strong> to open Atlas Editor.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/edit_atlas.png" alt="edit_atlas" /></p>
+
+<p>Select textures you want to put into the atlas, and drag them into the <strong>Preview Window</strong> in Atlas Editor.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/import_texture_to_atlas.png" alt="import_texture_to_atlas" /></p>
+
+<p>Wait until ex2D finish processing the textures. Then we will find a new folder created in the same folder of atlas asset. This folder has the same name with the atlas asset. It contains all the imported and processed texture information files (TextureInfo). We will be dealing with TextureInfo all the time working with ex2D. You can treat them as the raw texture files with extra information that ex2D needs to know.</p>
+
+<p>When Atlas Editor finish importing, we can click <strong>Build</strong> button on the top right corner of the window to generate the atlas texture. This texture will be saved to the folder that holds all the TextureInfo of this atlas. You can click any TextureInfo to check the preview window at the bottom of <strong>Inspector</strong> to see if the it is mapped correctly from the atlas texture. You should be able to see the same picture as the raw texture file in the preview.</p>
+
+<h2>Create a Sprite In Your Scene</h2>
+
+<p>Let&rsquo;s take a newly created scene for example. The first step is to setup the camera. Select the main camera in the scene. In <strong>Inspector</strong> window click <strong>Add Component</strong> and select <strong>2D Manager</strong>.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/add_2d_manager.png" alt="add_2d_manager" /></p>
+
+<p>Click <strong>Edit&hellip;</strong> button in <strong>2D Manager</strong> component. This will fire up 2D Scene Editor. This editor will provide the environment to easily arrange your scene for 2D graphic.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/edit_2d_manager.png" alt="edit_2d_manager" /></p>
+
+<p>Before we create a Sprite, we need a Layer to hold its renderer. Click the <strong>+</strong> button in Layers section of 2D Scene Editor to create a new Layer. Select the newly created Layer, pick the TextureInfo you want your sprite to have from <strong>Project View</strong> and drag it into 2D Scene Editor window. Your first Sprite will be created in the new Layer.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/add_new_layer.png" alt="add_new_layer" /></p>
+
+<h2>Create A Sprite Animation Asset</h2>
+
+<p>This is similar to the process of creating Atlas. Select a folder in <strong>Project View</strong>, <strong>Right Click</strong> with your mouse and select <strong>Create -> ex2D -> Sprite Animation Clip</strong>. This will create a new Sprite Animation Asset in selected folder.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/create_sprite_animation_clip.png" alt="create_sprite_animation_clip" /></p>
+
+<p>When you select the asset in Project View, click <strong>Edit&hellip;</strong> button in <strong>Inspector</strong> window will fire up the Sprite Animation Editor so you can Edit the Sprite Animation clip.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/edit_sprite_animation_clip.jpeg" alt="Edit Sprite Animation" /></p>
+
+<p>In the Sprite Animation Editor, we can find a timeline for editing and and preview window. Let&rsquo;s drag the TextureInfo ( <strong>IMPORTANT: Not the raw textures, but TextureInfo files</strong> ) files into the timeline. Then you can drag the TextureInfos around to arrange it perfectly for your desired animation.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/import_textureinfo_to_sprite_animation.jpeg" alt="Import TextureInfo to Sprite Animation" /></p>
+
+<h2>Create A Sprite With Animation In Your Scene</h2>
+
+<p>If you already know how to create a Sprite, make a Sprite with animation is very simple. Just drag your newly created Sprite Animation Clip into the 2D Scene Editor will do the work.</p>
+
+<h2>Create A Bitmap Font Asset</h2>
+
+<p>We assume you know how to create a BitmapFont (consist of a .png texture file and a .fnt/.txt control file) with tools like <a href="http://www.71squared.com/">GlyphDesigner</a>, <a href="https://code.google.com/p/libgdx/wiki/Hiero">Hiero</a> or <a href="http://www.angelcode.com/products/bmfont/">BMFont</a>. Check these tools' website if you are not familiar with BitmapFont yet.</p>
+
+<p>Once you have your BitmapFont files ready, put the font texture (.png) and control file (.txt/.fnt) into your Unity project. Select the control file (.txt/.fnt), <strong>Right Click</strong> it and select <strong>Create -> ex2D -> Bitmap Font</strong>. ex2D will process the BitmapFont files and generate a Bitmap Font Asset ready to use for ex2D.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/create_bitmapfont.jpeg" alt="Create Bitmap Font" /></p>
+
+<h2>Create A Sprite Font In Your Scene</h2>
+
+<p>I think you know the drill already. Similar to Sprite and Sprite Animation, all you need to do is drag the Bitmap Font Asset into the 2D Scene Editor.</p>
+
+<p><img src="http://jwu.github.io/ex2d_doc/wiki_assets/images/add_bitmapfont_to_scene.jpeg" alt="Add Bitmap Font" /></p>
+
   </div>
   <footer class="page-foot">
   <div class="container">
