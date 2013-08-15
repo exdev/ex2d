@@ -8,6 +8,10 @@ permalink: /docs/quick-start/
 
 This page will quickly guide you through the working pipeline of ex2D's different component and editors. After reading this you'll be ready to create your scene with sprites and animations!
 
+If you haven't import ex2D into your project, please follow the [Installation][4] first.
+
+[4]: ../installation/
+
 ## Create Atlas Asset
 
 Select the folder where you want to put your atlas in **Project View**. **Right click** the folder and select  **Create -> ex2D -> Atlas** to create an atlas asset.

@@ -8,6 +8,7 @@ published: true
 
 # Welcome to the ex2D documentation.
 
-- [Glossary](../docs/glossary/)  
-- [How ex2D Renders](../docs/how-ex2d-renders/)  
+- [Installation](../docs/installation/)
 - [Quick Start](../docs/quick-start/)  
+- [How ex2D Renders](../docs/how-ex2d-renders/)  
+- [Glossary](../docs/glossary/)  
