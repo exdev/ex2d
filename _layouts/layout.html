@@ -73,7 +73,8 @@
       {% endif %}
       <p>{{ site.description }}</p>
       <ul class="util">
-        <li class="archive"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/release/" class="etp-timeago">Releases</a></li>
+        <li class="release"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/release/" class="etp-timeago">Releases</a></li>
+        <li class="faq"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/docs/faq/" class="etp-comments">FAQ</a></li>
         <li class="rss"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/atom.xml" class="etp-rss">RSS</a></li>
         {% if site.email %}
         <li class="ask"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/contact/" class="etp-mail">Contact</a></li>
