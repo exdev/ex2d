@@ -4,12 +4,48 @@
  <title>ex2D</title>
  <link href="/atom.xml" rel="self"/>
  <link href="/"/>
- <updated>2013-08-15T01:45:13+08:00</updated>
+ <updated>2013-08-15T13:43:28+08:00</updated>
  <id></id>
  <author>
    <name>ex2D</name>
  </author>
  
+ 
+ <entry>
+   <title>ex2D Is Back!</title>
+   <link href="/posts/2013/08/16/ex2d-is-back.html"/>
+   <updated>2013-08-16T00:00:00+08:00</updated>
+   <id>/posts/2013/08/16/ex2d-is-back</id>
+   <content type="html">&lt;h1&gt;ex2D Is Back!&lt;/h1&gt;
+
+&lt;p&gt;It&amp;rsquo;s been a really long time since the last ex2D update. First of all we want to appologize for the lack of
+updates during this period. After ex2D 1.2.7 released, we hit multiple obstacles in fixing ex2D&amp;rsquo;s biggest issues
+ like team collaboration oriented asset management and confusing layer management. We can&amp;rsquo;t find a good solution
+ by continuing the ex2D 1.X framework.&lt;/p&gt;
+
+&lt;p&gt;Besides the technical issues, we also hit a very busy stage in life (full time job, moving and love :p ) that didn&amp;rsquo;t
+ allow us much time to share love with ex2D. We are very very sorry if you feel that the project is discontinued and
+ you didn&amp;rsquo;t get the support you&amp;rsquo;ve counted on.&lt;/p&gt;
+
+&lt;p&gt;To make it up to all ex2D users and supporters, we &lt;strong&gt;quit our full time jobs&lt;/strong&gt;
+ to be full time ex2D developers. We are also looking forward to open our mobile game development studio soon. More importantly,
+ the new &lt;strong&gt;ex2D 2.0&lt;/strong&gt; is comming up now!&lt;/p&gt;
+
+&lt;h2&gt;The Brand New ex2D 2.0&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;ex2D 2.0 is revolutionary&lt;/strong&gt;: not only it solved the historical issues perfectly, but also we break the limit of traditional
+ sprite rendering method in Unity and improved the rendering performance drastically; implemented a 2D Scene Editor fully customized
+ for 2D sprite editing; reworked the layer system to
+ let it handle sprite object arrangement, batching and rendering order all in a intuitive way.&lt;/p&gt;
+
+&lt;p&gt;ex2D 2.0 is now on Free Beta! Get the package and give it a try from &lt;a href=&quot;../ex2d-2-beta/&quot;&gt;HERE&lt;/a&gt;! We will be doing the final tweaks according to
+ the Beta test before we put it up to Asset Store, hopefully in early September.&lt;/p&gt;
+
+&lt;p&gt;Read the &lt;a href=&quot;http://jwu.github.io/ex2d_doc&quot;&gt;Home Page&lt;/a&gt; to learn ex2D 2.0 features if you haven&amp;rsquo;t already. Checkout the &lt;a href=&quot;../contact/&quot;&gt;Contact Page&lt;/a&gt; if you have feedback.&lt;/p&gt;
+
+&lt;p&gt;Enjoy!&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Hello World</title>

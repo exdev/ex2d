@@ -73,10 +73,10 @@
       {% endif %}
       <p>{{ site.description }}</p>
       <ul class="util">
-        <li class="archive"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/archive.html" class="etp-timeago">Archive</a></li>
+        <li class="archive"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/release/" class="etp-timeago">Releases</a></li>
         <li class="rss"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/atom.xml" class="etp-rss">RSS</a></li>
         {% if site.email %}
-        <li class="ask"><a href="mailto:{{ site.email }}" class="etp-mail">Contact</a></li>
+        <li class="ask"><a href="{% if site.baseurl %}{{ site.baseurl }}{% endif %}/contact/" class="etp-mail">Contact</a></li>
         {% endif %}
       </ul>
     </section>

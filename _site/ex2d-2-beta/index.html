@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-      How ex2D Renders (and why it's so fast!) &ndash;
+      ex2D 2.0 Free Beta &ndash;
     
     ex2D
   </title>
@@ -557,25 +557,36 @@
 
   <body class="page">
   <div class="container" id="main" role="main">
-    <h1>How ex2D Renders (And why it&rsquo;s so fast!)</h1>
+    <h1>ex2D 2.0 Free Beta</h1>
 
-<p>In most Unity sprite engine (include ex2D 1.x), sprites are rendered one by one separately and then let Unity do Dynamic Batching for the sprites. The new ex2D handles things differently. We use our own Dynamic Batching solution for all sprites to make it even faster.</p>
+<p>We are coming back with the powerful, elegant and revolutionary ex2D 2.0! Since we are using a brand new framework, we want to
+ release the free Beta to everyone so that we can have a project-proved, robust official release.</p>
 
-<p>A ex2D 2.0 scene has layers as the sprite container. All sprites in the scene will be put into layers. Layers define the render order of the sprites they contain. If a sprite A is in a layer that on top of sprite B in another layer, sprite A will be rendered on top of sprite B. Set up the layers in correct order will ensure your sprites renders in correct order.</p>
+<p>Check out the <a href="../release/ex2d-2-beta/">release note</a> of ex2D 2.0 Beta to learn what&rsquo;s new! (Pretty much everything xD)</p>
 
-<p>ex2D Layer also has smart interface on making sure all sprites in a layer use the same atlas and material. So that your batching will work without any hidden issue.</p>
+<p>You can download the package here:</p>
 
-<p>There are two types of layer for different batching:</p>
+<h2>Important Notice on Compatibility</h2>
 
-<ul>
-<li><p><strong>Static Layer</strong>: it&rsquo;s the most efficient way of rendering a group of sprites. Every sprites with the same material in the layer will be combined into a single mesh. It&rsquo;s essentially the same as Unity&rsquo;s static batching so it&rsquo;s the fastest. However ex2D allows you to dynamically create and modify Static Layer. This makes it possible to create static batched sprite groups during runtime, thus more convenient for developers. Beware that creating and modifying Static Layer can cost a lot of CPU time. So it&rsquo;s more suitable for placing background sprites that don&rsquo;t get rearranged often.</p></li>
-<li><p><strong>Dynamic Layer</strong>: Sprites in ex2D&rsquo;s Dynamic Layer will be dynamic batched in ex2D&rsquo;s own way. Dynamic Layer allows users to frequently modify sprites in the layer. Compare to Unity&rsquo;s Dynamic Batching, ex2D users can setup different batching parameter such as the mesh size. Depending on the project, you can find a good balance in spending your CPU and GPU time doing batching and rendering.</p></li>
-</ul>
+<p>ex2D 2.0 is <strong>NOT Compatible</strong> with projects created with ex2D 1.X! Do not import ex2D 2.0 package into your ex2D 1.X project!
+ It will break everything if you insist doing that.</p>
 
+<p>It&rsquo;s unfortunate that you can&rsquo;t upgrade your project to ex2D 2.0 and make it 100x better. But we can&rsquo;t make it even 2x better if
+ we didn&rsquo;t drop the old framework. We also strongly recommend you to backup your project before import ex2D 2.0 package. We have
+ this beta to find any big issue so let&rsquo;s be on the safe side by always have a back up to go to.</p>
 
-<p>Simply put, the less sprite changes, the more we can batches sprite together to reduce drawcall. And the biggest advantage we have by using Layer as render groups, is to apply different render strategy for different part of the scene. Static object or background can be put into Static Layer for static batching. For the moving part there are different parameter for dynamic batching so you can balance the load of CPU and GPU to reduce bottleneck.</p>
+<h2>License</h2>
 
-<p>From the extensive tests we made on both PC/Mac and Mobile, ex2D&rsquo;s own Dynamic Batching performs much better than other 2D sprite solution that have done a good job on reducing draw calls and utilizing Unity&rsquo;s native Dynamic Batching. The new ex2D is now customized completely for realizing the full potential of 2D sprite rendering. Also we are looking forward to the possibility of further optimization on the performance before ex2D 2.0&rsquo;s official release.</p>
+<p>License wise, you are only allowed to use this beta for testing and personal researching purposes. The Beta package does not
+ include commercial license that allow you to publish work created with ex2D 2.0.</p>
+
+<h2>Report Issue</h2>
+
+<p>If you have any issue, report it to our <a href="https://github.com/jwu/ex2d_doc/issues">Github issue page</a>.</p>
+
+<p>You can also discuss it in <a href="http://ex2d.1kapp.com/">ex2D Forum</a> or <a href="http://forum.unity3d.com/threads/101811-ex2D-the-best-2D-sprite-solution-for-Unity-RELEASED">ex2D discussion in Unity forum</a>.</p>
+
+<p>Or at last, send us email at <strong>support@ex-dev.com</strong>.</p>
 
   </div>
   <footer class="page-foot">

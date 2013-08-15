@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Showcase
-weight: 4
+weight: 5
+permalink: /showcase/
 ---
 # Games Powered by ex2D 

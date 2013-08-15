@@ -2,6 +2,7 @@
 layout: page
 title: Documentation
 weight: 3
+permalink: /docs/
 published: true
 ---
 
