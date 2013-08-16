@@ -30,17 +30,17 @@
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -->
 
-  <link rel="alternate" type="application/rss+xml" href="/ex2d_doc/atom.xml" />
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
 
-  <link rel="stylesheet" href="/ex2d_doc/css/icons.css" type="text/css" />
-  <link rel="stylesheet" href="/ex2d_doc/css/base.css" type="text/css" media="screen, projection" />
-  <link rel="stylesheet" href="/ex2d_doc/css/pygments.css" type="text/css" />
-  <link rel="shortcut icon" href="/ex2d_doc/favicon.ico" />
+  <link rel="stylesheet" href="/css/icons.css" type="text/css" />
+  <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+  <link rel="shortcut icon" href="/favicon.ico" />
   <!--[if IE]><link media="screen" type="text/css" href="stylesheets/spinner-old-ie.css" rel="stylesheet" /><![endif]-->
 <!-- Google Fonts -->
   <link href='http://fonts.googleapis.com/css?family=PT+Sans:700,700italic|PT+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
-  <link rel="apple-touch-icon" href="/ex2d_doc/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
@@ -157,24 +157,24 @@
   <div class="container">
     <section class="description">
       
-      <a href="/ex2d_doc/" title="ex2D - Home" class="portrait-icon"><img src="/ex2d_doc/images/logo.png" alt="ex2D"></a>
+      <a href="/" title="ex2D - Home" class="portrait-icon"><img src="/images/logo.png" alt="ex2D"></a>
       
       <p>A Sprite Engine For Unity That Is Most Performing And Elegant. Now At 2.0.</p>
       <ul class="util">
-        <li class="release"><a href="/ex2d_doc/release/" class="etp-timeago">Releases</a></li>
-        <li class="faq"><a href="/ex2d_doc/docs/faq/" class="etp-comments">FAQ</a></li>
-        <li class="rss"><a href="/ex2d_doc/atom.xml" class="etp-rss">RSS</a></li>
+        <li class="release"><a href="/release/" class="etp-timeago">Releases</a></li>
+        <li class="faq"><a href="/docs/faq/" class="etp-comments">FAQ</a></li>
+        <li class="rss"><a href="/atom.xml" class="etp-rss">RSS</a></li>
         
-        <li class="ask"><a href="/ex2d_doc/contact/" class="etp-mail">Contact</a></li>
+        <li class="ask"><a href="/contact/" class="etp-mail">Contact</a></li>
         
       </ul>
     </section>
 
     <nav class="pages">
-      <a href="/ex2d_doc/" title="ex2D - Home" class="portrait-icon user-icon"><img src="/ex2d_doc/images/logo.png" alt="ex2D"></a>
+      <a href="/" title="ex2D - Home" class="portrait-icon user-icon"><img src="/images/logo.png" alt="ex2D"></a>
       <ul>
       <li>
-        <a href="/ex2d_doc/">Home</a>
+        <a href="/">Home</a>
       </li>
       
         
@@ -225,7 +225,7 @@
           
             
             <li>
-              <a  href="/ex2d_doc/blog/">
+              <a  href="/blog/">
                 Blog
               </a>
             </li>
@@ -279,7 +279,7 @@
           
             
             <li>
-              <a  href="/ex2d_doc/docs/">
+              <a  href="/docs/">
                 Documentation
               </a>
             </li>
@@ -339,7 +339,7 @@
           
             
             <li>
-              <a  href="/ex2d_doc/videos/">
+              <a  href="/videos/">
                 Videos
               </a>
             </li>
@@ -381,7 +381,7 @@
           
             
             <li>
-              <a  href="/ex2d_doc/showcase/">
+              <a  href="/showcase/">
                 Showcase
               </a>
             </li>
@@ -580,6 +580,80 @@
   <div class="container" id="main" role="main">
     <h1>2.0.1 Beta Release Note</h1>
 
+<h2>New Features</h2>
+
+<ul>
+<li>2D Scene Editor to manager sprites, layers
+
+<ul>
+<li>Embeded layer manager.</li>
+<li>Manage sprite draw order with Layer Manager and Depth Bias.</li>
+<li>Automatically synchornize depth settings with Hierarchy Window.</li>
+<li>Drag and drop creating Sprite-based GameObject from assets.</li>
+<li>Move, rotate and scale sprites directly in the scene editor.</li>
+<li>Edit sprite properties directly through Unity Inspector, share the same result with Unity Scene/Game View.</li>
+<li>Provide guide lines for easy aligment sprite elements.</li>
+</ul>
+</li>
+<li>Highly optimized 2D renderer focus on fast drawing 2D sprites ( <a href="/docs/how-ex2d-renders/">How ex2D Renders</a> )
+
+<ul>
+<li>Manually combine Mesh in our own 2D Renderer.</li>
+<li>Edit layer-meshes through ex2D Scene Editor.</li>
+<li>Automatically detect and switch between static and dynamic batches.</li>
+<li>Smart combine meshes if they are static.</li>
+<li>Strictly design the initalize, sorting and drawing phase, make user&rsquo;s scripts have no pain to run with ex2D&rsquo;s low-level code.</li>
+</ul>
+</li>
+<li>New working pipeline for sprite assets and editors.
+
+<ul>
+<li>Assets pipeline is now compatible with team collabration.</li>
+<li>Introduc basic asset TextureInfo as operation target.</li>
+<li>Change ex2D Editors (such as atlas editor, sprite animation editor, &hellip;) to work with TextureInfo.</li>
+<li>Embed preview in the inspector for ex2D assets.</li>
+</ul>
+</li>
+<li>Allow rotated atlas element when layout atlas.</li>
+</ul>
+
+
+<h2>Changes</h2>
+
+<ul>
+<li>Remove exAtlasInfo. ( There is no need to distinguish exAtlas and exAtlasInfo. Instead, only exAtlas )</li>
+<li>Temporarily disable auto synchornize atlas assets when texture changes. ( Auto-atlasing will become a new feature in future updates, we still need more time test this feature )</li>
+<li>Temporarily disable texture to atlas detecting in the scene, use Texture-Info instead.
+( This is a nice feature in ex2D v1.+, however it also lead to crashes, out of memory and break team-work since it depends on local cache file &mdash; &ldquo;Atlas DB&rdquo;,
+we are seeking a new way to make Texture and TextureInfo can be smartly linked together,
+we also think about provide Manually/Automatically option so different team can choose their way work with ex2D )</li>
+<li>Embed the layer manager and editor in 2D Scene Editor. ( We totally rewrite the layer sorting algorithm, make it simple and can work together with other plugins )</li>
+<li>Temporarily disable Sprite-Border. ( Diced, Tiled and Sliced sprite will be added in next version )</li>
+<li>Temporarily disable clipping. ( Clipping it is the most important task for GUI rendering, we are working hard for our GUI layout editor and still testing different clipping method )</li>
+<li>Temporarily disable dynamic outline, shadow in exSpriteFont. ( Like clipping, it is under discussion with GUI features )</li>
+</ul>
+
+
+<h2>Improvements</h2>
+
+<ul>
+<li>Allow multi-target editing in the inspector for assets and components. ( We rewrite our editor code by using Unity3D&rsquo;s SerializedProperty class )</li>
+<li>Add and optimize Max-Rect algorithm for atlasing textures.</li>
+<li>Easy add and remove texture element in atlas.</li>
+<li>Scenes or Prefabs will not broken when atlas changes.</li>
+<li>Polish the Atlas Editor and Sprite Animation Editor selection ( Rect, ctrl, shift and so on).</li>
+<li>Better operating events in Sprite Animation Editor.</li>
+<li>Automatically layout elements in Atlas Editor.</li>
+</ul>
+
+
+<h2>Fixes</h2>
+
+<ul>
+<li>Fixed crash and out of memory when working with hundreds of Atlas assets.</li>
+</ul>
+
+
   </div>
   <footer class="page-foot">
   <div class="container">
@@ -591,7 +665,7 @@
     <section class="social-links">
       
       <ul>
-        <li class="social_github"><a href="https://github.com/jwu/ex2d_doc" class="ets-github">&nbsp;</a></li>
+        <li class="social_github"><a href="https://github.com/exdev/ex2d_doc" class="ets-github">&nbsp;</a></li>
         
         
         
@@ -627,8 +701,8 @@
 </footer>
 
   
-  <script type="text/javascript" src="/ex2d_doc/js/plugins.min.js"></script>
-  <script type="text/javascript" src="/ex2d_doc/js/application.js"></script>
+  <script type="text/javascript" src="/js/plugins.min.js"></script>
+  <script type="text/javascript" src="/js/application.js"></script>
 
 </body>
 </html>
