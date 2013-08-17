@@ -23,7 +23,7 @@ Fast, lightweight and easy to use - that's what ex2D excels at.
 
 [1]: ./docs/quick-start/
 [2]: ./docs/
-[3]: https://github.com/jwu/ex2d_doc
+[3]: https://github.com/exdev/ex2d
 [4]: http://forum.unity3d.com/threads/101811-ex2D-the-best-2D-sprite-solution-for-Unity-RELEASED
 [5]: http://www.ex-dev.com/ex2d/
 
@@ -52,8 +52,8 @@ If you have any issue or question, please use the following way to get back to u
 - [Discuss in Our Forum][7]
 - [Send Us Email][8]
 
-[6]: https://github.com/jwu/ex2d_doc/issues
-[7]: http://ex2d.1kapp.com/
+[6]: https://github.com/exdev/ex2d/issues
+[7]: http://forum.ex-dev.com/
 [8]: mailto:support@ex-dev.com 
 
 ## Thank You!

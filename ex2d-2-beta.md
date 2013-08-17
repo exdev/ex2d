@@ -35,7 +35,7 @@ You can also discuss it in [ex2D Forum][3] or [ex2D discussion in Unity forum][4
 
 Or at last, send us email at __support@ex-dev.com__.
 
-[1]: ../release/ex2d-2-beta/
-[2]: https://github.com/jwu/ex2d_doc/issues
-[3]: http://ex2d.1kapp.com/
+[1]: {{ site.baseurl }}/release/ex2d-2-beta/
+[2]: https://github.com/exdev/ex2d/issues
+[3]: http://forum.ex-dev.com/
 [4]: http://forum.unity3d.com/threads/101811-ex2D-the-best-2D-sprite-solution-for-Unity-RELEASED 
