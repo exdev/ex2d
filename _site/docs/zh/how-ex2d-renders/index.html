@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-      Installation &ndash;
+      How ex2D Renders (and why it's so fast!) &ndash;
     
     ex2D
   </title>
@@ -698,43 +698,23 @@
 
   <body class="page">
   <div class="container" id="main" role="main">
-    <h1>安装</h1>
+    <h1>ex2D 渲染机制介绍</h1>
 
-<p>这篇文档将告诉你如何将 ex2D 安装到你的项目中。</p>
+<p>在以往的2D插件中，渲染方式是每个sprite单独渲染，由Unity负责Dynamic Batching。在新版ex2D中，我们经过严谨的优化实现了独立的dynamic batching，从而获得了超越以往的渲染效率。</p>
 
-<h3>获取 .unitypackage 文件</h3>
+<p>ex2D将场景划分为不同的layer，所有sprite都通过所在的layer进行渲染。Layer之间按照渲染次序进行排列，只要设置了layer，就能保证不同layer之间的sprite的正确渲染次序。而些都可以用ex2D Scene Editor很方便的进行编辑。此外layer中的不同sprite允许使用各自的material，用户拥有是否合并贴图的选择权。</p>
 
-<p>在你下载完 zip 打包文件以后，将他解压缩到任意目录中。你应该会在解压目录中找到一个名叫 <strong>ex2d_vXXX.unitypackage</strong> 的文件。
-这就是我们之后将要导入到你项目的插件包。</p>
+<p>Layer分为两种类型，它们满足的需求不同：</p>
 
-<p>如果你由于未知的原因得到了不同的文件名，那是由于文件解压软件过度解压了 .unitypackage 文件。这种情况在 Mac 机器上比较常见。
-如果遇到这种情况，请尝试使用 Mac 自带的 zip 解压软件或者手动解压文件，直到你得到是 .unitypackage 文件。</p>
+<ul>
+<li>ex2D的Static Layer是最紧凑的，适合做静态的元素的批量渲染。在Layer中所有material相同的sprite都会被尽可能放到相同的mesh中，相当于做了static batching。Static Layer允许动态修改和创建，使得它比传统的static batching方便了很多，但频繁操作static layer消耗较高，较为适合放置不经常更新的背景或UI。</li>
+<li>ex2D的Dynamic Layer是最灵活的，适合做动态元素的批量渲染。它支持频繁对sprite进行任意修改。ex2D可以给每个Dynamic Layer单独设定不同的mesh大小，根据不同项目的瓶颈，在合并与渲染的开销之间取得平衡。</li>
+</ul>
 
-<h3>导入 ex2D 插件包</h3>
 
-<p>打开你的 Unity 项目，选择 &ldquo;Assets -> Import Package -> Custom Package&hellip;&rdquo;。</p>
+<p>综上，引入layer带来的性能优势是，可对场景的不同部分分别采取个性化的渲染策略。对于场景中静态的部分，可设置成static layer进行static batching。对于动态的部分，可根据实际项目，设置dynamic batching的参数，平衡CPU和GPU的负载，减少效率瓶颈。</p>
 
-<p><img src="/wiki_assets/images/install/import_package.jpeg" alt="Import ex2D Package" /></p>
-
-<p>选择 .unitypackage 文件并点击对话框中的 <strong>Open</strong> 。</p>
-
-<p><img src="/wiki_assets/images/install/select_ex2d_package.jpeg" alt="Select Package" /></p>
-
-<h3>检查导入</h3>
-
-<p>完成上一步后，你会看到一个导入确认的窗口弹出。点击 <strong>Import</strong> 按钮确认导入的 ex2D 插件包。</p>
-
-<p><img src="/wiki_assets/images/install/confirm_import.jpeg" alt="Import Confirm" /></p>
-
-<p>确认后将会在你项目中的 <strong>Assets</strong> 里创建一个 <strong>ex2D</strong> 文件夹，并且将 ex2D 所需的文件拷入其中。</p>
-
-<p>如果导入成功，你将会发现 Unity 的菜单里多出了一个 <strong>ex2D</strong> 的菜单项。</p>
-
-<p><img src="/wiki_assets/images/install/ex2d_menu.jpeg" alt="ex2D Menu" /></p>
-
-<hr />
-
-<p>接下来，让我们通过 <a href="../quick-start/">新手上路</a> 简单地熟悉一下 ex2D 的工作流程。</p>
+<p>经过手机和PC的复杂测试，ex2D的运行帧率效率完全超越了其它1个drawcall的2D插件，以及利用Unity的dynamic batching实现批量渲染的其余2D插件。ex2D成为了Unity上第一款真正为2D游戏量身优化的渲染套件。</p>
 
   </div>
   <footer class="page-foot">
