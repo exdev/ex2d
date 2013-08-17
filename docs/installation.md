@@ -21,23 +21,23 @@ If you somehow get some randomly named folders instead, that's caused by your fi
 
 Open your Unity project, select "Assets -> Import Package -> Custom Package...".
 
-![Import ex2D Package](../../wiki_assets/images/install/import_package.jpeg)
+![Import ex2D Package]({{ site.baseurl }}/wiki_assets/images/install/import_package.jpeg)
 
 Select the .unitypackage file and click __Open__ in the dialogue window.
 
-![Select Package](../../wiki_assets/images/install/select_ex2d_package.jpeg)
+![Select Package]({{ site.baseurl }}/wiki_assets/images/install/select_ex2d_package.jpeg)
 
 ### Confirm the Import
 
 An import confirm window will pop up. Click __Import__ button to confirm importing ex2D package.
 
-![Import Confirm](../../wiki_assets/images/install/confirm_import.jpeg)
+![Import Confirm]({{ site.baseurl }}/wiki_assets/images/install/confirm_import.jpeg)
 
 This will create a __ex2D__ folder with all the package files into the root of the __Assets__ folder of your project.
 
 If the import is successful, you will be able to find a __ex2D__ menu in the Unity menu bar.
 
-![ex2D Menu](../../wiki_assets/images/install/ex2d_menu.jpeg)
+![ex2D Menu]({{ site.baseurl }}/wiki_assets/images/install/ex2d_menu.jpeg)
 
 ***
 
