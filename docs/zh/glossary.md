@@ -54,9 +54,7 @@ However ex2D allows you to dynamically create and modify Static Layer. This make
 
 Checkout [How ex2D Renders][4] for more details.
 
-[4]: {{ site.baseurl }}/docs/how-ex2d-renders.md 
+[4]: ./how-ex2d-renders/
 
 ### TextureInfo
-
-
 
