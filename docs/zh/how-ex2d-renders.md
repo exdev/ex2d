@@ -1,25 +1,20 @@
 ---
 layout: page
 title: How ex2D Renders (and why it's so fast!)
-permalink: /docs/how-ex2d-renders/
+permalink: /docs/zh/how-ex2d-renders/
 ---
 
-# How ex2D Renders (And why it's so fast!)
+# ex2D 渲染机制介绍
 
-In most Unity sprite engine (include ex2D 1.x), sprites are rendered one by one separately and then let Unity do Dynamic Batching for the sprites. The new ex2D handles things differently. We use our own Dynamic Batching solution for all sprites to make it even faster.
- 
-A ex2D 2.0 scene has layers as the sprite container. All sprites in the scene will be put into layers. Layers define the render order of the sprites they contain. If a sprite A is in a layer that on top of sprite B in another layer, sprite A will be rendered on top of sprite B. Set up the layers in correct order will ensure your sprites renders in correct order.
+在以往的2D插件中，渲染方式是每个sprite单独渲染，由Unity负责Dynamic Batching。在新版ex2D中，我们经过严谨的优化实现了独立的dynamic batching，从而获得了超越以往的渲染效率。
 
-ex2D Layer also has smart interface on making sure all sprites in a layer use the same atlas and material. So that your batching will work without any hidden issue.
+ex2D将场景划分为不同的layer，所有sprite都通过所在的layer进行渲染。Layer之间按照渲染次序进行排列，只要设置了layer，就能保证不同layer之间的sprite的正确渲染次序。而些都可以用ex2D Scene Editor很方便的进行编辑。此外layer中的不同sprite允许使用各自的material，用户拥有是否合并贴图的选择权。
 
-There are two types of layer for different batching:
+Layer分为两种类型，它们满足的需求不同：
 
-* __Static Layer__: it's the most efficient way of rendering a group of sprites. Every sprites with the same material in the layer will be combined into a single mesh. It's essentially the same as Unity's static batching so it's the fastest. However ex2D allows you to dynamically create and modify Static Layer. This makes it possible to create static batched sprite groups during runtime, thus more convenient for developers. Beware that creating and modifying Static Layer can cost a lot of CPU time. So it's more suitable for placing background sprites that don't get rearranged often.
+* ex2D的Static Layer是最紧凑的，适合做静态的元素的批量渲染。在Layer中所有material相同的sprite都会被尽可能放到相同的mesh中，相当于做了static batching。Static Layer允许动态修改和创建，使得它比传统的static batching方便了很多，但频繁操作static layer消耗较高，较为适合放置不经常更新的背景或UI。
+* ex2D的Dynamic Layer是最灵活的，适合做动态元素的批量渲染。它支持频繁对sprite进行任意修改。ex2D可以给每个Dynamic Layer单独设定不同的mesh大小，根据不同项目的瓶颈，在合并与渲染的开销之间取得平衡。
 
-* __Dynamic Layer__: Sprites in ex2D's Dynamic Layer will be dynamic batched in ex2D's own way. Dynamic Layer allows users to frequently modify sprites in the layer. Compare to Unity's Dynamic Batching, ex2D users can setup different batching parameter such as the mesh size. Depending on the project, you can find a good balance in spending your CPU and GPU time doing batching and rendering.
+综上，引入layer带来的性能优势是，可对场景的不同部分分别采取个性化的渲染策略。对于场景中静态的部分，可设置成static layer进行static batching。对于动态的部分，可根据实际项目，设置dynamic batching的参数，平衡CPU和GPU的负载，减少效率瓶颈。
 
-Simply put, the less sprite changes, the more we can batches sprite together to reduce drawcall. And the biggest advantage we have by using Layer as render groups, is to apply different render strategy for different part of the scene. Static object or background can be put into Static Layer for static batching. For the moving part there are different parameter for dynamic batching so you can balance the load of CPU and GPU to reduce bottleneck.
-
-From the extensive tests we made on both PC/Mac and Mobile, ex2D's own Dynamic Batching performs much better than other 2D sprite solution that have done a good job on reducing draw calls and utilizing Unity's native Dynamic Batching. The new ex2D is now customized completely for realizing the full potential of 2D sprite rendering. Also we are looking forward to the possibility of further optimization on the performance before ex2D 2.0's official release.
-
-
+经过手机和PC的复杂测试，ex2D的运行帧率效率完全超越了其它1个drawcall的2D插件，以及利用Unity的dynamic batching实现批量渲染的其余2D插件。ex2D成为了Unity上第一款真正为2D游戏量身优化的渲染套件。

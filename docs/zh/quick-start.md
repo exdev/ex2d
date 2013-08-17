@@ -4,80 +4,68 @@ title: Quick Start
 permalink: /docs/zh/quick-start/
 ---
 
-# Quick Start
+## 创建一份 Atlas 资源
 
-This page will quickly guide you through the working pipeline of ex2D's different component and editors. After reading this you'll be ready to create your scene with sprites and animations!
-
-If you haven't import ex2D into your project, please follow the [Installation][4] first.
-
-[4]: {{ site.baseurl }}/installation/
-
-## Create Atlas Asset
-
-Select the folder where you want to put your atlas in **Project View**. **Right click** the folder and select  **Create -> ex2D -> Atlas** to create an atlas asset.
+在 **Project 窗口** 中选择想要创建的文件夹，在文件夹中点击**鼠标右键**弹出对话框，选择 **Create -> ex2D -> Atlas** 创建出一份 Atlas 资源。
 
 ![create_atlas]({{ site.baseurl }}/wiki_assets/images/create_atlas.png)
 
-## Import Texture Into Atlas
+## 将贴图导入到 Atlas 中
 
-Select the atlas asset we just created, in the bottom of **Inspector** window, click **Edit...** to open Atlas Editor. 
+选择刚刚创建的 Atlas 资源，在 **Inspector** 中点击 **Edit...** 按钮弹出 Atlas 编辑器。
 
 ![edit_atlas]({{ site.baseurl }}/wiki_assets/images/edit_atlas.png)
 
-Select textures you want to put into the atlas, and drag them into the **Preview Window** in Atlas Editor.
+选择希望导入到 Atlas 的贴图。将选中的贴图拖动到 Atlas 编辑器中的 **预览窗口** 中。
 
 ![import_texture_to_atlas]({{ site.baseurl }}/wiki_assets/images/import_texture_to_atlas.png)
 
-Wait until ex2D finish processing the textures. Then we will find a new folder created in the same folder of atlas asset. This folder has the same name with the atlas asset. It contains all the imported and processed texture information files (TextureInfo). We will be dealing with TextureInfo all the time working with ex2D. You can treat them as the raw texture files with extra information that ex2D needs to know.
+耐心等待进度条完成后，可以看到在 Atlas 的创建目录中出现了一个和Atlas名字相同的文件夹，里头包含了导入的贴图信息文件(TextureInfo)。这些贴图信息文件将会是我们之后主要的操作对象，可以把它们当作包含了原贴图信息和附加信息的资源。
 
-When Atlas Editor finish importing, we can click **Build** button on the top right corner of the window to generate the atlas texture. This texture will be saved to the folder that holds all the TextureInfo of this atlas. You can click any TextureInfo to check the preview window at the bottom of **Inspector** to see if the it is mapped correctly from the atlas texture. You should be able to see the same picture as the raw texture file in the preview.
+当一切都准备就绪后，我们通过点击 Atlas 编辑器右上角的 **Build** 按钮生成一份 Atlas 贴图。这份贴图也将会保存在刚刚的 Atlas 同名文件夹中。在创建了贴图以后，可以通过点击预览 TextureInfo 资源来检查创建出的 Atlas 贴图是否映射正确。
 
-## Create a Sprite In Your Scene
+## 在场景中创建一份 Sprite
 
-Let's take a newly created scene for example. The first step is to setup the camera. Select the main camera in the scene. In **Inspector** window click **Add Component** and select **2D Manager**.
+首先我们需要创建一个全新的场景，并且设置一个摄像机。点击场景中的主相机，在 **Inspector** 中点击 **Add Component** 按钮并选择 **2D Manager**。
 
 ![add_2d_manager]({{ site.baseurl }}/wiki_assets/images/add_2d_manager.png)
 
-Click **Edit...** button in **2D Manager** component. This will fire up 2D Scene Editor. This editor will provide the environment to easily arrange your scene for 2D graphic.
+添加好 **2D Manager** Component 以后，点击该Component中的 **Edit...** 按钮弹出 2D Scene 编辑器。这是 ex2D 为了方便用户编辑 2D 场景而专门设计的一个场景编辑器。
 
 ![edit_2d_manager]({{ site.baseurl }}/wiki_assets/images/edit_2d_manager.png)
 
-Before we create a Sprite, we need a Layer to hold its renderer. Click the **+** button in Layers section of 2D Scene Editor to create a new Layer. Select the newly created Layer, pick the TextureInfo you want your sprite to have from **Project View** and drag it into 2D Scene Editor window. Your first Sprite will be created in the new Layer.
+在创建 Sprite 之前，我们需要为 Sprite 准备一层 Layer 来承载他的绘制信息。通过点击 2D Scene 编辑器中的 Layers 栏目下的 **+** 按钮我们将会创建一份新的 Layer。选中这份 Layer，从 **Project 窗口** 中选择我们希望创建的 TextureInfo 数据，将它们拖入到 2D Scene 编辑器的预览窗口中。这个时候，新的 Sprite 就产生了。
 
 ![add_new_layer]({{ site.baseurl }}/wiki_assets/images/add_new_layer.png)
 
-## Create A Sprite Animation Asset
+## 创建一份 Sprite Animation 资源
 
-This is similar to the process of creating Atlas. Select a folder in **Project View**, **Right Click** with your mouse and select **Create -> ex2D -> Sprite Animation Clip**. This will create a new Sprite Animation Asset in selected folder.
+和创建 Atlas 资源相似，通过在选中目录中，右击鼠标，选择 Create -> ex2D -> Sprite Animation Clip 即可创建一份 Sprite Animation 资源。
 
 ![create_sprite_animation_clip]({{ site.baseurl }}/wiki_assets/images/create_sprite_animation_clip.png)
 
-When you select the asset in Project View, click **Edit...** button in **Inspector** window will fire up the Sprite Animation Editor so you can Edit the Sprite Animation clip.
+当选中该份资源后，通过点击 **Inspector** 中的 **Edit...** 将会弹出 Sprite Animation 编辑器来编辑这份动画。
 
 ![Edit Sprite Animation]({{ site.baseurl }}/wiki_assets/images/edit_sprite_animation_clip.jpeg)
 
-In the Sprite Animation Editor, we can find a timeline for editing and and preview window. Let's drag the TextureInfo ( **IMPORTANT: Not the raw textures, but TextureInfo files** ) files into the timeline. Then you can drag the TextureInfos around to arrange it perfectly for your desired animation.
+我们可以看到 Sprite Animation 编辑器中包含了编辑窗口和预览窗口，将我们希望编辑的 TextureInfo ( **注意：不是贴图而是TextureInfo** ) 拖入到 Sprite Animation 编辑器中的 **编辑窗口**，排列成你希望播放的动画序列帧。
 
 ![Import TextureInfo to Sprite Animation]({{ site.baseurl }}/wiki_assets/images/import_textureinfo_to_sprite_animation.jpeg)
 
-## Create A Sprite With Animation In Your Scene
+## 在场景中创建一份带动画的 Sprite
 
-If you already know how to create a Sprite, make a Sprite with animation is very simple. Just drag your newly created Sprite Animation Clip into the 2D Scene Editor will do the work.
+如果你已经学会如何创建 Sprite，那么创建一份带动画的 Sprite 是一件非常简单的事情。将你刚刚创建的 Sprite Animation Clip 拖动到 2D Scene 编辑器中即可。
 
-## Create A Bitmap Font Asset
+## 创建一份 Bitmap Font 资源
 
-We assume you know how to create a BitmapFont (consist of a .png texture file and a .fnt/.txt control file) with tools like [GlyphDesigner][1], [Hiero][2] or [BMFont][3]. Check these tools' website if you are not familiar with BitmapFont yet. 
+我们假设你已经知道如何通过诸如: [Hiero](https://code.google.com/p/libgdx/wiki/Hiero), [GlyphDesigner](http://www.71squared.com/) 或者 [BMFont](http://www.angelcode.com/products/bmfont/) 的字体工具生成一份BimapFont贴图(.png)和BitmapFont字体信息(.txt,.fnt)。
 
-[1]: http://www.71squared.com/
-[2]: https://code.google.com/p/libgdx/wiki/Hiero
-[3]: http://www.angelcode.com/products/bmfont/
-
-Once you have your BitmapFont files ready, put the font texture (.png) and control file (.txt/.fnt) into your Unity project. Select the control file (.txt/.fnt), **Right Click** it and select **Create -> ex2D -> Bitmap Font**. ex2D will process the BitmapFont files and generate a Bitmap Font Asset ready to use for ex2D.
+将生成的字体贴图(.png)和字体信息(.txt,.fnt)文件导入Unity3D项目中。选中字体信息(.txt,.fnt)文件，并右击鼠标。在弹出的菜单中选择: Create -> ex2D -> Bitmap Font，ex2D就会对字体信息文件做解析并且创建出一份 BitmapFont 资源。
 
 ![Create Bitmap Font]({{ site.baseurl }}/wiki_assets/images/create_bitmapfont.jpeg)
 
-## Create A Sprite Font In Your Scene
+## 在场景中创建一份 Sprite Font
 
-I think you know the drill already. Similar to Sprite and Sprite Animation, all you need to do is drag the Bitmap Font Asset into the 2D Scene Editor.
+我想你已经预先知道该如何创建一份 Sprite Font 了。和 Sprite, Sprite Animation 类似，你只需要将 Bitmap Font 拖入到 2D Scene 编辑器中的编辑窗口中即可。
 
 ![Add Bitmap Font]({{ site.baseurl }}/wiki_assets/images/add_bitmapfont_to_scene.jpeg)
