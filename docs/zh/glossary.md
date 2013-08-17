@@ -1,28 +1,30 @@
 ---
 layout: page
 title: Glossary
-permalink: /docs/glossary/
+permalink: /docs/zh/glossary/
 ---
 
 # Glossary
 
 ### 2D Renderer
 
-2D Renderer用于管理场景里面的Layer和Camera。
+2D Renderer 是一个 MonoBehaviour，用于管理场景里面的Layer和Camera。
 
 ### 2D Scene Editor 
 
+2D Scene Editor 是用于Unity下的场景编辑插件，专门围绕2D游戏而设计，提供了Layer管理、场景编辑、摄像机设置等功能，并且所见即所得。
+
 ### Atlas 
 
-Atlas is a texture container that makes a group of sprites share the same atlas texture and material. It is essentially a list of TextureInfos and their position info.
+Atlas是一个包含了多个sprite的图集，以确保这些sprite能使用同一张贴图。它实际上包含了 TextureInfo 的列表以及它们的位置信息。
 
-The Atlas in ex2D can contain sprite textures and Bitmap Font textures at the same time, reducing draw calls even more.
+ex2D的Atlas可以同时包含sprite和 Bitmap Font 的贴图，这可以使 draw call 更少。
 
 ### Bitmap Font 
 
-Bitmap Font is non-scalable font that uses bitmap image to render texts. Compare to scalable fonts like TrueType font, it can't maintain sharpness when scaled up. But the advantage is you can apply different styles like stroke or shadow to the font before generating font texture.
+Bitmap Font 使用固定大小的字体贴图进行文本渲染，相对于可缩放的矢量字体，它在放大时会变得模糊。但优势是你可以在字体贴图上任意添加不同的字体样式，例如描边和阴影。
 
-Usually when you create a bitmap font, there will be two files generated, a ".png" font texture and a ".fnt" or ".txt" control file that contain the position information for each character. You can easily create a Bitmap Font using one of the following tools:
+一般来说当你创建一个 bitmap font 时，将会有两个文件生成，一张 ".png" 字体贴图和一个 ".fnt" 或 ".txt" 配置文件。你可以使用以下任一工具方便地创建字体。
 
 - [GlyphDesigner][1] 
 - [Hiero][2] 
@@ -32,29 +34,33 @@ Usually when you create a bitmap font, there will be two files generated, a ".pn
 [2]: https://code.google.com/p/libgdx/wiki/Hiero
 [3]: http://www.angelcode.com/products/bmfont/
 
+### Draw Call 
+
+为了在屏幕上绘制一个物体，Unity需要向图形API(OpenGL 或 Direct3D)提交 draw call. 图形API需要对每个 draw call 做大量的工作，使其成为CPU的一个性能瓶颈。为了减少 draw call，ex2D提供了强大的 Atlas 管理功能，配合独立内建的批量渲染功能，能够将 draw call 降到最低。
+
+前往 [How ex2D Renders][4] 查看更多.
+
 ### Dynamic Batching (ex2D)
 
-Sprites in ex2D's Dynamic Layer will be dynamic batched in ex2D's own way. Dynamic Layer allows users to frequently modify sprites in the layer. Compare to Unity's Dynamic Batching, ex2D users can setup different batching parameter such as the mesh size. Depending on the project, you can find a good balance in spending your CPU and GPU time doing batching and rendering.
+ex2D中的Layer可以被设置为Dynamic. Dynamic Layer 是最灵活的，适合做动态元素的批量渲染。它支持对layer里的大量sprite进行频繁修改。此外，ex2D可以给每个 Dynamic Layer 单独设定不同的mesh大小，根据不同项目的瓶颈，在CPU与GPU的开销之间取得平衡。
 
-Checkout [How ex2D Renders][4] for more details.
+前往 [How ex2D Renders][4] 查看更多.
 
-### Layer 
+### Layer (ex2D)
 
-Layer is what ex2D uses to contain sprites in the scene. Not only the GameObject that carries the sprite will be grouped by the layer. All sprites in the same layer will also be batched for faster rendering.
+ex2D将场景划分为不同的layer，所有sprite都通过所在的layer进行渲染。Layer之间按照渲染次序进行排列，只要设置了layer，就能保证不同layer之间的sprite的正确渲染次序。而些都可以用2D Scene Editor很方便的进行编辑。此外layer中的不同sprite允许使用各自的material，用户拥有是否合并贴图的选择权。
 
 ### Sprite Animation
 
 Sprite Animaiton用于播放Sprite帧动画，帧动画之间可以插入自定义事件。每一张帧动画都引用了一个Texture Info，建议把同一个动画里的Texture Info都放在同一张Altas下。
 
-### Static Batching (ex2D)
+### Static Layer (ex2D)
 
-All sprites in a static layer will be rendered using Static Batching system by ex2D. It's the most efficient way of rendering a group of sprites. Every sprites with the same material in the layer will be combined into a single mesh. It's essentially the same as Unity's static batching so it's the fastest. 
+ex2D中的Layer可以被设置为Static。Static Layer 是最紧凑的，适合做大量静态元素的批量渲染。在Layer中所有material相同的sprite都会被尽可能放到相同的mesh中，相当于做了 static batching. Static Layer 允许动态修改和创建，使得它比普通的 static batching 灵活了许多，但频繁操作 Static Layer 消耗较高，较为适合放置不经常更新的背景或UI。
 
-However ex2D allows you to dynamically create and modify Static Layer. This makes it possible to create static batched sprite groups during runtime, thus more convenient for developers. 
+前往 [How ex2D Renders][4] 查看更多.
 
-Checkout [How ex2D Renders][4] for more details.
-
-[4]: {{ site.baseurl }}/docs/how-ex2d-renders.md 
+[4]: ./how-ex2d-renders.md 
 
 ### TextureInfo
 
