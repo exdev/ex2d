@@ -48,7 +48,7 @@ permalink: /release/ex2d-2-beta/
 + Add and optimize Max-Rect algorithm for atlasing textures.
 + Easy add and remove texture element in atlas.
 + Scenes or Prefabs will not broken when atlas changes.
-+ Polish the Atlas Editor and Sprite Animation Editor selection ( Rect, ctrl, shift and so on).
++ Polish the Atlas Editor and Sprite Animation Editor selection ( Rect, ctrl, shift and so on ).
 + Better operating events in Sprite Animation Editor.
 + Automatically layout elements in Atlas Editor.
 
