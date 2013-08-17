@@ -6,9 +6,13 @@ permalink: /docs/glossary/
 
 # Glossary
 
-### 2D Manager
+### 2D Renderer
+
+2D Renderer是一个MonoBehaviour，用于管理场景里面的Layer和Camera。
 
 ### 2D Scene Editor 
+
+2D Scene Editor是用于Unity下的场景编辑插件，专门围绕2D游戏而设计，提供了Layer管理、场景编辑、摄像机设置等功能，并且所见即所得。
 
 ### Atlas 
 
@@ -30,21 +34,27 @@ Usually when you create a bitmap font, there will be two files generated, a ".pn
 [2]: https://code.google.com/p/libgdx/wiki/Hiero
 [3]: http://www.angelcode.com/products/bmfont/
 
-### Dynamic Batching (ex2D)
+### Draw Call 
+
+To draw an object on the screen, the engine has to issue a draw call to the graphics API (e.g. OpenGL or Direct3D). The graphics API does significant work for every draw call, causing performance overhead on the CPU side. ex2D提供了强大的Atlas管理功能，配合独立内建的批量渲染功能，能够将 draw call 降到最低。
+
+Checkout [How ex2D Renders][4] for more details.
+
+### Dynamic Layer (ex2D)
 
 Sprites in ex2D's Dynamic Layer will be dynamic batched in ex2D's own way. Dynamic Layer allows users to frequently modify sprites in the layer. Compare to Unity's Dynamic Batching, ex2D users can setup different batching parameter such as the mesh size. Depending on the project, you can find a good balance in spending your CPU and GPU time doing batching and rendering.
 
 Checkout [How ex2D Renders][4] for more details.
 
-### Layer 
+### Layer (ex2D)
 
 Layer is what ex2D uses to contain sprites in the scene. Not only the GameObject that carries the sprite will be grouped by the layer. All sprites in the same layer will also be batched for faster rendering.
 
-ex2D Layer also provides convenient interface to build atlas for all sprites in the same layer.
-
 ### Sprite Animation
 
-### Static Batching (ex2D)
+Sprite Animaiton用于播放Sprite帧动画，帧动画之间可以插入自定义事件。每一张帧动画都引用了一个Texture Info，建议把同一个动画里的Texture Info都放在同一张Altas下。
+
+### Static Layer (ex2D)
 
 All sprites in a static layer will be rendered using Static Batching system by ex2D. It's the most efficient way of rendering a group of sprites. Every sprites with the same material in the layer will be combined into a single mesh. It's essentially the same as Unity's static batching so it's the fastest. 
 
@@ -52,7 +62,9 @@ However ex2D allows you to dynamically create and modify Static Layer. This make
 
 Checkout [How ex2D Renders][4] for more details.
 
-[4]: ./how-ex2d-renders/
+[4]: ./how-ex2d-renders.md 
 
 ### TextureInfo
+
+
 
