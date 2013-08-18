@@ -30,17 +30,17 @@
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -->
 
-  <link rel="alternate" type="application/rss+xml" href="/ex2d/atom.xml" />
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
 
-  <link rel="stylesheet" href="/ex2d/css/icons.css" type="text/css" />
-  <link rel="stylesheet" href="/ex2d/css/base.css" type="text/css" media="screen, projection" />
-  <link rel="stylesheet" href="/ex2d/css/pygments.css" type="text/css" />
-  <link rel="shortcut icon" href="/ex2d/favicon.ico" />
+  <link rel="stylesheet" href="/css/icons.css" type="text/css" />
+  <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+  <link rel="shortcut icon" href="/favicon.ico" />
   <!--[if IE]><link media="screen" type="text/css" href="stylesheets/spinner-old-ie.css" rel="stylesheet" /><![endif]-->
 <!-- Google Fonts -->
   <link href='http://fonts.googleapis.com/css?family=PT+Sans:700,700italic|PT+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
-  <link rel="apple-touch-icon" href="/ex2d/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
@@ -157,25 +157,25 @@
   <div class="container">
     <section class="description">
       
-      <a href="/ex2d/" title="ex2D - Home" class="portrait-icon"><img src="/ex2d/images/logo.png" alt="ex2D"></a>
+      <a href="/" title="ex2D - Home" class="portrait-icon"><img src="/images/logo.png" alt="ex2D"></a>
       
       <p>A Sprite Engine For Unity That Is Most Performing And Elegant. Now At 2.0.</p>
       <ul class="util">
-        <li class="release"><a href="/ex2d/release/" class="etp-timeago">Releases</a></li>
-        <li class="faq"><a href="/ex2d/docs/faq/" class="etp-comments">FAQ</a></li>
-        <li class="rss"><a href="/ex2d/atom.xml" class="etp-rss">RSS</a></li>
+        <li class="release"><a href="/release/" class="etp-timeago">Releases</a></li>
+        <li class="faq"><a href="/docs/faq/" class="etp-comments">FAQ</a></li>
+        <li class="rss"><a href="/atom.xml" class="etp-rss">RSS</a></li>
         
-        <li class="ask"><a href="/ex2d/contact/" class="etp-mail">Contact</a></li>
+        <li class="ask"><a href="/contact/" class="etp-mail">Contact</a></li>
         
         <li class="exdev"><a href="http://ex-dev.com" class="etp-users">exDev</a></li>
       </ul>
     </section>
 
     <nav class="pages">
-      <a href="/ex2d/" title="ex2D - Home" class="portrait-icon user-icon"><img src="/ex2d/images/logo.png" alt="ex2D"></a>
+      <a href="/" title="ex2D - Home" class="portrait-icon user-icon"><img src="/images/logo.png" alt="ex2D"></a>
       <ul>
       <li>
-        <a href="/ex2d/">Home</a>
+        <a href="/">Home</a>
       </li>
       
         
@@ -238,7 +238,7 @@
           
             
             <li>
-              <a  href="/ex2d/blog/">
+              <a  href="/blog/">
                 Blog
               </a>
             </li>
@@ -304,7 +304,7 @@
           
             
             <li>
-              <a  href="/ex2d/docs/">
+              <a  href="/docs/">
                 Documentation
               </a>
             </li>
@@ -388,7 +388,7 @@
           
             
             <li>
-              <a  href="/ex2d/videos/">
+              <a  href="/videos/">
                 Videos
               </a>
             </li>
@@ -442,7 +442,7 @@
           
             
             <li>
-              <a  href="/ex2d/showcase/">
+              <a  href="/showcase/">
                 Showcase
               </a>
             </li>
@@ -703,17 +703,17 @@
 
 <p>在 <strong>Project 窗口</strong> 中选择想要创建的文件夹，在文件夹中点击<strong>鼠标右键</strong>弹出对话框，选择 <strong>Create -> ex2D -> Atlas</strong> 创建出一份 Atlas 资源。</p>
 
-<p><img src="/ex2d/wiki_assets/images/create_atlas.png" alt="create_atlas" /></p>
+<p><img src="/wiki_assets/images/create_atlas.png" alt="create_atlas" /></p>
 
 <h2>将贴图导入到 Atlas 中</h2>
 
 <p>选择刚刚创建的 Atlas 资源，在 <strong>Inspector</strong> 中点击 <strong>Edit&hellip;</strong> 按钮弹出 Atlas 编辑器。</p>
 
-<p><img src="/ex2d/wiki_assets/images/edit_atlas.png" alt="edit_atlas" /></p>
+<p><img src="/wiki_assets/images/edit_atlas.png" alt="edit_atlas" /></p>
 
 <p>选择希望导入到 Atlas 的贴图。将选中的贴图拖动到 Atlas 编辑器中的 <strong>预览窗口</strong> 中。</p>
 
-<p><img src="/ex2d/wiki_assets/images/import_texture_to_atlas.png" alt="import_texture_to_atlas" /></p>
+<p><img src="/wiki_assets/images/import_texture_to_atlas.png" alt="import_texture_to_atlas" /></p>
 
 <p>耐心等待进度条完成后，可以看到在 Atlas 的创建目录中出现了一个和Atlas名字相同的文件夹，里头包含了导入的贴图信息文件(TextureInfo)。这些贴图信息文件将会是我们之后主要的操作对象，可以把它们当作包含了原贴图信息和附加信息的资源。</p>
 
@@ -721,31 +721,31 @@
 
 <h2>在场景中创建一份 Sprite</h2>
 
-<p>首先我们需要创建一个全新的场景，并且设置一个摄像机。点击场景中的主相机，在 <strong>Inspector</strong> 中点击 <strong>Add Component</strong> 按钮并选择 <strong>2D Manager</strong>。</p>
+<p>首先我们需要创建一个全新的场景，并且设置一个摄像机。点击场景中的主相机，在 <strong>Inspector</strong> 中点击 <strong>Add Component</strong> 按钮并选择 <strong>2D Renderer</strong>。</p>
 
-<p><img src="/ex2d/wiki_assets/images/add_2d_manager.png" alt="add_2d_manager" /></p>
+<p><img src="/wiki_assets/images/add_2d_Renderer.png" alt="add_2d_renderer" /></p>
 
-<p>添加好 <strong>2D Manager</strong> Component 以后，点击该Component中的 <strong>Edit&hellip;</strong> 按钮弹出 2D Scene 编辑器。这是 ex2D 为了方便用户编辑 2D 场景而专门设计的一个场景编辑器。</p>
+<p>添加好 <strong>2D Renderer</strong> Component 以后，点击该Component中的 <strong>Edit&hellip;</strong> 按钮弹出 2D Scene 编辑器。这是 ex2D 为了方便用户编辑 2D 场景而专门设计的一个场景编辑器。</p>
 
-<p><img src="/ex2d/wiki_assets/images/edit_2d_manager.png" alt="edit_2d_manager" /></p>
+<p><img src="/wiki_assets/images/edit_2d_manager.png" alt="edit_2d_renderer" /></p>
 
 <p>在创建 Sprite 之前，我们需要为 Sprite 准备一层 Layer 来承载他的绘制信息。通过点击 2D Scene 编辑器中的 Layers 栏目下的 <strong>+</strong> 按钮我们将会创建一份新的 Layer。选中这份 Layer，从 <strong>Project 窗口</strong> 中选择我们希望创建的 TextureInfo 数据，将它们拖入到 2D Scene 编辑器的预览窗口中。这个时候，新的 Sprite 就产生了。</p>
 
-<p><img src="/ex2d/wiki_assets/images/add_new_layer.png" alt="add_new_layer" /></p>
+<p><img src="/wiki_assets/images/add_new_layer.png" alt="add_new_layer" /></p>
 
 <h2>创建一份 Sprite Animation 资源</h2>
 
 <p>和创建 Atlas 资源相似，通过在选中目录中，右击鼠标，选择 Create -> ex2D -> Sprite Animation Clip 即可创建一份 Sprite Animation 资源。</p>
 
-<p><img src="/ex2d/wiki_assets/images/create_sprite_animation_clip.png" alt="create_sprite_animation_clip" /></p>
+<p><img src="/wiki_assets/images/create_sprite_animation_clip.png" alt="create_sprite_animation_clip" /></p>
 
 <p>当选中该份资源后，通过点击 <strong>Inspector</strong> 中的 <strong>Edit&hellip;</strong> 将会弹出 Sprite Animation 编辑器来编辑这份动画。</p>
 
-<p><img src="/ex2d/wiki_assets/images/edit_sprite_animation_clip.jpeg" alt="Edit Sprite Animation" /></p>
+<p><img src="/wiki_assets/images/edit_sprite_animation_clip.jpeg" alt="Edit Sprite Animation" /></p>
 
 <p>我们可以看到 Sprite Animation 编辑器中包含了编辑窗口和预览窗口，将我们希望编辑的 TextureInfo ( <strong>注意：不是贴图而是TextureInfo</strong> ) 拖入到 Sprite Animation 编辑器中的 <strong>编辑窗口</strong>，排列成你希望播放的动画序列帧。</p>
 
-<p><img src="/ex2d/wiki_assets/images/import_textureinfo_to_sprite_animation.jpeg" alt="Import TextureInfo to Sprite Animation" /></p>
+<p><img src="/wiki_assets/images/import_textureinfo_to_sprite_animation.jpeg" alt="Import TextureInfo to Sprite Animation" /></p>
 
 <h2>在场景中创建一份带动画的 Sprite</h2>
 
@@ -757,13 +757,13 @@
 
 <p>将生成的字体贴图(.png)和字体信息(.txt,.fnt)文件导入Unity3D项目中。选中字体信息(.txt,.fnt)文件，并右击鼠标。在弹出的菜单中选择: Create -> ex2D -> Bitmap Font，ex2D就会对字体信息文件做解析并且创建出一份 BitmapFont 资源。</p>
 
-<p><img src="/ex2d/wiki_assets/images/create_bitmapfont.jpeg" alt="Create Bitmap Font" /></p>
+<p><img src="/wiki_assets/images/create_bitmapfont.jpeg" alt="Create Bitmap Font" /></p>
 
 <h2>在场景中创建一份 Sprite Font</h2>
 
 <p>我想你已经预先知道该如何创建一份 Sprite Font 了。和 Sprite, Sprite Animation 类似，你只需要将 Bitmap Font 拖入到 2D Scene 编辑器中的编辑窗口中即可。</p>
 
-<p><img src="/ex2d/wiki_assets/images/add_bitmapfont_to_scene.jpeg" alt="Add Bitmap Font" /></p>
+<p><img src="/wiki_assets/images/add_bitmapfont_to_scene.jpeg" alt="Add Bitmap Font" /></p>
 
   </div>
   <footer class="page-foot">
@@ -812,8 +812,8 @@
 </footer>
 
   
-  <script type="text/javascript" src="/ex2d/js/plugins.min.js"></script>
-  <script type="text/javascript" src="/ex2d/js/application.js"></script>
+  <script type="text/javascript" src="/js/plugins.min.js"></script>
+  <script type="text/javascript" src="/js/application.js"></script>
 
 </body>
 </html>

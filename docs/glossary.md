@@ -8,11 +8,11 @@ permalink: /docs/glossary/
 
 ### 2D Renderer
 
-2D Renderer是一个MonoBehaviour，用于管理场景里面的Layer和Camera。
+2D Renderer 是一个 MonoBehaviour，用于管理场景里面的Layer和Camera。
 
 ### 2D Scene Editor 
 
-2D Scene Editor是用于Unity下的场景编辑插件，专门围绕2D游戏而设计，提供了Layer管理、场景编辑、摄像机设置等功能，并且所见即所得。
+2D Scene Editor 是用于Unity下的场景编辑插件，专门围绕2D游戏而设计，提供了Layer管理、场景编辑、摄像机设置等功能，并且所见即所得。
 
 ### Atlas 
 
@@ -52,7 +52,7 @@ Layer is what ex2D uses to contain sprites in the scene. Not only the GameObject
 
 ### Sprite Animation
 
-Sprite Animaiton用于播放Sprite帧动画，帧动画之间可以插入自定义事件。每一张帧动画都引用了一个Texture Info，建议把同一个动画里的Texture Info都放在同一张Altas下。
+Sprite Animaiton 用于播放Sprite帧动画，帧动画之间可以插入自定义事件。每一张帧动画都引用了一个 Texture Info，建议把同一个动画里的 Texture Info 都放在同一张Altas下。
 
 ### Static Layer (ex2D)
 
@@ -62,9 +62,10 @@ However ex2D allows you to dynamically create and modify Static Layer. This make
 
 Checkout [How ex2D Renders][4] for more details.
 
-[4]: ./how-ex2d-renders.md 
+[4]: ../how-ex2d-renders/
 
 ### TextureInfo
 
+Texture Info 是Project下的资源文件，ex2D使用 Texture Info 来存储贴图信息，例如打包后好的Atlas贴图、在Atlas中的坐标、大小等属性，并且用于所有需要渲染贴图的地方。Texture Info 一般由 Atlas Editor 自动生成，一份Atlas可生成多个 Texture Info。
 
 

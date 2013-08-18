@@ -26,13 +26,13 @@ permalink: /docs/zh/quick-start/
 
 ## 在场景中创建一份 Sprite
 
-首先我们需要创建一个全新的场景，并且设置一个摄像机。点击场景中的主相机，在 **Inspector** 中点击 **Add Component** 按钮并选择 **2D Manager**。
+首先我们需要创建一个全新的场景，并且设置一个摄像机。点击场景中的主相机，在 **Inspector** 中点击 **Add Component** 按钮并选择 **2D Renderer**。
 
-![add_2d_manager]({{ site.baseurl }}/wiki_assets/images/add_2d_manager.png)
+![add_2d_renderer]({{ site.baseurl }}/wiki_assets/images/add_2d_Renderer.png)
 
-添加好 **2D Manager** Component 以后，点击该Component中的 **Edit...** 按钮弹出 2D Scene 编辑器。这是 ex2D 为了方便用户编辑 2D 场景而专门设计的一个场景编辑器。
+添加好 **2D Renderer** Component 以后，点击该Component中的 **Edit...** 按钮弹出 2D Scene 编辑器。这是 ex2D 为了方便用户编辑 2D 场景而专门设计的一个场景编辑器。
 
-![edit_2d_manager]({{ site.baseurl }}/wiki_assets/images/edit_2d_manager.png)
+![edit_2d_renderer]({{ site.baseurl }}/wiki_assets/images/edit_2d_manager.png)
 
 在创建 Sprite 之前，我们需要为 Sprite 准备一层 Layer 来承载他的绘制信息。通过点击 2D Scene 编辑器中的 Layers 栏目下的 **+** 按钮我们将会创建一份新的 Layer。选中这份 Layer，从 **Project 窗口** 中选择我们希望创建的 TextureInfo 数据，将它们拖入到 2D Scene 编辑器的预览窗口中。这个时候，新的 Sprite 就产生了。
 
