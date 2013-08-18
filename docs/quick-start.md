@@ -36,11 +36,11 @@ When Atlas Editor finish importing, we can click **Build** button on the top rig
 
 Let's take a newly created scene for example. The first step is to setup the camera. Select the main camera in the scene. In **Inspector** window click **Add Component** and select **2D Manager**.
 
-![add_2d_manager]({{ site.baseurl }}/wiki_assets/images/add_2d_manager.png)
+![add_2d_renderer]({{ site.baseurl }}/wiki_assets/images/add_2d_manager.png)
 
-Click **Edit...** button in **2D Manager** component. This will fire up 2D Scene Editor. This editor will provide the environment to easily arrange your scene for 2D graphic.
+Click **Edit...** button in **2D Renderer** component. This will fire up 2D Scene Editor. This editor will provide the environment to easily arrange your scene for 2D graphic.
 
-![edit_2d_manager]({{ site.baseurl }}/wiki_assets/images/edit_2d_manager.png)
+![edit_2d_renderer]({{ site.baseurl }}/wiki_assets/images/edit_2d_manager.png)
 
 Before we create a Sprite, we need a Layer to hold its renderer. Click the **+** button in Layers section of 2D Scene Editor to create a new Layer. Select the newly created Layer, pick the TextureInfo you want your sprite to have from **Project View** and drag it into 2D Scene Editor window. Your first Sprite will be created in the new Layer.
 
