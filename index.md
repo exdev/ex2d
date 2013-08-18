@@ -17,13 +17,15 @@ Fast, lightweight and easy to use - that's what ex2D excels at.
 
 - [Quick Start][1]
 - [Documentation][2]
-- [ex2D Wiki and Issues][3]
+- [Buy ex2D][9]
+- [Report ex2D Issues][3]
 - [ex2D 2.0 Discussion on Unity Forum][4]
 - [ex2D 1.X Website][5]
 
 [1]: ./docs/quick-start/
 [2]: ./docs/
-[3]: https://github.com/exdev/ex2d
+[9]: http://ex-dev.com/store/
+[3]: https://github.com/exdev/ex2d/issues
 [4]: http://forum.unity3d.com/threads/101811-ex2D-the-best-2D-sprite-solution-for-Unity-RELEASED
 [5]: http://exdev.webfactional.com/ex2d/
 

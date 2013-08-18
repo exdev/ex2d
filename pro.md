@@ -1,7 +1,6 @@
 ---
 layout: page
 title: ex2D Pro
-weight: 4
 ---
 
 # Get ex2D Pro And Access Development Github Repo
