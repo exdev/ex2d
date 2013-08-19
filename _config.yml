@@ -15,6 +15,7 @@ email: studio@ex-dev.com
 twitter: abitgames 
 icon_url: /images/logo.png 
 disqus_shortname: 
+google_analytics: UA-8694664-5 
 
 # ex2D links
 unity_discussion: http://forum.unity3d.com/threads/196466-ex2D-v2-Fast-and-Elegant-Sprite-Engine-for-Unity
