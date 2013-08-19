@@ -50,6 +50,14 @@ Now you can download the beta package of ex2D 2.0. You can test it with full fea
 
 <a href="./download/ex2d_v2.0.1_beta_130818.unitypackage" class="downloadBtn">Download ex2D v2.0.1 Beta</a>
 
+### Important Notice on Compatibility
+
+ex2D 2.0 is __NOT Compatible__ with projects created with ex2D 1.X! Do not import ex2D 2.0 package into your ex2D 1.X project!
+ It will break everything if you insist doing that. 
+
+Once we are more sure about the work flow and assets pipeline, we may be able to write migration tool so you can have your 
+ ex2D v1.X project upgraded.
+
 If you have any issue or question, please use the following way to get back to us:
 
 - [Report An Issue][6]

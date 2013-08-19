@@ -13,6 +13,8 @@ Check out the [release note][1] of ex2D 2.0 Beta to learn what's new! (Pretty mu
 
 You can download the package here:
 
+<a href="./download/ex2d_v2.0.1_beta_130818.unitypackage" class="downloadBtn">Download ex2D v2.0.1 Beta</a>
+
 ## Important Notice on Compatibility
 
 ex2D 2.0 is __NOT Compatible__ with projects created with ex2D 1.X! Do not import ex2D 2.0 package into your ex2D 1.X project!
@@ -21,6 +23,9 @@ ex2D 2.0 is __NOT Compatible__ with projects created with ex2D 1.X! Do not impor
 It's unfortunate that you can't upgrade your project to ex2D 2.0 and make it 100x better. But we can't make it even 2x better if
  we didn't drop the old framework. We also strongly recommend you to backup your project before import ex2D 2.0 package. We have
  this beta to find any big issue so let's be on the safe side by always have a back up to go to.
+
+Once we are more sure about the work flow and assets pipeline, we may be able to write migration tool so you can have your 
+ ex2D v1.X project upgraded.
 
 ## License
 
