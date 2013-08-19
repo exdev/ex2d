@@ -8,23 +8,30 @@ permalink: /docs/glossary/
 
 ### 2D Renderer
 
-2D Renderer 是一个 MonoBehaviour，用于管理场景里面的Layer和Camera。
+2D Renderer inherits MonoBehaviour class. This component will be attached to the main camera of the scene. Its job is 
+ to manage Layers and camera for 2D rendering.
 
 ### 2D Scene Editor 
 
-2D Scene Editor 是用于Unity下的场景编辑插件，专门围绕2D游戏而设计，提供了Layer管理、场景编辑、摄像机设置等功能，并且所见即所得。
+2D Scene Editor is a scene view specialized for 2D game development and 2D scene editing. It provides layer management,
+ object arrangement and camera guides for convenient scene creation and editing. Plus this is a WYSIWYG editor.
 
 ### Atlas 
 
-Atlas is a texture container that makes a group of sprites share the same atlas texture and material. It is essentially a list of TextureInfos and their position info.
+Atlas is a texture container that makes a group of sprites share the same atlas texture and material. It is essentially a list
+ of TextureInfos and their position info.
 
 The Atlas in ex2D can contain sprite textures and Bitmap Font textures at the same time, reducing draw calls even more.
 
 ### Bitmap Font 
 
-Bitmap Font is non-scalable font that uses bitmap image to render texts. Compare to scalable fonts like TrueType font, it can't maintain sharpness when scaled up. But the advantage is you can apply different styles like stroke or shadow to the font before generating font texture.
+Bitmap Font is non-scalable font that uses bitmap image to render texts. Compare to scalable fonts like TrueType font, 
+ it can't maintain sharpness when scaled up. But the advantage is you can apply different styles like stroke or shadow 
+ to the font before generating font texture.
 
-Usually when you create a bitmap font, there will be two files generated, a ".png" font texture and a ".fnt" or ".txt" control file that contain the position information for each character. You can easily create a Bitmap Font using one of the following tools:
+Usually when you create a bitmap font, there will be two files generated, a ".png" font texture and a ".fnt" or ".txt" 
+ control file that contain the position information for each character. You can easily create a Bitmap Font using one of 
+ the following tools:
 
 - [GlyphDesigner][1] 
 - [Hiero][2] 
@@ -36,23 +43,32 @@ Usually when you create a bitmap font, there will be two files generated, a ".pn
 
 ### Draw Call 
 
-To draw an object on the screen, the engine has to issue a draw call to the graphics API (e.g. OpenGL or Direct3D). The graphics API does significant work for every draw call, causing performance overhead on the CPU side. ex2D提供了强大的Atlas管理功能，配合独立内建的批量渲染功能，能够将 draw call 降到最低。
+To draw an object on the screen, the engine has to issue a draw call to the graphics API (e.g. OpenGL or Direct3D). 
+ The graphics API takes significant time for every draw call, causing performance overhead on the CPU side.
+
+ex2D provides powerful Atlas management and customizable batching strategy. It can effectively lower draw calls to minimum. 
 
 Checkout [How ex2D Renders][4] for more details.
 
 ### Dynamic Layer (ex2D)
 
-Sprites in ex2D's Dynamic Layer will be dynamic batched in ex2D's own way. Dynamic Layer allows users to frequently modify sprites in the layer. Compare to Unity's Dynamic Batching, ex2D users can setup different batching parameter such as the mesh size. Depending on the project, you can find a good balance in spending your CPU and GPU time doing batching and rendering.
+Sprites in ex2D's Dynamic Layer will be dynamic batched in ex2D's own way. Dynamic Layer allows users to frequently modify
+ sprites in the layer. Compare to Unity's Dynamic Batching, ex2D users can setup different batching parameter such as the
+ mesh size. Depending on the project, you can find a good balance in spending your CPU and GPU time doing batching and 
+ rendering.
 
 Checkout [How ex2D Renders][4] for more details.
 
 ### Layer (ex2D)
 
-Layer is what ex2D uses to contain sprites in the scene. Not only the GameObject that carries the sprite will be grouped by the layer. All sprites in the same layer will also be batched for faster rendering.
+Layer is what ex2D uses to contain sprites in the scene. Not only the GameObject that carries the sprite will be grouped 
+ by the layer. All sprites in the same layer will also be batched for faster rendering.
 
 ### Sprite Animation
 
-Sprite Animaiton 用于播放Sprite帧动画，帧动画之间可以插入自定义事件。每一张帧动画都引用了一个 Texture Info，建议把同一个动画里的 Texture Info 都放在同一张Altas下。
+Sprite Animaiton is a component attached to Sprite Game Object. It can be used to play sprite sequence animation.
+ You can use animation event at any frame in a Sprite Animation. Sprite Animation uses TextureInfo to generate FrameInfo.
+ Each image frame in a Sprite Animation is a FrameInfo.
 
 ### Static Layer (ex2D)
 
@@ -66,6 +82,10 @@ Checkout [How ex2D Renders][4] for more details.
 
 ### TextureInfo
 
-Texture Info 是Project下的资源文件，ex2D使用 Texture Info 来存储贴图信息，例如打包后好的Atlas贴图、在Atlas中的坐标、大小等属性，并且用于所有需要渲染贴图的地方。Texture Info 一般由 Atlas Editor 自动生成，一份Atlas可生成多个 Texture Info。
+TextureInfo is what ex2D uses for storing texture information. It's used in Atlas, Sprite Animation and 
+ any other component or editor that want to find a specific texture. TextureInfo is generated during the process of Atlas
+ creation. Any raw texture that's imported into Atlas will generate a TextureInfo with the same name.
+ 
+TextureInfo is a Unity ScriptableObject that can be found in Project view of your Unity project.
 
 
