@@ -745,9 +745,9 @@
     <h2>ex2D v2.0.1</h2>
 
 <ul>
-<li>3D Sprite: The 3D Sprite will help users user ex2D developing 3D games. It will generate standalone meshes instead of layer-based meshes for ex2D Renderer.
+<li><strong>3D Sprite</strong>: The 3D Sprite will help users user ex2D developing 3D games. It will generate standalone meshes instead of layer-based meshes for ex2D Renderer.
 This is acutally what we done in ex2D v1.x, but under the new working pipeline with TextureInfo.</li>
-<li>TextureInfo Editor: TextureInfo Editor will allow you edit sliced, tiled and diced sprites. Also allow you edit collision box and attach point.
+<li><strong>TextureInfo Editor</strong>: TextureInfo Editor will allow you edit sliced, tiled and diced sprites. Also allow you edit collision box and attach point.
 
 <ul>
 <li>Customize Sliced, Tiled and Diced information.</li>
@@ -755,35 +755,35 @@ This is acutally what we done in ex2D v1.x, but under the new working pipeline w
 <li>Customize Attach Points.</li>
 </ul>
 </li>
-<li>Diced Sprite: Diced sprite allow user pieces textures so that long texture can be fit to atlas texture size and not break the rendering in the scene.</li>
-<li>Tiled Sprite: Unlike TileMap. Tiled sprite can let you tile one texture info in x, y direction also apply uv offset. Good for animated background in the game.</li>
-<li>Sliced Sprite: This is what we call exSpriteBorder in ex2D v1. We make it easier to use.</li>
-<li>Polish Sprite Inspector user behavior</li>
+<li><strong>Diced Sprite</strong>: Diced sprite allow user pieces textures so that long texture can be fit to atlas texture size and not break the rendering in the scene.</li>
+<li><strong>Tiled Sprite</strong>: Unlike TileMap. Tiled sprite can let you tile one texture info in x, y direction also apply uv offset. Good for animated background in the game.</li>
+<li><em>Sliced Sprite</em>: This is what we call exSpriteBorder in ex2D v1. We make it easier to use.</li>
+<li><strong>Polish Sprite Inspector user behavior</strong></li>
 </ul>
 
 
 <h2>ex2D v2.1.0</h2>
 
 <ul>
-<li>Pixel Perfect: The Pixel-Perfect is totally re-make in ex2D v2. The algorithm in ex2D v1 suffer problem in execute order for pixel-perfect calculation. Also it
+<li><strong>Pixel Perfect</strong>: The Pixel-Perfect is totally re-make in ex2D v2. The algorithm in ex2D v1 suffer problem in execute order for pixel-perfect calculation. Also it
 only make sure the size is perfect for camera but didn&rsquo;t martch the pixel in final device (Due to the half-pixel problem for OpenGL and Directx). To correct the things,
 we change the way doing pixel-perfect, and provide serveral option based on layer and single sprite units.</li>
-<li>Clipping: Since we introduce the layer based meshes, manage clipping draws become more easier than we think. So we can make a great editor pipeline for user to improve
+<li><strong>Clipping</strong>: Since we introduce the layer based meshes, manage clipping draws become more easier than we think. So we can make a great editor pipeline for user to improve
 clipping editing. We will provide basica Rectangle-Clipping and Nested-Clipping in this version, and polish it to support Path-Clipping and others in the feature.</li>
-<li>3D Clipping: This is the clipping method we going to support for 3D Sprite.</li>
-<li>Custom Attach Point</li>
-<li>Custom Collision Box</li>
+<li><strong>3D Clipping</strong>: This is the clipping method we going to support for 3D Sprite.</li>
+<li><strong>Custom Attach Point</strong></li>
+<li><strong>Custom Collision Box</strong></li>
 </ul>
 
 
-<h2>ex2D v2.1.0</h2>
+<h2>ex2D v2.2.0</h2>
 
 <ul>
-<li>Rework Sprite Animation Editor: We think current layout of sprite animation editor is not so good for designer, and we wish rework on it so edit and preview sprite can
+<li><strong>Rework Sprite Animation Editor</strong>: We think current layout of sprite animation editor is not so good for designer, and we wish rework on it so edit and preview sprite can
 be more easier.</li>
-<li>Auto Atlasing: ex2D&rsquo;s atlasing system is basically manually control for user. This is good for advance team, but people with small project or demo project will become slow
+<li><strong>Auto Atlasing</strong>: ex2D&rsquo;s atlasing system is basically manually control for user. This is good for advance team, but people with small project or demo project will become slow
 and heavy in developing. Auto-atlasing will detect the directory user specific, and put their textures in atlas automatically without Atlas Editor.</li>
-<li>Sprite Preview (TextureInfo Library): We will create a preview editor just for TextureInfo, this make user easier to select sprites.</li>
+<li><strong>Sprite Preview (TextureInfo Library)</strong>: We will create a preview editor just for TextureInfo, this make user easier to select sprites.</li>
 </ul>
 
 
