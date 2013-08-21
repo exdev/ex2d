@@ -20,6 +20,7 @@ Fast, lightweight and easy to use - that's what ex2D excels at.
 - [Buy ex2D][9]
 - [ex2D Forum][10]
 - [ex2D 2.0 Discussion on Unity Forum][4]
+- [Roadmap][11]
 - [Report ex2D Issues][3]
 - [ex2D 1.X Website][5]
 
@@ -29,6 +30,7 @@ Fast, lightweight and easy to use - that's what ex2D excels at.
 [3]: https://github.com/exdev/ex2d/issues
 [4]: {{ site.unity_discussion }} 
 [10]: {{ site.ex2d_forum }}
+[11]: ./roadmap/
 [5]: http://exdev.webfactional.com/ex2d/
 
 ## ex2D 2.0 Features

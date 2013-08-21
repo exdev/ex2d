@@ -30,17 +30,17 @@
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -->
 
-  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="alternate" type="application/rss+xml" href="/ex2d/atom.xml" />
 
-  <link rel="stylesheet" href="/css/icons.css" type="text/css" />
-  <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection" />
-  <link rel="stylesheet" href="/css/pygments.css" type="text/css" />
-  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/ex2d/css/icons.css" type="text/css" />
+  <link rel="stylesheet" href="/ex2d/css/base.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/ex2d/css/pygments.css" type="text/css" />
+  <link rel="shortcut icon" href="/ex2d/favicon.ico" />
   <!--[if IE]><link media="screen" type="text/css" href="stylesheets/spinner-old-ie.css" rel="stylesheet" /><![endif]-->
 <!-- Google Fonts -->
   <link href='http://fonts.googleapis.com/css?family=PT+Sans:700,700italic|PT+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="/ex2d/apple-touch-icon.png" />
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
@@ -157,25 +157,25 @@
   <div class="container">
     <section class="description">
       
-      <a href="/" title="ex2D - Home" class="portrait-icon"><img src="/images/logo.png" alt="ex2D"></a>
+      <a href="/ex2d/" title="ex2D - Home" class="portrait-icon"><img src="/ex2d/images/logo.png" alt="ex2D"></a>
       
       <p>A Sprite Engine For Unity That Is Most Performing And Elegant. Now At 2.0.</p>
       <ul class="util">
-        <li class="release"><a href="/release/" class="etp-timeago">Releases</a></li>
-        <li class="faq"><a href="/docs/faq/" class="etp-comments">FAQ</a></li>
-        <li class="rss"><a href="/atom.xml" class="etp-rss">RSS</a></li>
+        <li class="release"><a href="/ex2d/release/" class="etp-timeago">Releases</a></li>
+        <li class="faq"><a href="/ex2d/docs/faq/" class="etp-comments">FAQ</a></li>
+        <li class="rss"><a href="/ex2d/atom.xml" class="etp-rss">RSS</a></li>
         
-        <li class="ask"><a href="/contact/" class="etp-mail">Contact</a></li>
+        <li class="ask"><a href="/ex2d/contact/" class="etp-mail">Contact</a></li>
         
         <li class="exdev"><a href="http://ex-dev.com" class="etp-users">exDev</a></li>
       </ul>
     </section>
 
     <nav class="pages">
-      <a href="/" title="ex2D - Home" class="portrait-icon user-icon"><img src="/images/logo.png" alt="ex2D"></a>
+      <a href="/ex2d/" title="ex2D - Home" class="portrait-icon user-icon"><img src="/ex2d/images/logo.png" alt="ex2D"></a>
       <ul>
       <li>
-        <a href="/">Home</a>
+        <a href="/ex2d/">Home</a>
       </li>
       <li>
         <a href="http://ex-dev.com/store" target="_blank">Store</a>
@@ -255,7 +255,7 @@
           
             
             <li>
-              <a  href="/docs/">
+              <a  href="/ex2d/docs/">
                 Documentation
               </a>
             </li>
@@ -305,7 +305,7 @@
           
             
             <li>
-              <a  href="/blog/">
+              <a  href="/ex2d/blog/">
                 Blog
               </a>
             </li>
@@ -407,7 +407,7 @@
           
             
             <li>
-              <a  href="/videos/">
+              <a  href="/ex2d/videos/">
                 Videos
               </a>
             </li>
@@ -465,7 +465,7 @@
           
             
             <li>
-              <a  href="/showcase/">
+              <a  href="/ex2d/showcase/">
                 Showcase
               </a>
             </li>
@@ -742,21 +742,25 @@
 
   <body class="page">
   <div class="container" id="main" role="main">
-    <h2>ex2D v2.0.1</h2>
+    <h1>Roadmap</h1>
+
+<p>This page listed upcoming major version releases and the upcoming feature introduction.</p>
+
+<h2>ex2D v2.0.1</h2>
 
 <ul>
 <li><strong>3D Sprite</strong>: The 3D Sprite will help users user ex2D developing 3D games. It will generate standalone meshes instead of layer-based meshes for ex2D Renderer.
-This is acutally what we done in ex2D v1.x, but under the new working pipeline with TextureInfo.</li>
-<li><strong>TextureInfo Editor</strong>: TextureInfo Editor will allow you edit sliced, tiled and diced sprites. Also allow you edit collision box and attach point.
+This is acutally what Sprites were back in ex2D v1.x, but under the new working pipeline with TextureInfo.</li>
+<li><strong>TextureInfo Editor</strong>: TextureInfo Editor will allow you edit sliced, tiled and diced sprites. Also allow you edit custom collision and attach point.
 
 <ul>
 <li>Customize Sliced, Tiled and Diced information.</li>
-<li>Customize Collision Box.</li>
-<li>Customize Attach Points.</li>
+<li>Customize 2D Collision.</li>
+<li>Attach Points: Those are custom position defined in TextureInfo that you can use to attach Game Object to specific point on texture during runtime. You can define a hand position in a character sprite texture and attach a sword onto it during sprite animation.</li>
 </ul>
 </li>
-<li><strong>Diced Sprite</strong>: Diced sprite allow user pieces textures so that long texture can be fit to atlas texture size and not break the rendering in the scene.</li>
-<li><strong>Tiled Sprite</strong>: Unlike TileMap. Tiled sprite can let you tile one texture info in x, y direction also apply uv offset. Good for animated background in the game.</li>
+<li><strong>Diced Sprite</strong>: Diced sprite allow user dived textures into pieces so you can fit bigger textures into your atlas.</li>
+<li><strong>Tiled Sprite</strong>: Not to be confused with TileMap. Tiled sprite let you tile one TextureInfo in x, y direction of a given size. You can also apply uv offset. Good for animated background in game.</li>
 <li><em>Sliced Sprite</em>: This is what we call exSpriteBorder in ex2D v1. We make it easier to use.</li>
 <li><strong>Polish Sprite Inspector user behavior</strong></li>
 </ul>
@@ -765,11 +769,10 @@ This is acutally what we done in ex2D v1.x, but under the new working pipeline w
 <h2>ex2D v2.1.0</h2>
 
 <ul>
-<li><strong>Pixel Perfect</strong>: The Pixel-Perfect is totally re-make in ex2D v2. The algorithm in ex2D v1 suffer problem in execute order for pixel-perfect calculation. Also it
-only make sure the size is perfect for camera but didn&rsquo;t martch the pixel in final device (Due to the half-pixel problem for OpenGL and Directx). To correct the things,
-we change the way doing pixel-perfect, and provide serveral option based on layer and single sprite units.</li>
-<li><strong>Clipping</strong>: Since we introduce the layer based meshes, manage clipping draws become more easier than we think. So we can make a great editor pipeline for user to improve
-clipping editing. We will provide basica Rectangle-Clipping and Nested-Clipping in this version, and polish it to support Path-Clipping and others in the feature.</li>
+<li><strong>Pixel Perfect</strong>: The Pixel-Perfect is totally remade in ex2D v2. The algorithm in ex2D v1 suffer problem in execute order for pixel-perfect calculation. Also it
+only make sure the size is perfect for camera but didn&rsquo;t match the pixel in final device (Due to the half-pixel problem for OpenGL and Directx). To correct those things,
+we change the way pixel-perfect is done, and provide serveral option based on layer and single sprite units.</li>
+<li><strong>Clipping</strong>: Since we introduce the layer based meshes, manage clipping rendering become much easier than the previous method. We can make a better editing pipeline for users. We will provide basic Rectangle-Clipping and Nested-Clipping in this version, and polish it to support Path-Clipping and other methods in the feature.</li>
 <li><strong>3D Clipping</strong>: This is the clipping method we going to support for 3D Sprite.</li>
 <li><strong>Custom Attach Point</strong></li>
 <li><strong>Custom Collision Box</strong></li>
@@ -779,10 +782,8 @@ clipping editing. We will provide basica Rectangle-Clipping and Nested-Clipping 
 <h2>ex2D v2.2.0</h2>
 
 <ul>
-<li><strong>Rework Sprite Animation Editor</strong>: We think current layout of sprite animation editor is not so good for designer, and we wish rework on it so edit and preview sprite can
-be more easier.</li>
-<li><strong>Auto Atlasing</strong>: ex2D&rsquo;s atlasing system is basically manually control for user. This is good for advance team, but people with small project or demo project will become slow
-and heavy in developing. Auto-atlasing will detect the directory user specific, and put their textures in atlas automatically without Atlas Editor.</li>
+<li><strong>Rework Sprite Animation Editor</strong>: The current layout of sprite animation editor is not so good for designer, and we would like to rework the editor to make preview sprite much easier.</li>
+<li><strong>Auto Atlasing</strong>: ex2D&rsquo;s atlas system is manually controlled by user. This is good for advance team, but people with small project or demo project can skip the atlas managing process by using Auto-atlas. Auto-atlasing will let user specify a folder, and put the textures inside into an atlas automatically without Atlas Editor.</li>
 <li><strong>Sprite Preview (TextureInfo Library)</strong>: We will create a preview editor just for TextureInfo, this make user easier to select sprites.</li>
 </ul>
 
@@ -849,8 +850,8 @@ and heavy in developing. Auto-atlasing will detect the directory user specific, 
 
 
   
-  <script type="text/javascript" src="/js/plugins.min.js"></script>
-  <script type="text/javascript" src="/js/application.js"></script>
+  <script type="text/javascript" src="/ex2d/js/plugins.min.js"></script>
+  <script type="text/javascript" src="/ex2d/js/application.js"></script>
 
 </body>
 </html>
