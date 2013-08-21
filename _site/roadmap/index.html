@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <title>
     
-      ex2D的渲染机制 (高效的原因) &ndash;
+      ex2D Roadmap &ndash;
     
     ex2D
   </title>
@@ -742,23 +742,50 @@
 
   <body class="page">
   <div class="container" id="main" role="main">
-    <h1>ex2D的渲染机制 (高效的原因)</h1>
-
-<p>在以往的2D插件中，渲染方式是每个sprite单独渲染，由Unity负责Dynamic Batching。在新版ex2D中，我们经过严谨的优化实现了独立的dynamic batching，从而获得了超越以往的渲染效率。</p>
-
-<p>ex2D将场景划分为不同的layer，所有sprite都通过所在的layer进行渲染。Layer之间按照渲染次序进行排列，只要设置了layer，就能保证不同layer之间的sprite的正确渲染次序。而些都可以用ex2D Scene Editor很方便的进行编辑。此外layer中的不同sprite允许使用各自的material，用户拥有是否合并贴图的选择权。</p>
-
-<p>Layer分为两种类型，它们满足的需求不同：</p>
+    <h2>ex2D v2.0.1</h2>
 
 <ul>
-<li><p><strong>Static Layer</strong>: ex2D的Static Layer是最紧凑的，适合做静态的元素的批量渲染。在Layer中所有material相同的sprite都会被尽可能放到相同的mesh中，相当于做了static batching。Static Layer允许动态修改和创建，使得它比传统的static batching方便了很多，但频繁操作static layer消耗较高，较为适合放置不经常更新的背景或UI。</p></li>
-<li><p><strong>Dynamic Layer</strong>: ex2D的Dynamic Layer是最灵活的，适合做动态元素的批量渲染。它支持频繁对sprite进行任意修改。ex2D可以给每个Dynamic Layer单独设定不同的mesh大小，根据不同项目的瓶颈，在合并与渲染的开销之间取得平衡。</p></li>
+<li>3D Sprite: The 3D Sprite will help users user ex2D developing 3D games. It will generate standalone meshes instead of layer-based meshes for ex2D Renderer.
+This is acutally what we done in ex2D v1.x, but under the new working pipeline with TextureInfo.</li>
+<li>TextureInfo Editor: TextureInfo Editor will allow you edit sliced, tiled and diced sprites. Also allow you edit collision box and attach point.
+
+<ul>
+<li>Customize Sliced, Tiled and Diced information.</li>
+<li>Customize Collision Box.</li>
+<li>Customize Attach Points.</li>
+</ul>
+</li>
+<li>Diced Sprite: Diced sprite allow user pieces textures so that long texture can be fit to atlas texture size and not break the rendering in the scene.</li>
+<li>Tiled Sprite: Unlike TileMap. Tiled sprite can let you tile one texture info in x, y direction also apply uv offset. Good for animated background in the game.</li>
+<li>Sliced Sprite: This is what we call exSpriteBorder in ex2D v1. We make it easier to use.</li>
+<li>Polish Sprite Inspector user behavior</li>
 </ul>
 
 
-<p>综上，引入layer带来的性能优势是，可对场景的不同部分分别采取个性化的渲染策略。对于场景中静态的部分，可设置成static layer进行static batching。对于动态的部分，可根据实际项目，设置dynamic batching的参数，平衡CPU和GPU的负载，减少效率瓶颈。</p>
+<h2>ex2D v2.1.0</h2>
 
-<p>经过手机和PC的复杂测试，ex2D的运行帧率效率完全超越了其它1个drawcall的2D插件，以及利用Unity的dynamic batching实现批量渲染的其余2D插件。ex2D成为了Unity上第一款真正为2D游戏量身优化的渲染套件。</p>
+<ul>
+<li>Pixel Perfect: The Pixel-Perfect is totally re-make in ex2D v2. The algorithm in ex2D v1 suffer problem in execute order for pixel-perfect calculation. Also it
+only make sure the size is perfect for camera but didn&rsquo;t martch the pixel in final device (Due to the half-pixel problem for OpenGL and Directx). To correct the things,
+we change the way doing pixel-perfect, and provide serveral option based on layer and single sprite units.</li>
+<li>Clipping: Since we introduce the layer based meshes, manage clipping draws become more easier than we think. So we can make a great editor pipeline for user to improve
+clipping editing. We will provide basica Rectangle-Clipping and Nested-Clipping in this version, and polish it to support Path-Clipping and others in the feature.</li>
+<li>3D Clipping: This is the clipping method we going to support for 3D Sprite.</li>
+<li>Custom Attach Point</li>
+<li>Custom Collision Box</li>
+</ul>
+
+
+<h2>ex2D v2.1.0</h2>
+
+<ul>
+<li>Rework Sprite Animation Editor: We think current layout of sprite animation editor is not so good for designer, and we wish rework on it so edit and preview sprite can
+be more easier.</li>
+<li>Auto Atlasing: ex2D&rsquo;s atlasing system is basically manually control for user. This is good for advance team, but people with small project or demo project will become slow
+and heavy in developing. Auto-atlasing will detect the directory user specific, and put their textures in atlas automatically without Atlas Editor.</li>
+<li>Sprite Preview (TextureInfo Library): We will create a preview editor just for TextureInfo, this make user easier to select sprites.</li>
+</ul>
+
 
   </div>
   <footer class="page-foot">

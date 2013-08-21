@@ -32,4 +32,4 @@ You will also find runtime and editor scripting reference for all of ex2D classe
 
 ### References
 
-* [Script Reference]({{ site.baseurl }}/script-ref/)
+- [Script Reference]({{ site.baseurl }}/script-ref/)
