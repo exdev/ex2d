@@ -3,350 +3,145 @@
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-      http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
-      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
-      xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
 <url>
   <loc>http://ex-dev.com/ex2d/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>1.00</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/release/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/faq/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/contact/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/store/</loc>
   <lastmod>2013-08-20T05:15:49+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>1.00</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>1.00</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/blog/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/videos/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/showcase/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/quick-start/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/roadmap/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/release/ex2d-2-beta/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/</loc>
   <lastmod>2013-08-20T05:15:49+00:00</lastmod>
   <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/wiki/</loc>
-  <lastmod>2013-08-20T05:15:49+00:00</lastmod>
-  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/zh/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/installation/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/how-ex2d-renders/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/glossary/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/posts/2013/08/16/ex2d-is-back.html</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/ex2d-2-beta/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/release/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/faq/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/contact/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/wiki/exdev_unity3d_coding_style/</loc>
-  <lastmod>2013-08-20T05:15:49+00:00</lastmod>
-  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/zh/installation/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.51</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/zh/quick-start/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.51</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/zh/how-ex2d-renders/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
+  <priority>0.51</priority>
 </url>
 <url>
   <loc>http://ex-dev.com/ex2d/docs/zh/glossary/</loc>
-  <lastmod>2013-08-26T08:50:36+00:00</lastmod>
+  <lastmod>2013-08-27T09:18:51+00:00</lastmod>
   <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/release/v8.0.5/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/intro/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/overview/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/commands_and_mappings/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/quick_start/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/install/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/setup_vimentry/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/project_window/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/tags_and_symbols/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/global_search/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/jump_stack/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/macro_highlight/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/edit_code/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/work_with_compiler/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_buf_explorer/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_cscope/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_environment/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_global_search/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_jump_stack/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_macro_highlight/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_marks_browser/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_project/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_quickfix/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_search_complete/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_symbol_table/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_tag_select/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/ex_utility/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/echo_func/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/lookup_file/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/mini_buf_expl/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/show_marks/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/tag_list/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/visual_studio/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/enhanced_commentify/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/omni_cpp_complete/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/tips_and_tricks/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/known_issues/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://ex-dev.com/exvim/docs/misc/</loc>
-  <lastmod>2013-08-19T12:36:05+00:00</lastmod>
-  <changefreq>weekly</changefreq>
+  <priority>0.51</priority>
 </url>
 </urlset>
