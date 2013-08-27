@@ -13,7 +13,7 @@ Check out the [release note][1] of ex2D 2.0 Beta to learn what's new! (Pretty mu
 
 You can download the package here:
 
-<a href="./download/ex2d_v2.0.1_beta_130818.unitypackage" class="downloadBtn">Download ex2D v2.0.1 Beta</a>
+<a href="{{ site.baseurl }}/download/ex2d_v2.0.1_beta_130818.unitypackage" class="downloadBtn">Download ex2D v2.0.1 Beta</a>
 
 ## Important Notice on Compatibility
 
