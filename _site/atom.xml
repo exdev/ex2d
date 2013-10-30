@@ -4,7 +4,7 @@
  <title>ex2D</title>
  <link href="/atom.xml" rel="self"/>
  <link href="/"/>
- <updated>2013-10-28T15:39:24+08:00</updated>
+ <updated>2013-10-30T09:56:27+08:00</updated>
  <id></id>
  <author>
    <name>ex2D</name>
@@ -38,10 +38,10 @@ updates during this period. After ex2D 1.2.7 released, we hit multiple obstacles
  for 2D sprite editing; reworked the layer system to
  let it handle sprite object arrangement, batching and rendering order all in a intuitive way.&lt;/p&gt;
 
-&lt;p&gt;ex2D 2.0 is now on Free Beta! Get the package and give it a try from &lt;a href=&quot;/ex2d-2-beta/&quot;&gt;HERE&lt;/a&gt;! We will be doing the final tweaks according to
+&lt;p&gt;ex2D 2.0 is now on Free Beta! Get the package and give it a try from &lt;a href=&quot;/ex2d/ex2d-2-beta/&quot;&gt;HERE&lt;/a&gt;! We will be doing the final tweaks according to
  the Beta test before we put it up to Asset Store, hopefully in early September.&lt;/p&gt;
 
-&lt;p&gt;Read the &lt;a href=&quot;http://ex-dev.com/ex2d&quot;&gt;Home Page&lt;/a&gt; to learn ex2D 2.0 features if you haven&amp;rsquo;t already. Checkout the &lt;a href=&quot;/contact/&quot;&gt;Contact Page&lt;/a&gt; if you have feedback.&lt;/p&gt;
+&lt;p&gt;Read the &lt;a href=&quot;http://ex-dev.com/ex2d&quot;&gt;Home Page&lt;/a&gt; to learn ex2D 2.0 features if you haven&amp;rsquo;t already. Checkout the &lt;a href=&quot;/ex2d/contact/&quot;&gt;Contact Page&lt;/a&gt; if you have feedback.&lt;/p&gt;
 
 &lt;p&gt;Enjoy!&lt;/p&gt;
 </content>
