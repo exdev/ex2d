@@ -52,7 +52,7 @@ them at lightning speed during runtime.
 
 Now you can download the beta package of ex2D 2.0. You can test it with full feature but you're not allowed to publish software or apps with it.
 
-<a href="./download/ex2d_v2.0.1_beta_6_131028.unitypackage" class="downloadBtn">Download ex2D v2.0.1 Beta 6</a>
+<a href="./download/ex2d_v2.0.1_beta_7_131105.unitypackage" class="downloadBtn">Download ex2D v2.0.1 Beta 7</a>
 
 ### Important Notice on Compatibility
 
